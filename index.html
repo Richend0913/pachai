@@ -54,11 +54,11 @@
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 :root{
-  --bg:#0a0a0a;--bg2:#111118;--bg3:#1a1a2e;--bg4:#16213e;
-  --accent:#7c3aed;--accent2:#6366f1;--accent3:#8b5cf6;--accent-glow:rgba(124,58,237,.25);
-  --text:#e4e4e7;--text2:#a1a1aa;--text3:#71717a;
-  --border:#27272a;--border2:#3f3f46;
-  --success:#22c55e;--warn:#f59e0b;--danger:#ef4444;
+  --bg:#f8f9fa;--bg2:#ffffff;--bg3:#f0f0f5;--bg4:#e8e8f0;
+  --accent:#6d28d9;--accent2:#4f46e5;--accent3:#7c3aed;--accent-glow:rgba(109,40,217,.15);
+  --text:#1a1a2e;--text2:#4a4a5a;--text3:#71717a;
+  --border:#e2e2e8;--border2:#d1d1d8;
+  --success:#16a34a;--warn:#d97706;--danger:#dc2626;
   --radius:12px;--radius-sm:8px;
 }
 html{scroll-behavior:smooth;font-size:16px}
@@ -76,7 +76,7 @@ a:hover{color:#a78bfa}
 .container{max-width:1100px;margin:0 auto;padding:0 20px}
 
 /* Navigation */
-.nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(10,10,10,.85);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);transition:box-shadow .3s}
+.nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(248,249,250,.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);transition:box-shadow .3s}
 .nav.scrolled{box-shadow:0 4px 30px rgba(0,0,0,.5)}
 .nav-inner{max-width:1100px;margin:0 auto;padding:0 20px;display:flex;align-items:center;justify-content:space-between;height:60px}
 .nav-logo{font-size:1.3rem;font-weight:800;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
@@ -87,7 +87,7 @@ a:hover{color:#a78bfa}
 
 /* Hero */
 .hero{padding:140px 0 80px;text-align:center;position:relative;overflow:hidden}
-.hero::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(circle at 50% 50%,rgba(124,58,237,.08) 0%,transparent 50%);animation:pulse 8s ease-in-out infinite}
+.hero::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(circle at 50% 50%,rgba(109,40,217,.06) 0%,transparent 50%);animation:pulse 8s ease-in-out infinite}
 @keyframes pulse{0%,100%{transform:scale(1);opacity:.5}50%{transform:scale(1.1);opacity:1}}
 .hero-badge{display:inline-block;padding:6px 16px;border-radius:20px;background:rgba(124,58,237,.15);border:1px solid rgba(124,58,237,.3);color:var(--accent3);font-size:.8rem;font-weight:600;margin-bottom:24px;animation:fadeInUp .6s ease}
 .hero h1{font-size:clamp(2.2rem,6vw,3.8rem);font-weight:900;margin-bottom:16px;animation:fadeInUp .6s ease .1s both}
@@ -198,7 +198,7 @@ select:focus{outline:none;border-color:var(--accent)}
 .perf-trust.low{background:rgba(113,113,122,.15);color:#a1a1aa}
 
 /* ========= MODAL ========= */
-.modal-overlay{position:fixed;top:0;left:0;right:0;bottom:0;z-index:200;background:rgba(0,0,0,.6);backdrop-filter:blur(8px);display:none;align-items:center;justify-content:center;padding:20px;opacity:0;transition:opacity .3s}
+.modal-overlay{position:fixed;top:0;left:0;right:0;bottom:0;z-index:200;background:rgba(0,0,0,.35);backdrop-filter:blur(8px);display:none;align-items:center;justify-content:center;padding:20px;opacity:0;transition:opacity .3s}
 .modal-overlay.active{display:flex;opacity:1}
 .modal-content{background:var(--bg2);border:1px solid var(--border);border-radius:16px;max-width:680px;width:100%;max-height:85vh;overflow-y:auto;position:relative;animation:modalSlideUp .35s ease}
 @keyframes modalSlideUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
@@ -854,7 +854,7 @@ function onMachineSelect(){
   const sel=document.getElementById('machineSelect');
   if(sel.value==='')return;
   const m=MACHINES[parseInt(sel.value)];
-  const probNum=parseInt(m.prob.replace(/[^0-9]/g,''));
+  const probNum=parseInt(m.prob.split('/')[1]||m.prob.replace(/[^0-9]/g,''));
   const typesel=document.getElementById('machineType');
   let best='319';
   let bestDiff=9999;
@@ -1034,7 +1034,7 @@ function openMachineModal(idx){
   const body=document.getElementById('machineModalBody');
 
   // Generate strategy based on machine specs
-  const probNum=parseInt(m.prob.replace(/[^0-9]/g,''));
+  const probNum=parseInt(m.prob.split('/')[1]||m.prob.replace(/[^0-9]/g,''));
   let strategy='';
   if(probNum>=300){
     strategy=`
