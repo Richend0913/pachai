@@ -163,14 +163,21 @@ select:focus{outline:none;border-color:var(--accent)}
 .machine-search input:focus{outline:none;border-color:var(--accent)}
 .machine-search svg{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--text3)}
 .machine-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px}
-.machine-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:20px;transition:transform .2s,border-color .2s}
-.machine-card:hover{transform:translateY(-3px);border-color:var(--accent)}
-.machine-name{font-size:1.05rem;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+
+/* Machine Card - Enhanced */
+.machine-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:20px;transition:transform .25s,border-color .25s,box-shadow .25s;cursor:pointer;position:relative;overflow:hidden}
+.machine-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--accent),var(--accent2),#06b6d4);opacity:0;transition:opacity .3s}
+.machine-card:hover{transform:translateY(-4px);border-color:var(--accent);box-shadow:0 8px 32px rgba(124,58,237,.15)}
+.machine-card:hover::before{opacity:1}
+.machine-card:active{transform:translateY(-1px)}
+.machine-name{font-size:1.05rem;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
 .machine-tag{font-size:.7rem;padding:2px 8px;border-radius:10px;background:rgba(124,58,237,.15);color:var(--accent3);font-weight:600}
 .machine-specs{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .spec{font-size:.85rem}
 .spec-label{color:var(--text3);font-size:.75rem}
 .spec-value{font-weight:600;color:var(--text)}
+.machine-perf-hint{margin-top:12px;font-size:.75rem;color:var(--accent3);display:flex;align-items:center;gap:4px;opacity:0;transition:opacity .3s}
+.machine-card:hover .machine-perf-hint{opacity:1}
 
 /* Performance Guide */
 .perf-list{max-width:800px;margin:0 auto;display:grid;gap:12px}
@@ -180,7 +187,7 @@ select:focus{outline:none;border-color:var(--accent)}
 .perf-header .arrow{transition:transform .3s;color:var(--text3)}
 .perf-item.open .arrow{transform:rotate(180deg)}
 .perf-body{max-height:0;overflow:hidden;transition:max-height .4s ease}
-.perf-item.open .perf-body{max-height:800px}
+.perf-item.open .perf-body{max-height:2000px}
 .perf-content{padding:0 20px 16px}
 .perf-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--border)}
 .perf-row:last-child{border:none}
@@ -189,6 +196,52 @@ select:focus{outline:none;border-color:var(--accent)}
 .perf-trust.atsui{background:rgba(239,68,68,.15);color:#ef4444}
 .perf-trust.medium{background:rgba(245,158,11,.15);color:#f59e0b}
 .perf-trust.low{background:rgba(113,113,122,.15);color:#a1a1aa}
+
+/* ========= MODAL ========= */
+.modal-overlay{position:fixed;top:0;left:0;right:0;bottom:0;z-index:200;background:rgba(0,0,0,.6);backdrop-filter:blur(8px);display:none;align-items:center;justify-content:center;padding:20px;opacity:0;transition:opacity .3s}
+.modal-overlay.active{display:flex;opacity:1}
+.modal-content{background:var(--bg2);border:1px solid var(--border);border-radius:16px;max-width:680px;width:100%;max-height:85vh;overflow-y:auto;position:relative;animation:modalSlideUp .35s ease}
+@keyframes modalSlideUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+.modal-close{position:sticky;top:0;right:0;z-index:10;display:flex;justify-content:flex-end;padding:12px 16px;background:linear-gradient(180deg,var(--bg2) 60%,transparent)}
+.modal-close button{width:36px;height:36px;border-radius:50%;border:1px solid var(--border);background:var(--bg);color:var(--text);font-size:1.2rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .2s,border-color .2s}
+.modal-close button:hover{background:var(--bg3);border-color:var(--accent)}
+.modal-body{padding:0 28px 28px}
+.modal-icon{font-size:3rem;margin-bottom:12px}
+.modal-title{font-size:1.4rem;font-weight:800;margin-bottom:6px;background:linear-gradient(135deg,var(--text),var(--accent3));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.modal-tag{display:inline-block;font-size:.75rem;padding:3px 10px;border-radius:12px;background:rgba(124,58,237,.15);color:var(--accent3);font-weight:600;margin-bottom:20px}
+.modal-specs{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:28px}
+.modal-spec{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-sm);padding:12px}
+.modal-spec-label{font-size:.75rem;color:var(--text3);margin-bottom:2px}
+.modal-spec-value{font-size:1.1rem;font-weight:700}
+.modal-divider{height:1px;background:linear-gradient(90deg,transparent,var(--border2),transparent);margin:20px 0}
+.modal-section-title{font-size:1.1rem;font-weight:700;margin-bottom:16px;display:flex;align-items:center;gap:8px}
+.modal-section-title::before{content:'';width:4px;height:20px;background:linear-gradient(180deg,var(--accent),var(--accent2));border-radius:2px}
+
+/* Trust Bar */
+.trust-item{margin-bottom:14px}
+.trust-item-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+.trust-item-name{font-size:.9rem;font-weight:500}
+.trust-item-desc{font-size:.75rem;color:var(--text3);margin-bottom:4px}
+.trust-item-pct{font-size:.85rem;font-weight:700}
+.trust-item-pct.atsui{color:#ef4444}
+.trust-item-pct.chui{color:#f59e0b}
+.trust-item-pct.low{color:var(--text3)}
+.trust-bar{height:8px;background:var(--bg);border-radius:4px;overflow:hidden;position:relative}
+.trust-bar-fill{height:100%;border-radius:4px;transition:width .6s ease}
+.trust-bar-fill.atsui{background:linear-gradient(90deg,#ef4444,#f97316)}
+.trust-bar-fill.chui{background:linear-gradient(90deg,#f59e0b,#eab308)}
+.trust-bar-fill.low{background:linear-gradient(90deg,#52525b,#71717a)}
+
+/* Strategy box */
+.strategy-box{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-sm);padding:16px;margin-top:20px}
+.strategy-box h4{font-size:.9rem;font-weight:700;margin-bottom:8px;color:var(--accent3)}
+.strategy-box p{font-size:.85rem;color:var(--text2);line-height:1.6}
+.strategy-box ul{list-style:none;padding:0;margin:0}
+.strategy-box li{font-size:.85rem;color:var(--text2);padding:4px 0;padding-left:16px;position:relative}
+.strategy-box li::before{content:'';position:absolute;left:0;top:11px;width:6px;height:6px;border-radius:50%;background:var(--accent)}
+
+/* No perf message */
+.no-perf{text-align:center;padding:20px;color:var(--text3);font-size:.9rem}
 
 /* Footer */
 footer{padding:40px 0;border-top:1px solid var(--border);text-align:center}
@@ -204,10 +257,15 @@ footer a{color:var(--text2)}
   .stats-row{gap:24px}
   .predict-card{padding:20px}
   .machine-grid{grid-template-columns:1fr}
+  .modal-content{max-height:90vh;border-radius:12px}
+  .modal-body{padding:0 20px 20px}
+  .modal-specs{grid-template-columns:1fr 1fr}
+  .modal-title{font-size:1.2rem}
 }
 @media(max-width:480px){
   .hero h1{font-size:2rem}
   .zone-card{flex-wrap:wrap}
+  .modal-specs{grid-template-columns:1fr}
 }
 </style>
 </head>
@@ -318,7 +376,7 @@ footer a{color:var(--text2)}
 <div class="container">
   <div class="section-header">
     <h2>台<span class="accent">データベース</span></h2>
-    <p>人気パチンコ機種のスペック情報を網羅</p>
+    <p>人気パチンコ機種のスペック情報を網羅。カードをタップで詳細表示</p>
   </div>
   <div class="machine-search">
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
@@ -355,168 +413,352 @@ footer a{color:var(--text2)}
 </div>
 </footer>
 
+<!-- Modal -->
+<div class="modal-overlay" id="machineModal" onclick="closeModalBackdrop(event)">
+  <div class="modal-content" id="machineModalContent">
+    <div class="modal-close"><button onclick="closeModal()" aria-label="閉じる">&times;</button></div>
+    <div class="modal-body" id="machineModalBody"></div>
+  </div>
+</div>
+
 <script>
 /* ========= DATA ========= */
 const MACHINES = [
   // === ミドル・ハイミドル（人気上位） ===
-  {name:"e新世紀エヴァンゲリオン〜はじまりの記憶〜",prob:"1/399",rushRate:"50%",tsujoCount:100,maxPayout:"約4800個",tag:"人気"},
-  {name:"e甲鉄城のカバネリ2 咲かせや燦然",prob:"1/319",rushRate:"50%",tsujoCount:134,maxPayout:"約3000個",tag:"人気"},
-  {name:"e魔法少女まどか☆マギカ3 時間遡行",prob:"1/319",rushRate:"70%",tsujoCount:130,maxPayout:"約3000個",tag:"人気"},
-  {name:"e東京喰種",prob:"1/399",rushRate:"51%",tsujoCount:130,maxPayout:"約6000個",tag:"人気"},
-  {name:"e北斗の拳11 暴凶星",prob:"1/399",rushRate:"61%",tsujoCount:10,maxPayout:"約6000個",tag:"人気"},
-  {name:"eRe:ゼロから始める異世界生活 season2",prob:"1/349",rushRate:"55%",tsujoCount:145,maxPayout:"約3000個",tag:"人気"},
-  {name:"e女神のカフェテラス",prob:"1/399",rushRate:"50%",tsujoCount:120,maxPayout:"約4500個",tag:"人気"},
-  {name:"e牙狼12 黄金騎士極限",prob:"1/437",rushRate:"50%",tsujoCount:100,maxPayout:"約7500個",tag:"人気"},
-  {name:"e東京リベンジャーズ",prob:"1/319",rushRate:"50%",tsujoCount:144,maxPayout:"約3000個",tag:"人気"},
-  {name:"eアクダマドライブ",prob:"1/319",rushRate:"50%",tsujoCount:130,maxPayout:"約3000個",tag:"人気"},
-  {name:"eノーゲーム・ノーライフ",prob:"1/319",rushRate:"50%",tsujoCount:120,maxPayout:"約3000個",tag:"人気"},
-  {name:"eフィーバー炎炎ノ消防隊2 紅丸ver.",prob:"1/399",rushRate:"52%",tsujoCount:120,maxPayout:"約4500個",tag:"人気"},
-  {name:"e範馬刃牙",prob:"1/499",rushRate:"50%",tsujoCount:100,maxPayout:"約3000個",tag:"人気"},
-  {name:"eフィーバー彼女、お借りします",prob:"1/349",rushRate:"52%",tsujoCount:130,maxPayout:"約6000個",tag:"人気"},
-  {name:"e冒険島",prob:"1/155",rushRate:"26%",tsujoCount:100,maxPayout:"約3000個",tag:"LM"},
-  {name:"e真・一騎当千〜軍神覚醒〜396ver.",prob:"1/396",rushRate:"50%",tsujoCount:120,maxPayout:"約3000個",tag:"人気"},
-  {name:"eからくりサーカス2 魔王ver.",prob:"1/399",rushRate:"52%",tsujoCount:130,maxPayout:"約7500個",tag:"人気"},
-  {name:"eワンパンマン2〜正義執行",prob:"1/319",rushRate:"50%",tsujoCount:120,maxPayout:"約3000個",tag:"人気"},
-  {name:"eリコリス・リコイル",prob:"1/259",rushRate:"50%",tsujoCount:120,maxPayout:"約3000個",tag:"人気"},
-  {name:"eガールズ&パンツァー最終章 159ver.",prob:"1/159",rushRate:"50%",tsujoCount:100,maxPayout:"約3000個",tag:"LM"},
-  {name:"e一方通行 最狂",prob:"1/319",rushRate:"50%",tsujoCount:120,maxPayout:"約3000個",tag:"人気"},
-  {name:"eカケグルイ 7500ver",prob:"1/399",rushRate:"50%",tsujoCount:100,maxPayout:"約7500個",tag:"人気"},
-  {name:"eフィーバーダンベル何キロ持てる?2",prob:"1/319",rushRate:"50%",tsujoCount:120,maxPayout:"約3000個",tag:"人気"},
-  {name:"eぱちんこ押忍！番長 漢の頂",prob:"1/179",rushRate:"50%",tsujoCount:157,maxPayout:"約3000個",tag:"LM"},
-  {name:"eとある科学の超電磁砲 PHASE NEXT",prob:"1/169",rushRate:"50%",tsujoCount:120,maxPayout:"約7500個",tag:"LM"},
-  {name:"eアズールレーン2",prob:"1/169",rushRate:"50%",tsujoCount:100,maxPayout:"約3000個",tag:"LM"},
-  {name:"e真・北斗無双5 夢幻闘双",prob:"1/159",rushRate:"50%",tsujoCount:120,maxPayout:"約7500個",tag:"LM"},
-  {name:"e吉宗 極乗3000ver.",prob:"1/199",rushRate:"50%",tsujoCount:100,maxPayout:"約3000個",tag:"LM"},
+  {name:"e新世紀エヴァンゲリオン〜はじまりの記憶〜",prob:"1/399",rushRate:"50%",tsujoCount:100,maxPayout:"約4800個",tag:"人気",icon:"🤖"},
+  {name:"e甲鉄城のカバネリ2 咲かせや燦然",prob:"1/319",rushRate:"50%",tsujoCount:134,maxPayout:"約3000個",tag:"人気",icon:"🚂"},
+  {name:"e魔法少女まどか☆マギカ3 時間遡行",prob:"1/319",rushRate:"70%",tsujoCount:130,maxPayout:"約3000個",tag:"人気",icon:"🔮"},
+  {name:"e東京喰種",prob:"1/399",rushRate:"51%",tsujoCount:130,maxPayout:"約6000個",tag:"人気",icon:"👹"},
+  {name:"e北斗の拳11 暴凶星",prob:"1/399",rushRate:"61%",tsujoCount:10,maxPayout:"約6000個",tag:"人気",icon:"💀"},
+  {name:"eRe:ゼロから始める異世界生活 season2",prob:"1/349",rushRate:"55%",tsujoCount:145,maxPayout:"約3000個",tag:"人気",icon:"🦋"},
+  {name:"e女神のカフェテラス",prob:"1/399",rushRate:"50%",tsujoCount:120,maxPayout:"約4500個",tag:"人気",icon:"☕"},
+  {name:"e牙狼12 黄金騎士極限",prob:"1/437",rushRate:"50%",tsujoCount:100,maxPayout:"約7500個",tag:"人気",icon:"🐺"},
+  {name:"e東京リベンジャーズ",prob:"1/319",rushRate:"50%",tsujoCount:144,maxPayout:"約3000個",tag:"人気",icon:"⚡"},
+  {name:"eアクダマドライブ",prob:"1/319",rushRate:"50%",tsujoCount:130,maxPayout:"約3000個",tag:"人気",icon:"🔫"},
+  {name:"eノーゲーム・ノーライフ",prob:"1/319",rushRate:"50%",tsujoCount:120,maxPayout:"約3000個",tag:"人気",icon:"🎮"},
+  {name:"eフィーバー炎炎ノ消防隊2 紅丸ver.",prob:"1/399",rushRate:"52%",tsujoCount:120,maxPayout:"約4500個",tag:"人気",icon:"🔥"},
+  {name:"e範馬刃牙",prob:"1/499",rushRate:"50%",tsujoCount:100,maxPayout:"約3000個",tag:"人気",icon:"👊"},
+  {name:"eフィーバー彼女、お借りします",prob:"1/349",rushRate:"52%",tsujoCount:130,maxPayout:"約6000個",tag:"人気",icon:"💕"},
+  {name:"e冒険島",prob:"1/155",rushRate:"26%",tsujoCount:100,maxPayout:"約3000個",tag:"LM",icon:"🏝️"},
+  {name:"e真・一騎当千〜軍神覚醒〜396ver.",prob:"1/396",rushRate:"50%",tsujoCount:120,maxPayout:"約3000個",tag:"人気",icon:"⚔️"},
+  {name:"eからくりサーカス2 魔王ver.",prob:"1/399",rushRate:"52%",tsujoCount:130,maxPayout:"約7500個",tag:"人気",icon:"🎪"},
+  {name:"eワンパンマン2〜正義執行",prob:"1/319",rushRate:"50%",tsujoCount:120,maxPayout:"約3000個",tag:"人気",icon:"👨‍🦲"},
+  {name:"eリコリス・リコイル",prob:"1/259",rushRate:"50%",tsujoCount:120,maxPayout:"約3000個",tag:"人気",icon:"🔫"},
+  {name:"eガールズ&パンツァー最終章 159ver.",prob:"1/159",rushRate:"50%",tsujoCount:100,maxPayout:"約3000個",tag:"LM",icon:"🎖️"},
+  {name:"e一方通行 最狂",prob:"1/319",rushRate:"50%",tsujoCount:120,maxPayout:"約3000個",tag:"人気",icon:"🖐️"},
+  {name:"eカケグルイ 7500ver",prob:"1/399",rushRate:"50%",tsujoCount:100,maxPayout:"約7500個",tag:"人気",icon:"🎰"},
+  {name:"eフィーバーダンベル何キロ持てる?2",prob:"1/319",rushRate:"50%",tsujoCount:120,maxPayout:"約3000個",tag:"人気",icon:"🏋️"},
+  {name:"eぱちんこ押忍！番長 漢の頂",prob:"1/179",rushRate:"50%",tsujoCount:157,maxPayout:"約3000個",tag:"LM",icon:"👔"},
+  {name:"eとある科学の超電磁砲 PHASE NEXT",prob:"1/169",rushRate:"50%",tsujoCount:120,maxPayout:"約7500個",tag:"LM",icon:"⚡"},
+  {name:"eアズールレーン2",prob:"1/169",rushRate:"50%",tsujoCount:100,maxPayout:"約3000個",tag:"LM",icon:"🚢"},
+  {name:"e真・北斗無双5 夢幻闘双",prob:"1/159",rushRate:"50%",tsujoCount:120,maxPayout:"約7500個",tag:"LM",icon:"💫"},
+  {name:"e吉宗 極乗3000ver.",prob:"1/199",rushRate:"50%",tsujoCount:100,maxPayout:"約3000個",tag:"LM",icon:"🏯"},
   // === 海シリーズ ===
-  {name:"P大海物語5",prob:"1/319",rushRate:"60%",tsujoCount:100,maxPayout:"約1500個",tag:"海"},
-  {name:"P大海物語5スペシャル",prob:"1/319",rushRate:"54%",tsujoCount:200,maxPayout:"約1500個",tag:"海"},
-  {name:"e大海物語5スペシャル",prob:"1/348",rushRate:"64%",tsujoCount:100,maxPayout:"約1500個",tag:"海"},
-  {name:"P大海物語5 ブラック",prob:"1/319",rushRate:"60%",tsujoCount:100,maxPayout:"約1500個",tag:"海"},
-  {name:"Pスーパー海物語IN沖縄6",prob:"1/319",rushRate:"60%",tsujoCount:100,maxPayout:"約1500個",tag:"海"},
-  {name:"PAスーパー海物語IN沖縄6 Withえなこ",prob:"1/99",rushRate:"50%",tsujoCount:50,maxPayout:"約600個",tag:"甘"},
+  {name:"P大海物語5",prob:"1/319",rushRate:"60%",tsujoCount:100,maxPayout:"約1500個",tag:"海",icon:"🌊"},
+  {name:"P大海物語5スペシャル",prob:"1/319",rushRate:"54%",tsujoCount:200,maxPayout:"約1500個",tag:"海",icon:"🐠"},
+  {name:"e大海物語5スペシャル",prob:"1/348",rushRate:"64%",tsujoCount:100,maxPayout:"約1500個",tag:"海",icon:"🐟"},
+  {name:"P大海物語5 ブラック",prob:"1/319",rushRate:"60%",tsujoCount:100,maxPayout:"約1500個",tag:"海",icon:"🦈"},
+  {name:"Pスーパー海物語IN沖縄6",prob:"1/319",rushRate:"60%",tsujoCount:100,maxPayout:"約1500個",tag:"海",icon:"🏖️"},
+  {name:"PAスーパー海物語IN沖縄6 Withえなこ",prob:"1/99",rushRate:"50%",tsujoCount:50,maxPayout:"約600個",tag:"甘",icon:"🌺"},
   // === ライトミドル ===
-  {name:"PRe:ゼロから始める異世界生活 season2 249ver.",prob:"1/249",rushRate:"60%",tsujoCount:120,maxPayout:"約3000個",tag:"LM"},
-  {name:"PRe:ゼロから始める異世界生活 season2 129ver.",prob:"1/129",rushRate:"50%",tsujoCount:120,maxPayout:"約7000個",tag:"LM"},
-  {name:"eうしおととら 150ver.",prob:"1/150",rushRate:"50%",tsujoCount:100,maxPayout:"約3000個",tag:"LM"},
-  {name:"e乃木坂46 II SWEET Version",prob:"1/239",rushRate:"50%",tsujoCount:100,maxPayout:"約8000個",tag:"LM"},
-  {name:"P転生したらスライムだった件",prob:"1/319",rushRate:"100%",tsujoCount:255,maxPayout:"約1500個",tag:"人気"},
-  {name:"eガンゲイル・オンライン",prob:"1/319",rushRate:"50%",tsujoCount:120,maxPayout:"約3000個",tag:"人気"},
-  {name:"e東京喰種 超デカ超一撃ver.",prob:"1/399",rushRate:"51%",tsujoCount:130,maxPayout:"約6000個",tag:"人気"},
-  {name:"Pフィーバーブルーロック",prob:"1/319",rushRate:"50%",tsujoCount:120,maxPayout:"約3000個",tag:"人気"},
-  {name:"Pフィーバーブルーロック LIGHT ver.",prob:"1/129",rushRate:"50%",tsujoCount:80,maxPayout:"約1500個",tag:"LM"},
+  {name:"PRe:ゼロから始める異世界生活 season2 249ver.",prob:"1/249",rushRate:"60%",tsujoCount:120,maxPayout:"約3000個",tag:"LM",icon:"🦋"},
+  {name:"PRe:ゼロから始める異世界生活 season2 129ver.",prob:"1/129",rushRate:"50%",tsujoCount:120,maxPayout:"約7000個",tag:"LM",icon:"🦋"},
+  {name:"eうしおととら 150ver.",prob:"1/150",rushRate:"50%",tsujoCount:100,maxPayout:"約3000個",tag:"LM",icon:"🐯"},
+  {name:"e乃木坂46 II SWEET Version",prob:"1/239",rushRate:"50%",tsujoCount:100,maxPayout:"約8000個",tag:"LM",icon:"🎤"},
+  {name:"P転生したらスライムだった件",prob:"1/319",rushRate:"100%",tsujoCount:255,maxPayout:"約1500個",tag:"人気",icon:"🫧"},
+  {name:"eガンゲイル・オンライン",prob:"1/319",rushRate:"50%",tsujoCount:120,maxPayout:"約3000個",tag:"人気",icon:"🔫"},
+  {name:"e東京喰種 超デカ超一撃ver.",prob:"1/399",rushRate:"51%",tsujoCount:130,maxPayout:"約6000個",tag:"人気",icon:"👹"},
+  {name:"Pフィーバーブルーロック",prob:"1/319",rushRate:"50%",tsujoCount:120,maxPayout:"約3000個",tag:"人気",icon:"⚽"},
+  {name:"Pフィーバーブルーロック LIGHT ver.",prob:"1/129",rushRate:"50%",tsujoCount:80,maxPayout:"約1500個",tag:"LM",icon:"⚽"},
   // === ST・確変ループ系 ===
-  {name:"Pシュタインズゲート ゼロ",prob:"1/319",rushRate:"65%",tsujoCount:130,maxPayout:"約1500個",tag:"人気"},
-  {name:"Pモモキュンソード速撃3000+",prob:"1/319",rushRate:"50%",tsujoCount:100,maxPayout:"約3000個",tag:"人気"},
-  {name:"Pシティーハンター 俺の心を震わせた日",prob:"1/319",rushRate:"50%",tsujoCount:100,maxPayout:"約1500個",tag:"人気"},
-  {name:"Pゴッドイーター 神がかりVer.",prob:"1/319",rushRate:"50%",tsujoCount:100,maxPayout:"約1500個",tag:"人気"},
-  {name:"P真速のガッチャマン",prob:"1/319",rushRate:"50%",tsujoCount:100,maxPayout:"約1500個",tag:"人気"},
-  {name:"Pデビルマン ファイナル",prob:"1/129",rushRate:"50%",tsujoCount:100,maxPayout:"約1500個",tag:"LM"},
-  {name:"P消されたルパン2022",prob:"1/319",rushRate:"50%",tsujoCount:100,maxPayout:"約1500個",tag:"人気"},
-  {name:"P地獄少女 華",prob:"1/319",rushRate:"50%",tsujoCount:100,maxPayout:"約1500個",tag:"人気"},
-  {name:"Pフィーバー ダンまち",prob:"1/319",rushRate:"50%",tsujoCount:100,maxPayout:"約1500個",tag:"人気"},
-  {name:"P北斗の拳8 救世主",prob:"1/319",rushRate:"82%",tsujoCount:120,maxPayout:"約1500個",tag:"人気"},
-  {name:"Pシン・エヴァンゲリオン Type レイ",prob:"1/319",rushRate:"50%",tsujoCount:100,maxPayout:"約1500個",tag:"人気"},
+  {name:"Pシュタインズゲート ゼロ",prob:"1/319",rushRate:"65%",tsujoCount:130,maxPayout:"約1500個",tag:"人気",icon:"⏰"},
+  {name:"Pモモキュンソード速撃3000+",prob:"1/319",rushRate:"50%",tsujoCount:100,maxPayout:"約3000個",tag:"人気",icon:"🍑"},
+  {name:"Pシティーハンター 俺の心を震わせた日",prob:"1/319",rushRate:"50%",tsujoCount:100,maxPayout:"約1500個",tag:"人気",icon:"🔫"},
+  {name:"Pゴッドイーター 神がかりVer.",prob:"1/319",rushRate:"50%",tsujoCount:100,maxPayout:"約1500個",tag:"人気",icon:"🗡️"},
+  {name:"P真速のガッチャマン",prob:"1/319",rushRate:"50%",tsujoCount:100,maxPayout:"約1500個",tag:"人気",icon:"🦅"},
+  {name:"Pデビルマン ファイナル",prob:"1/129",rushRate:"50%",tsujoCount:100,maxPayout:"約1500個",tag:"LM",icon:"😈"},
+  {name:"P消されたルパン2022",prob:"1/319",rushRate:"50%",tsujoCount:100,maxPayout:"約1500個",tag:"人気",icon:"🎩"},
+  {name:"P地獄少女 華",prob:"1/319",rushRate:"50%",tsujoCount:100,maxPayout:"約1500個",tag:"人気",icon:"🌸"},
+  {name:"Pフィーバー ダンまち",prob:"1/319",rushRate:"50%",tsujoCount:100,maxPayout:"約1500個",tag:"人気",icon:"🗡️"},
+  {name:"P北斗の拳8 救世主",prob:"1/319",rushRate:"82%",tsujoCount:120,maxPayout:"約1500個",tag:"人気",icon:"💀"},
+  {name:"Pシン・エヴァンゲリオン Type レイ",prob:"1/319",rushRate:"50%",tsujoCount:100,maxPayout:"約1500個",tag:"人気",icon:"🤖"},
   // === 高継続率 ===
-  {name:"PLT世界でいちばん強くなりたい!2",prob:"1/199",rushRate:"50%",tsujoCount:100,maxPayout:"約1500個",tag:"LM"},
-  {name:"P大工の源さん 超韋駄天2 極限LighT",prob:"1/129",rushRate:"50%",tsujoCount:100,maxPayout:"約1500個",tag:"LM"},
-  {name:"Pシンデレラブレイド",prob:"1/141",rushRate:"50%",tsujoCount:100,maxPayout:"約1500個",tag:"LM"},
-  {name:"P世界でいちばん強くなりたい",prob:"1/199",rushRate:"50%",tsujoCount:100,maxPayout:"約1500個",tag:"LM"},
+  {name:"PLT世界でいちばん強くなりたい!2",prob:"1/199",rushRate:"50%",tsujoCount:100,maxPayout:"約1500個",tag:"LM",icon:"💪"},
+  {name:"P大工の源さん 超韋駄天2 極限LighT",prob:"1/129",rushRate:"50%",tsujoCount:100,maxPayout:"約1500個",tag:"LM",icon:"🔨"},
+  {name:"Pシンデレラブレイド",prob:"1/141",rushRate:"50%",tsujoCount:100,maxPayout:"約1500個",tag:"LM",icon:"👸"},
+  {name:"P世界でいちばん強くなりたい",prob:"1/199",rushRate:"50%",tsujoCount:100,maxPayout:"約1500個",tag:"LM",icon:"💪"},
   // === 時短特化 ===
-  {name:"Pとある科学の超電磁砲2",prob:"1/319",rushRate:"50%",tsujoCount:150,maxPayout:"約1500個",tag:"人気"},
-  {name:"e牙狼11〜冴島大河〜魔戒BURST Ver.",prob:"1/319",rushRate:"50%",tsujoCount:150,maxPayout:"約1500個",tag:"人気"},
-  {name:"真・北斗無双3 ジャギの襲来",prob:"1/199",rushRate:"50%",tsujoCount:100,maxPayout:"約1500個",tag:"LM"},
+  {name:"Pとある科学の超電磁砲2",prob:"1/319",rushRate:"50%",tsujoCount:150,maxPayout:"約1500個",tag:"人気",icon:"⚡"},
+  {name:"e牙狼11〜冴島大河〜魔戒BURST Ver.",prob:"1/319",rushRate:"50%",tsujoCount:150,maxPayout:"約1500個",tag:"人気",icon:"🐺"},
+  {name:"真・北斗無双3 ジャギの襲来",prob:"1/199",rushRate:"50%",tsujoCount:100,maxPayout:"約1500個",tag:"LM",icon:"💫"},
   // === 甘デジ・ライト ===
-  {name:"PA義風堂々3!! 99ver.",prob:"1/99",rushRate:"75%",tsujoCount:60,maxPayout:"約1500個",tag:"甘"},
-  {name:"Pフィーバーからくりサーカス2 Light ver.",prob:"1/99",rushRate:"50%",tsujoCount:60,maxPayout:"約3000個",tag:"甘"},
-  {name:"Pわんわんパラダイス CELEBRATION",prob:"1/99",rushRate:"50%",tsujoCount:50,maxPayout:"約1500個",tag:"甘"},
-  {name:"PRe:ゼロから始める異世界生活 鬼がかり99ver.",prob:"1/99",rushRate:"50%",tsujoCount:60,maxPayout:"約1800個",tag:"甘"},
-  {name:"Pひぐらしのなく頃に 輪廻転生99ver.",prob:"1/99",rushRate:"50%",tsujoCount:50,maxPayout:"約1500個",tag:"甘"},
-  {name:"e化物語 鬼99ver.",prob:"1/99",rushRate:"50%",tsujoCount:50,maxPayout:"約1500個",tag:"甘"},
-  {name:"PA花の慶次〜傾奇一転 87ver.",prob:"1/87",rushRate:"50%",tsujoCount:50,maxPayout:"約1200個",tag:"甘"},
-  {name:"P痛いのは嫌なので防御力に極振りしたいと思います。129ver",prob:"1/129",rushRate:"50%",tsujoCount:80,maxPayout:"約1500個",tag:"LM"},
-  {name:"PシャカRUSH Z Jr.",prob:"1/99",rushRate:"50%",tsujoCount:50,maxPayout:"約1500個",tag:"甘"},
-  {name:"Pえとたま2 神祭 干支甘",prob:"1/99",rushRate:"50%",tsujoCount:50,maxPayout:"約1000個",tag:"甘"},
+  {name:"PA義風堂々3!! 99ver.",prob:"1/99",rushRate:"75%",tsujoCount:60,maxPayout:"約1500個",tag:"甘",icon:"⚔️"},
+  {name:"Pフィーバーからくりサーカス2 Light ver.",prob:"1/99",rushRate:"50%",tsujoCount:60,maxPayout:"約3000個",tag:"甘",icon:"🎪"},
+  {name:"Pわんわんパラダイス CELEBRATION",prob:"1/99",rushRate:"50%",tsujoCount:50,maxPayout:"約1500個",tag:"甘",icon:"🐕"},
+  {name:"PRe:ゼロから始める異世界生活 鬼がかり99ver.",prob:"1/99",rushRate:"50%",tsujoCount:60,maxPayout:"約1800個",tag:"甘",icon:"🦋"},
+  {name:"Pひぐらしのなく頃に 輪廻転生99ver.",prob:"1/99",rushRate:"50%",tsujoCount:50,maxPayout:"約1500個",tag:"甘",icon:"🦗"},
+  {name:"e化物語 鬼99ver.",prob:"1/99",rushRate:"50%",tsujoCount:50,maxPayout:"約1500個",tag:"甘",icon:"🦀"},
+  {name:"PA花の慶次〜傾奇一転 87ver.",prob:"1/87",rushRate:"50%",tsujoCount:50,maxPayout:"約1200個",tag:"甘",icon:"🌸"},
+  {name:"P痛いのは嫌なので防御力に極振りしたいと思います。129ver",prob:"1/129",rushRate:"50%",tsujoCount:80,maxPayout:"約1500個",tag:"LM",icon:"🛡️"},
+  {name:"PシャカRUSH Z Jr.",prob:"1/99",rushRate:"50%",tsujoCount:50,maxPayout:"約1500個",tag:"甘",icon:"🙏"},
+  {name:"Pえとたま2 神祭 干支甘",prob:"1/99",rushRate:"50%",tsujoCount:50,maxPayout:"約1000個",tag:"甘",icon:"🐱"},
   // === 新台・近日導入 ===
-  {name:"PFクィーンII 2026年",prob:"1/319",rushRate:"50%",tsujoCount:100,maxPayout:"約1500個",tag:"人気"},
-  {name:"eルパン三世VSキャッツ・アイ 157ver.",prob:"1/157",rushRate:"50%",tsujoCount:100,maxPayout:"約3000個",tag:"LM"},
-  {name:"Pエヴァンゲリオン〜未来への咆哮〜",prob:"1/319",rushRate:"50%",tsujoCount:100,maxPayout:"約1500個",tag:"人気"},
-  {name:"e学園黙示録ハイスクール・オブ・ザ・デッド3",prob:"1/299",rushRate:"50%",tsujoCount:100,maxPayout:"約3000個",tag:"人気"},
-  {name:"P花の慶次3〜傾奇一転〜",prob:"1/319",rushRate:"50%",tsujoCount:100,maxPayout:"約1500個",tag:"人気"},
-  {name:"P乃木坂46 トレジャースペック",prob:"1/319",rushRate:"50%",tsujoCount:100,maxPayout:"約1500個",tag:"人気"},
-  {name:"Pフィーバー機動戦士ガンダムユニコーン",prob:"1/319",rushRate:"50%",tsujoCount:100,maxPayout:"約1500個",tag:"人気"},
-  {name:"P冥妃転生",prob:"1/199",rushRate:"50%",tsujoCount:100,maxPayout:"約1500個",tag:"LM"},
-  {name:"Pリングにかけろ1 129ver.",prob:"1/129",rushRate:"50%",tsujoCount:80,maxPayout:"約1500個",tag:"LM"},
-  {name:"PA野生の王国6",prob:"1/99",rushRate:"50%",tsujoCount:50,maxPayout:"約1000個",tag:"甘"},
-  {name:"P沖ドキ! ドキドキ弾丸ツアー",prob:"1/319",rushRate:"50%",tsujoCount:100,maxPayout:"約1500個",tag:"人気"},
-  {name:"Pかぐや様は告らせたい",prob:"1/319",rushRate:"50%",tsujoCount:100,maxPayout:"約1500個",tag:"人気"}
+  {name:"PFクィーンII 2026年",prob:"1/319",rushRate:"50%",tsujoCount:100,maxPayout:"約1500個",tag:"人気",icon:"👑"},
+  {name:"eルパン三世VSキャッツ・アイ 157ver.",prob:"1/157",rushRate:"50%",tsujoCount:100,maxPayout:"約3000個",tag:"LM",icon:"🎩"},
+  {name:"Pエヴァンゲリオン〜未来への咆哮〜",prob:"1/319",rushRate:"50%",tsujoCount:100,maxPayout:"約1500個",tag:"人気",icon:"🤖"},
+  {name:"e学園黙示録ハイスクール・オブ・ザ・デッド3",prob:"1/299",rushRate:"50%",tsujoCount:100,maxPayout:"約3000個",tag:"人気",icon:"🧟"},
+  {name:"P花の慶次3〜傾奇一転〜",prob:"1/319",rushRate:"50%",tsujoCount:100,maxPayout:"約1500個",tag:"人気",icon:"🌸"},
+  {name:"P乃木坂46 トレジャースペック",prob:"1/319",rushRate:"50%",tsujoCount:100,maxPayout:"約1500個",tag:"人気",icon:"🎤"},
+  {name:"Pフィーバー機動戦士ガンダムユニコーン",prob:"1/319",rushRate:"50%",tsujoCount:100,maxPayout:"約1500個",tag:"人気",icon:"🤖"},
+  {name:"P冥妃転生",prob:"1/199",rushRate:"50%",tsujoCount:100,maxPayout:"約1500個",tag:"LM",icon:"👻"},
+  {name:"Pリングにかけろ1 129ver.",prob:"1/129",rushRate:"50%",tsujoCount:80,maxPayout:"約1500個",tag:"LM",icon:"🥊"},
+  {name:"PA野生の王国6",prob:"1/99",rushRate:"50%",tsujoCount:50,maxPayout:"約1000個",tag:"甘",icon:"🦁"},
+  {name:"P沖ドキ! ドキドキ弾丸ツアー",prob:"1/319",rushRate:"50%",tsujoCount:100,maxPayout:"約1500個",tag:"人気",icon:"🌺"},
+  {name:"Pかぐや様は告らせたい",prob:"1/319",rushRate:"50%",tsujoCount:100,maxPayout:"約1500個",tag:"人気",icon:"🎀"}
 ];
 
+/* ========= EXPANDED PERFORMANCES ========= */
 const PERFORMANCES = [
-  {machine:"P大海物語5",items:[
-    {name:"魚群リーチ",trust:"56.7%",level:"atsui"},
-    {name:"マリンちゃんリーチ",trust:"42.3%",level:"atsui"},
-    {name:"泡前兆演出",trust:"12.5%",level:"medium"},
-    {name:"珊瑚礁ステージ移行",trust:"8.2%",level:"low"},
-    {name:"ワリン登場",trust:"35.1%",level:"atsui"},
-    {name:"クジラッキー演出",trust:"28.4%",level:"medium"}
-  ]},
   {machine:"e新世紀エヴァンゲリオン〜はじまりの記憶〜",items:[
-    {name:"暴走モード",trust:"74.2%",level:"atsui"},
-    {name:"使徒殲滅リーチ",trust:"52.8%",level:"atsui"},
-    {name:"カヲル演出",trust:"63.5%",level:"atsui"},
-    {name:"エントリープラグ演出",trust:"15.7%",level:"medium"},
-    {name:"ミサト前兆",trust:"9.3%",level:"low"},
-    {name:"LT覚醒モード移行",trust:"88.1%",level:"atsui"}
-  ]},
-  {machine:"e北斗の拳11 暴凶星",items:[
-    {name:"ケンシロウ覚醒リーチ",trust:"68.9%",level:"atsui"},
-    {name:"死兆星演出",trust:"55.4%",level:"atsui"},
-    {name:"バトルリーチ(ラオウ)",trust:"48.7%",level:"atsui"},
-    {name:"ザコ演出",trust:"5.2%",level:"low"},
-    {name:"レイ登場",trust:"32.6%",level:"medium"},
-    {name:"世紀末モード",trust:"72.3%",level:"atsui"}
-  ]},
-  {machine:"P花の慶次3〜傾奇一転〜",items:[
-    {name:"傾奇御免リーチ",trust:"71.5%",level:"atsui"},
-    {name:"真・天武の極",trust:"85.2%",level:"atsui"},
-    {name:"キセル演出",trust:"38.9%",level:"atsui"},
-    {name:"城門突破",trust:"22.4%",level:"medium"},
-    {name:"漢の花道",trust:"45.6%",level:"atsui"},
-    {name:"通常セリフ変化",trust:"7.8%",level:"low"}
-  ]},
-  {machine:"eRe:ゼロから始める異世界生活 season2",items:[
-    {name:"レム覚醒",trust:"82.3%",level:"atsui"},
-    {name:"白鯨攻略戦",trust:"58.6%",level:"atsui"},
-    {name:"禁書庫演出",trust:"44.1%",level:"atsui"},
-    {name:"エミリアリーチ",trust:"36.7%",level:"medium"},
-    {name:"ロズワール前兆",trust:"11.2%",level:"medium"},
-    {name:"死に戻り演出",trust:"67.8%",level:"atsui"}
-  ]},
-  {machine:"e牙狼12 黄金騎士極限",items:[
-    {name:"GARO斬馬リーチ",trust:"76.4%",level:"atsui"},
-    {name:"魔戒騎士変身",trust:"62.1%",level:"atsui"},
-    {name:"ホラー出現",trust:"18.5%",level:"medium"},
-    {name:"ザルバ演出",trust:"28.9%",level:"medium"},
-    {name:"心滅獣身",trust:"91.3%",level:"atsui"},
-    {name:"魔導輪ザルバの助言",trust:"14.7%",level:"medium"}
-  ]},
-  {machine:"e魔法少女まどか☆マギカ3 時間遡行",items:[
-    {name:"アルティメットまどか覚醒",trust:"85.7%",level:"atsui"},
-    {name:"ほむらタイムリープ",trust:"62.3%",level:"atsui"},
-    {name:"魔女バトルリーチ",trust:"48.5%",level:"atsui"},
-    {name:"ソウルジェム演出",trust:"33.8%",level:"medium"},
-    {name:"キュゥべえ前兆",trust:"15.6%",level:"medium"},
-    {name:"通常会話変化",trust:"6.4%",level:"low"}
+    {name:"暴走モード突入",trust:"74.2%",level:"atsui",description:"エヴァ初号機が暴走状態に突入する激アツ演出"},
+    {name:"使徒殲滅リーチ",trust:"52.8%",level:"atsui",description:"使徒との決戦リーチ。A.T.フィールド破壊で大チャンス"},
+    {name:"カヲルレイ背景",trust:"92.5%",level:"atsui",description:"先バレ演出の最上位。出現で大当り濃厚"},
+    {name:"次回予告演出",trust:"85.3%",level:"atsui",description:"先バレ演出。画面に次回予告テロップが表示される"},
+    {name:"咆哮先バレ",trust:"68.7%",level:"atsui",description:"初号機の咆哮とともに先バレが発動"},
+    {name:"A.T.フィールド連続予告",trust:"45.2%",level:"chui",description:"A.T.フィールドが連続で展開される先読み演出"},
+    {name:"第三新東京市戦闘形態",trust:"38.6%",level:"chui",description:"ステージが戦闘形態に変化する先読み演出"},
+    {name:"アラート先バレ",trust:"35.4%",level:"chui",description:"使徒接近アラートが鳴る先バレ演出"},
+    {name:"LT覚醒モード移行",trust:"88.1%",level:"atsui",description:"ラッキートリガー覚醒モードへの移行演出"},
+    {name:"エントリープラグ演出",trust:"22.7%",level:"chui",description:"エントリープラグに搭乗する演出"},
+    {name:"ミサト前兆",trust:"9.3%",level:"low",description:"ミサトさんのセリフが変化する前兆演出"},
+    {name:"インパクトモード中リーチ",trust:"62.4%",level:"atsui",description:"インパクトモード中の高信頼度リーチ"},
+    {name:"赤保留変化",trust:"55.1%",level:"atsui",description:"保留が赤に変化。SPSPリーチ発展濃厚"}
   ]},
   {machine:"e甲鉄城のカバネリ2 咲かせや燦然",items:[
-    {name:"無名覚醒リーチ",trust:"79.5%",level:"atsui"},
-    {name:"美馬バトル",trust:"65.3%",level:"atsui"},
-    {name:"カバネ群襲来",trust:"42.1%",level:"atsui"},
-    {name:"生駒変身演出",trust:"35.4%",level:"medium"},
-    {name:"蒸気機関突破",trust:"22.7%",level:"medium"},
-    {name:"通常前兆（無名セリフ）",trust:"8.1%",level:"low"}
+    {name:"無名覚醒リーチ",trust:"79.5%",level:"atsui",description:"無名が覚醒状態になる最強リーチ"},
+    {name:"海門決戦リーチ",trust:"82.3%",level:"atsui",description:"海門での最終決戦。発展すれば高信頼度"},
+    {name:"美馬バトル",trust:"65.3%",level:"atsui",description:"美馬との激闘バトルリーチ"},
+    {name:"枷紐保留（無名出現）",trust:"71.8%",level:"atsui",description:"枷紐がほどけ無名が出現する激アツ保留"},
+    {name:"金系演出発生",trust:"88.4%",level:"atsui",description:"金色の演出が発生すれば大当り濃厚"},
+    {name:"赤系演出発生",trust:"45.6%",level:"chui",description:"赤色の演出はチャンス。金に昇格する可能性あり"},
+    {name:"俺ツラストック解放",trust:"58.9%",level:"atsui",description:"ストックした俺ツラ演出が解放される大チャンス"},
+    {name:"カバネ群襲来",trust:"42.1%",level:"chui",description:"カバネの大群が襲来する演出"},
+    {name:"生駒変身演出",trust:"35.4%",level:"chui",description:"生駒がカバネリに変身する演出"},
+    {name:"蒸気機関突破",trust:"22.7%",level:"chui",description:"甲鉄城が蒸気を噴き上げて突破する演出"},
+    {name:"ミニ無名セリフ（激アツ）",trust:"48.3%",level:"chui",description:"画面左下のミニ無名がアツいセリフを発する"},
+    {name:"通常前兆（無名セリフ）",trust:"8.1%",level:"low",description:"通常時のミニ無名セリフ変化"}
+  ]},
+  {machine:"e魔法少女まどか☆マギカ3 時間遡行",items:[
+    {name:"絆フラッシュ",trust:"95.0%",level:"atsui",description:"入賞時にまどかが矢を放ちクロスランプ発光。ほぼ確定"},
+    {name:"アルティメットまどか保留",trust:"99.0%",level:"atsui",description:"全回転リーチ発展濃厚の最強保留"},
+    {name:"絆チャンス目",trust:"70.2%",level:"atsui",description:"絆を示すチャンス目出現で大チャンス"},
+    {name:"金保留変化",trust:"90.5%",level:"atsui",description:"保留が金に変化。SPSPリーチ発展濃厚"},
+    {name:"赤保留変化",trust:"61.6%",level:"atsui",description:"保留が赤に変化。大チャンスかつSPSPリーチ濃厚"},
+    {name:"人魚の魔女SPSPリーチ",trust:"78.4%",level:"atsui",description:"激アツのSPSPリーチ。人魚の魔女との戦い"},
+    {name:"ほむらタイムリープ",trust:"62.3%",level:"atsui",description:"ほむらが時間を遡行する高信頼度リーチ"},
+    {name:"ストーリーSPSPリーチ",trust:"55.8%",level:"atsui",description:"キャラ別5種のストーリーリーチ"},
+    {name:"絆ストック",trust:"45.2%",level:"chui",description:"絆演出のストックで期待度上昇"},
+    {name:"ソウルジェム演出",trust:"33.8%",level:"chui",description:"ソウルジェムの輝きで信頼度を示唆"},
+    {name:"キュゥべえ先告知",trust:"28.5%",level:"chui",description:"キュゥべえによる先バレカスタム演出"},
+    {name:"未来予知モード",trust:"22.1%",level:"chui",description:"チャンス変動を事前に告知するカスタム演出"},
+    {name:"通常会話変化",trust:"6.4%",level:"low",description:"通常時のまどかとほむらの会話変化"}
+  ]},
+  {machine:"e北斗の拳11 暴凶星",items:[
+    {name:"ケンシロウ覚醒リーチ",trust:"68.9%",level:"atsui",description:"ケンシロウが覚醒状態になる激アツリーチ"},
+    {name:"イキナリフラッシュ",trust:"82.5%",level:"atsui",description:"突然画面がフラッシュする大チャンス演出"},
+    {name:"死兆星演出",trust:"75.4%",level:"atsui",description:"死兆星が輝く激アツ演出。北斗シリーズ伝統"},
+    {name:"闘神バトル",trust:"72.3%",level:"atsui",description:"闘神との激闘バトル。勝利で大当り"},
+    {name:"暴凶ZONE",trust:"58.6%",level:"atsui",description:"暴凶ZONEに突入する高期待度ゾーン"},
+    {name:"バトルリーチ（ラオウ）",trust:"65.7%",level:"atsui",description:"宿敵ラオウとのバトルリーチ"},
+    {name:"バトルリーチ（ジャギ）",trust:"48.2%",level:"chui",description:"ジャギとのバトルリーチ"},
+    {name:"赤文字ヴィルヘルム",trust:"52.1%",level:"atsui",description:"赤文字でキャラ名が表示される演出"},
+    {name:"レイ登場",trust:"42.6%",level:"chui",description:"南斗水鳥拳のレイが登場する演出"},
+    {name:"ギアクラッシュ",trust:"38.4%",level:"chui",description:"ギアが破壊される演出で期待度変化"},
+    {name:"世紀末モード",trust:"55.3%",level:"atsui",description:"世紀末モードに移行する高期待度モード"},
+    {name:"ザコ演出",trust:"5.2%",level:"low",description:"ザコキャラが登場する通常時の演出"}
+  ]},
+  {machine:"P大海物語5",items:[
+    {name:"魚群リーチ（カスタム100%時）",trust:"100%",level:"atsui",description:"My海カスタムで100%設定時は確定演出"},
+    {name:"魚群リーチ（カスタム50%時）",trust:"50.0%",level:"atsui",description:"カスタム50%時の魚群リーチ信頼度"},
+    {name:"魚群+炎目複合",trust:"82.5%",level:"atsui",description:"魚群と炎目ブレーキが同時に発生する激アツ複合"},
+    {name:"BIGSEAスパーク（100%時）",trust:"100%",level:"atsui",description:"カスタムで100%設定時は確定"},
+    {name:"マリンちゃんリーチ",trust:"42.3%",level:"chui",description:"マリンちゃんが登場するスーパーリーチ"},
+    {name:"ワリン登場",trust:"35.1%",level:"chui",description:"ワリンが登場する演出"},
+    {name:"炎目ブレーキ",trust:"38.7%",level:"chui",description:"ブレーキアクション中の炎目出現"},
+    {name:"下段すべり",trust:"40.2%",level:"chui",description:"下段すべりからの発展。魚群や炎目に変化すれば激アツ"},
+    {name:"ステップ4（泡予告）",trust:"32.8%",level:"chui",description:"泡予告がステップ4まで発展するとチャンス"},
+    {name:"クジラッキー演出",trust:"28.4%",level:"chui",description:"クジラッキーが登場する演出"},
+    {name:"小魚前兆（6匹+カサゴ）",trust:"25.6%",level:"chui",description:"小魚6匹+カサゴで大チャンスの先読み"},
+    {name:"珊瑚礁ステージ移行",trust:"8.2%",level:"low",description:"珊瑚礁ステージへの通常移行演出"},
+    {name:"光の羽根予告（Lv4以上）",trust:"45.3%",level:"chui",description:"光の羽根がレベル4以上で大チャンス"}
+  ]},
+  {machine:"eRe:ゼロから始める異世界生活 season2",items:[
+    {name:"レム覚醒",trust:"82.3%",level:"atsui",description:"レムが鬼化覚醒する最強演出"},
+    {name:"鬼アツ柄保留",trust:"98.0%",level:"atsui",description:"鬼アツ柄の保留変化。ほぼ確定"},
+    {name:"加護予告",trust:"86.4%",level:"atsui",description:"加護が発動する激アツ予告演出"},
+    {name:"鬼がかり予告",trust:"70.0%",level:"atsui",description:"鬼がかったやり方SPリーチへの発展契機"},
+    {name:"激アツジャッジ",trust:"75.0%",level:"atsui",description:"絶望バトルSP等の当落時に発生する強チャンスアップ"},
+    {name:"白鯨攻略戦",trust:"58.6%",level:"atsui",description:"白鯨との3回攻撃バトル。ヴィルヘルム赤文字でチャンス"},
+    {name:"死に戻り演出",trust:"67.8%",level:"atsui",description:"スバルが死に戻りする激アツ演出"},
+    {name:"剣鬼保留",trust:"51.2%",level:"atsui",description:"ヴィルヘルムが切り裂く剣鬼保留変化"},
+    {name:"禁書庫演出",trust:"44.1%",level:"chui",description:"禁書庫での演出。ベアトリス関連"},
+    {name:"先バレ赤宝玉",trust:"40.3%",level:"chui",description:"先バレカスタム中に宝玉が赤になる演出"},
+    {name:"エミリアリーチ",trust:"36.7%",level:"chui",description:"エミリアがメインのリーチ演出"},
+    {name:"ロズワール前兆",trust:"11.2%",level:"low",description:"ロズワールが登場する前兆演出"},
+    {name:"青保留リーチ（大当り濃厚）",trust:"95.0%",level:"atsui",description:"青のままリーチになれば大当り濃厚"}
+  ]},
+  {machine:"e花の慶次〜傾奇無双〜",items:[
+    {name:"傾奇御免リーチ",trust:"71.5%",level:"atsui",description:"慶次の傾奇御免リーチ。シリーズ伝統の激アツ"},
+    {name:"真・天武の極",trust:"85.2%",level:"atsui",description:"最上位リーチ。発展すればほぼ大当り"},
+    {name:"キセル演出",trust:"68.9%",level:"atsui",description:"シリーズ伝統のキセル演出。大当り占有率約30%"},
+    {name:"傾奇数字70突破",trust:"75.3%",level:"atsui",description:"傾奇芸舞で数字が70を突破すればアツい"},
+    {name:"傾奇数字ゾロ目/87以上",trust:"92.4%",level:"atsui",description:"ゾロ目や87以上ならほぼ確定"},
+    {name:"前田慶次カットイン",trust:"62.7%",level:"atsui",description:"新デザインの慶次が登場する大チャンス演出"},
+    {name:"漢の花道",trust:"45.6%",level:"chui",description:"花道を進む慶次の演出"},
+    {name:"城門突破",trust:"32.4%",level:"chui",description:"城門を突破する演出"},
+    {name:"桜吹雪予告",trust:"28.7%",level:"chui",description:"桜吹雪が舞う前兆演出"},
+    {name:"RUSH中60%リーチ成功",trust:"60.0%",level:"atsui",description:"RUSH中リーチ発生時の約60%が大当り"},
+    {name:"通常セリフ変化",trust:"7.8%",level:"low",description:"通常時のセリフが変化する演出"}
+  ]},
+  {machine:"eルパン三世 THE FIRST",items:[
+    {name:"金色の奏ZONE",trust:"92.3%",level:"atsui",description:"金色の奏ZONEに突入すれば激アツ。信頼度90%超"},
+    {name:"THE FIRSTロゴ金発光",trust:"85.6%",level:"atsui",description:"THE FIRSTロゴが金色に発光する激アツ演出"},
+    {name:"不二子ZONE",trust:"55.8%",level:"atsui",description:"不二子ZONEに突入するチャンスゾーン"},
+    {name:"ルパンロゴ落下+激振動",trust:"68.4%",level:"atsui",description:"ルパンロゴが落下し激しく振動すれば大チャンス"},
+    {name:"タイマー予告（金）",trust:"72.1%",level:"atsui",description:"タイマーが金色に変化する激アツ先読み"},
+    {name:"タイマー予告（赤）",trust:"45.3%",level:"chui",description:"タイマーが赤に変化するチャンス演出"},
+    {name:"ルパンカットイン",trust:"52.7%",level:"atsui",description:"リーチ後にルパンがカットインする高信頼度演出"},
+    {name:"不二子カットイン",trust:"58.2%",level:"atsui",description:"不二子がカットインすればさらにアツい"},
+    {name:"次元バトルリーチ",trust:"38.4%",level:"chui",description:"次元大介のバトルリーチ"},
+    {name:"五ェ門参上",trust:"42.6%",level:"chui",description:"五ェ門の斬鉄剣演出"},
+    {name:"銭形警部追跡",trust:"15.8%",level:"low",description:"銭形警部の追跡演出。通常時の前兆"},
+    {name:"ZONE突入示唆",trust:"22.3%",level:"chui",description:"各種ZONEへの突入を示唆する演出"}
+  ]},
+  {machine:"e東京喰種",items:[
+    {name:"虹保留変化",trust:"100%",level:"atsui",description:"保留が虹に変化。大当り確定"},
+    {name:"金保留変化",trust:"90.0%",level:"atsui",description:"保留が金に変化する激アツ保留"},
+    {name:"赤保留変化",trust:"80.0%",level:"atsui",description:"保留が赤に変化する大チャンス保留"},
+    {name:"決意のマスク演出",trust:"85.7%",level:"atsui",description:"カネキがマスクを被る決意の激アツ演出"},
+    {name:"レバブル予告",trust:"78.4%",level:"atsui",description:"レバーが振動する激アツ予告。赤発光で初当り目前"},
+    {name:"精神世界背景移行",trust:"78.8%",level:"atsui",description:"背景が精神世界に移行する高信頼度演出"},
+    {name:"ジェイソン先読み（赤）",trust:"70.4%",level:"atsui",description:"ジェイソンの先読み演出。赤なら大チャンス"},
+    {name:"紫保留変化",trust:"33.4%",level:"chui",description:"保留が紫に変化。チャンス"},
+    {name:"東京23区背景移行",trust:"29.4%",level:"chui",description:"23区マップ背景に変化する演出"},
+    {name:"ジェイソン先読み（通常）",trust:"27.8%",level:"chui",description:"ジェイソンの先読み演出（デフォルト）"},
+    {name:"緑保留変化",trust:"8.9%",level:"low",description:"保留が緑に変化。やや期待"},
+    {name:"全回転リーチ",trust:"100%",level:"atsui",description:"全回転リーチは大当り確定"}
+  ]},
+  {machine:"P真・牙狼",items:[
+    {name:"GAROフラッシュ（金）",trust:"91.5%",level:"atsui",description:"GAROの金フラッシュ。ほぼ確定級の激アツ"},
+    {name:"心滅獣身",trust:"88.7%",level:"atsui",description:"黄金騎士が心滅獣身に変身する最強演出"},
+    {name:"魔戒騎士変身（金）",trust:"82.4%",level:"atsui",description:"金色に輝く魔戒騎士変身演出"},
+    {name:"GARO斬馬リーチ",trust:"76.4%",level:"atsui",description:"GAROの斬馬剣リーチ"},
+    {name:"魔戒騎士変身（赤）",trust:"62.1%",level:"atsui",description:"赤く輝く魔戒騎士変身演出"},
+    {name:"剣保留変化",trust:"55.8%",level:"atsui",description:"保留が剣に変化する高信頼度演出"},
+    {name:"紋章保留（金）",trust:"72.3%",level:"atsui",description:"金色の紋章保留は激アツ"},
+    {name:"紋章保留（赤）",trust:"38.5%",level:"chui",description:"赤い紋章保留はチャンス"},
+    {name:"ザルバ演出",trust:"28.9%",level:"chui",description:"魔導輪ザルバが助言する演出"},
+    {name:"ホラー出現",trust:"18.5%",level:"low",description:"ホラーが出現する通常時の演出"},
+    {name:"魔導輪ザルバの助言",trust:"14.7%",level:"low",description:"ザルバの通常時助言演出"},
+    {name:"魔戒SLASH時短中リーチ",trust:"45.2%",level:"chui",description:"魔戒SLASH時短モード中のリーチ演出"}
+  ]},
+  {machine:"eガンダムSEED",items:[
+    {name:"S反転保留",trust:"100%",level:"atsui",description:"保留がS反転すれば大当り濃厚"},
+    {name:"金保留変化",trust:"95.0%",level:"atsui",description:"保留が金に変化する激アツ保留"},
+    {name:"超ガンダムSEEDゾーン",trust:"95.0%",level:"atsui",description:"超SEEDゾーン突入で激アツ"},
+    {name:"レバブル予告（カスタムUP）",trust:"95.2%",level:"atsui",description:"レバブルアップカスタム時は約95%の信頼度"},
+    {name:"ガンダム激発進予告",trust:"78.6%",level:"atsui",description:"リーチ成立後にガンダムが発進する激アツ演出"},
+    {name:"レバブル予告（通常）",trust:"65.4%",level:"atsui",description:"レバーが振動する演出。赤発光で大チャンス"},
+    {name:"赤保留変化",trust:"61.6%",level:"atsui",description:"保留が赤に変化する大チャンス保留"},
+    {name:"ガンダムSEEDゾーン",trust:"50.5%",level:"atsui",description:"SEEDゾーン突入で期待度50%超"},
+    {name:"舞い降りる剣SPリーチ",trust:"55.3%",level:"atsui",description:"フリーダムガンダムのメインSPリーチ"},
+    {name:"ストライクSPリーチ",trust:"48.7%",level:"chui",description:"ストライクガンダムのSPリーチ"},
+    {name:"緑保留変化",trust:"10.3%",level:"low",description:"保留が緑に変化。少し期待"},
+    {name:"キラvsアスランリーチ",trust:"42.1%",level:"chui",description:"キラとアスランの対決リーチ"}
+  ]},
+  {machine:"eワンパンマン2〜正義執行",items:[
+    {name:"マジ殴りリーチ",trust:"88.5%",level:"atsui",description:"サイタマのマジ殴りが炸裂する最強リーチ"},
+    {name:"金保留変化",trust:"92.3%",level:"atsui",description:"保留が金色に変化する激アツ保留"},
+    {name:"赤保留変化",trust:"65.8%",level:"atsui",description:"保留が赤に変化する大チャンス"},
+    {name:"S級ヒーローゾーン",trust:"72.4%",level:"atsui",description:"S級ヒーローが集結するゾーン突入"},
+    {name:"ジェノスバトルリーチ",trust:"55.2%",level:"atsui",description:"ジェノスが戦うバトルリーチ"},
+    {name:"ボロスSPリーチ",trust:"62.7%",level:"atsui",description:"最強の敵ボロスとの決戦SPリーチ"},
+    {name:"ガロウバトル",trust:"48.3%",level:"chui",description:"ガロウとのバトル演出"},
+    {name:"怪人襲来演出",trust:"35.6%",level:"chui",description:"怪人が襲来する前兆演出"},
+    {name:"ヒーロー協会通信",trust:"22.4%",level:"chui",description:"ヒーロー協会からの通信演出"},
+    {name:"キング登場",trust:"58.9%",level:"atsui",description:"キングが登場する演出。実は強い？"},
+    {name:"通常パンチ演出",trust:"8.5%",level:"low",description:"サイタマの通常パンチ演出"},
+    {name:"タツマキ参戦",trust:"45.1%",level:"chui",description:"タツマキが参戦する演出"}
+  ]},
+  {machine:"e聖闘士星矢 超流星",items:[
+    {name:"ゴールドセイント集結",trust:"92.8%",level:"atsui",description:"黄金聖闘士が集結する最上位演出"},
+    {name:"ペガサス流星拳（金）",trust:"85.4%",level:"atsui",description:"金色のペガサス流星拳は激アツ"},
+    {name:"コスモバーニング",trust:"78.6%",level:"atsui",description:"小宇宙が燃え上がる激アツ演出"},
+    {name:"女神アテナ降臨",trust:"88.2%",level:"atsui",description:"アテナが降臨する激アツ演出"},
+    {name:"十二宮バトルリーチ",trust:"62.3%",level:"atsui",description:"十二宮でのバトルリーチ。対戦相手で信頼度変化"},
+    {name:"ペガサス流星拳（赤）",trust:"55.7%",level:"atsui",description:"赤いペガサス流星拳もチャンス"},
+    {name:"黄金聖衣装着",trust:"72.1%",level:"atsui",description:"黄金聖衣を装着する演出"},
+    {name:"パネルフラッシュ演出",trust:"38.4%",level:"chui",description:"パネルが下部でフラッシュする演出"},
+    {name:"ドラゴン紫龍リーチ",trust:"42.5%",level:"chui",description:"紫龍のリーチ演出"},
+    {name:"アンドロメダ瞬リーチ",trust:"35.8%",level:"chui",description:"瞬のリーチ演出"},
+    {name:"暗黒聖闘士演出",trust:"18.6%",level:"low",description:"暗黒聖闘士が登場する通常演出"},
+    {name:"1回転速変ZONE",trust:"52.3%",level:"atsui",description:"RUSH中の1回転速変ゾーン"}
+  ]},
+  {machine:"eゴジラ対エヴァンゲリオン",items:[
+    {name:"ゴジラ×初号機共闘リーチ",trust:"92.5%",level:"atsui",description:"ゴジラと初号機が共闘する最強リーチ"},
+    {name:"巨大ゴジラ出現リスタート",trust:"85.3%",level:"atsui",description:"巨大ゴジラが出現しリスタートする激アツ演出"},
+    {name:"ロンギヌスの槍ルート",trust:"78.9%",level:"atsui",description:"ロンギヌスの槍ルートに発展する激アツ"},
+    {name:"シロ画面切裂き",trust:"88.7%",level:"atsui",description:"シロが画面を切り裂けば大当り濃厚"},
+    {name:"金枠リラックスSU5",trust:"72.4%",level:"atsui",description:"金枠でSU5まで発展すれば高信頼度"},
+    {name:"初号機VS ゴジラSPリーチ",trust:"65.8%",level:"atsui",description:"初号機とゴジラの対決SPリーチ"},
+    {name:"銀枠SU5+超発展",trust:"55.3%",level:"atsui",description:"銀枠SU5からの超リーチ発展"},
+    {name:"使徒×怪獣バトル",trust:"48.6%",level:"chui",description:"使徒と怪獣のバトル演出"},
+    {name:"N2兵器投下",trust:"42.1%",level:"chui",description:"N2兵器が投下される演出"},
+    {name:"NERV通信演出",trust:"25.4%",level:"chui",description:"NERV本部からの通信演出"},
+    {name:"都市破壊前兆",trust:"15.7%",level:"low",description:"都市が破壊される前兆演出"},
+    {name:"ゴジラ咆哮予告",trust:"35.2%",level:"chui",description:"ゴジラの咆哮が響く予告演出"}
+  ]},
+  {machine:"P大海物語5スペシャル",items:[
+    {name:"魚群リーチ（カスタム100%時）",trust:"100%",level:"atsui",description:"My海カスタムで100%設定時は確定"},
+    {name:"魚群リーチ（カスタム50%時）",trust:"50.0%",level:"atsui",description:"カスタム50%時の魚群リーチ"},
+    {name:"BIGSEAスパーク（100%設定）",trust:"100%",level:"atsui",description:"カスタム100%設定時は確定演出"},
+    {name:"Σ型図柄停止SPリーチ",trust:"72.8%",level:"atsui",description:"12345がΣ型に止まると発展する高信頼度SPリーチ"},
+    {name:"マリンちゃんSPリーチ",trust:"45.6%",level:"chui",description:"マリンちゃんのスペシャルリーチ"},
+    {name:"クリスタルリーチ",trust:"38.4%",level:"chui",description:"クリスタルが輝くリーチ演出"},
+    {name:"いかずちリーチ",trust:"42.3%",level:"chui",description:"稲妻が走るリーチ演出"},
+    {name:"黒潮リーチ",trust:"35.7%",level:"chui",description:"黒潮が渦巻くリーチ"},
+    {name:"泡予告ステップ4",trust:"32.5%",level:"chui",description:"泡予告がステップ4まで発展"},
+    {name:"泡音先読み→魚群",trust:"78.3%",level:"atsui",description:"リーチ前の泡音から魚群に発展すれば激アツ"},
+    {name:"珊瑚礁リーチ",trust:"22.1%",level:"chui",description:"珊瑚礁が登場するリーチ"},
+    {name:"小魚前兆",trust:"12.4%",level:"low",description:"小魚が泳ぐ通常時の前兆演出"}
+  ]},
+  {machine:"e牙狼12 黄金騎士極限",items:[
+    {name:"GARO斬馬リーチ",trust:"76.4%",level:"atsui",description:"GAROの伝統的斬馬剣リーチ"},
+    {name:"魔戒騎士変身",trust:"62.1%",level:"atsui",description:"黄金騎士に変身する演出"},
+    {name:"心滅獣身",trust:"91.3%",level:"atsui",description:"心滅獣身に至る最強演出。ほぼ確定"},
+    {name:"極限モード突入",trust:"82.5%",level:"atsui",description:"極限モードに突入する激アツ演出"},
+    {name:"金色変身フラッシュ",trust:"72.8%",level:"atsui",description:"金色に輝く変身フラッシュ"},
+    {name:"魔導火柱演出",trust:"55.6%",level:"atsui",description:"魔導火柱が立ち上る演出"},
+    {name:"ザルバ覚醒",trust:"48.3%",level:"chui",description:"魔導輪ザルバが覚醒する演出"},
+    {name:"ホラー出現（強）",trust:"35.2%",level:"chui",description:"強力なホラーが出現する演出"},
+    {name:"ザルバ演出",trust:"28.9%",level:"chui",description:"ザルバの通常助言演出"},
+    {name:"ホラー出現（弱）",trust:"18.5%",level:"low",description:"通常ホラーが出現する演出"},
+    {name:"魔導輪ザルバの助言",trust:"14.7%",level:"low",description:"ザルバの助言演出（低信頼度）"}
+  ]},
+  {machine:"P花の慶次3〜傾奇一転〜",items:[
+    {name:"傾奇御免リーチ",trust:"71.5%",level:"atsui",description:"シリーズ伝統の傾奇御免リーチ"},
+    {name:"真・天武の極",trust:"85.2%",level:"atsui",description:"最上位リーチ。発展すればほぼ確定"},
+    {name:"キセル演出",trust:"38.9%",level:"chui",description:"慶次のキセル演出。シリーズ伝統"},
+    {name:"城門突破",trust:"22.4%",level:"chui",description:"城門を突破する演出"},
+    {name:"漢の花道",trust:"45.6%",level:"chui",description:"花道を進む演出"},
+    {name:"通常セリフ変化",trust:"7.8%",level:"low",description:"セリフが変化する通常演出"}
   ]}
 ];
+
+/* Machine icon map for quick lookup */
+const MACHINE_EMOJI = {
+  "人気":"🎯","海":"🌊","LM":"🔷","甘":"🍬"
+};
 
 /* ========= INIT ========= */
 document.addEventListener('DOMContentLoaded', () => {
@@ -577,10 +819,8 @@ async function processPhoto(input){
       logger:m=>{if(m.status==='recognizing text')status.textContent='読み取り中... '+Math.round(m.progress*100)+'%';}
     });
     const text=result.data.text;
-    // Extract numbers that look like spin counts (2-4 digit numbers)
     const nums=text.match(/\b\d{1,4}\b/g);
     if(nums&&nums.length>0){
-      // Filter reasonable spin counts (1-999)
       const spins=nums.map(Number).filter(n=>n>=1&&n<=999);
       if(spins.length>0){
         document.getElementById('spins').value=spins.join(', ');
@@ -616,7 +856,6 @@ function onMachineSelect(){
   const m=MACHINES[parseInt(sel.value)];
   const probNum=parseInt(m.prob.replace(/[^0-9]/g,''));
   const typesel=document.getElementById('machineType');
-  // Find closest match
   let best='319';
   let bestDiff=9999;
   for(const opt of typesel.options){
@@ -649,52 +888,41 @@ function runPrediction(){
 }
 
 function analyze(spins,prob){
-  // Sort chronologically (assume input is newest first)
   const sorted=[...spins];
-
-  // Calculate intervals
   const intervals=[];
   for(let i=1;i<sorted.length;i++){
     intervals.push(Math.abs(sorted[i]-sorted[i-1]));
   }
 
-  // Bin size adaptive to probability
   const binSize=prob<=99?15:prob<=199?20:25;
   const maxInterval=Math.max(...intervals,prob*2);
   const binCount=Math.ceil(maxInterval/binSize)+1;
 
-  // Build histogram with recency weighting
   const hist=new Array(binCount).fill(0);
   const histWeighted=new Array(binCount).fill(0);
   intervals.forEach((iv,idx)=>{
     const bin=Math.min(Math.floor(iv/binSize),binCount-1);
     hist[bin]++;
-    // More recent intervals get higher weight
     const recency=1+0.5*(intervals.length-idx)/intervals.length;
     histWeighted[bin]+=recency;
   });
 
-  // Find peaks (local maxima in weighted histogram)
   const peaks=[];
   for(let i=1;i<binCount-1;i++){
     if(histWeighted[i]>histWeighted[i-1]&&histWeighted[i]>=histWeighted[i+1]&&histWeighted[i]>0){
       peaks.push({bin:i,weight:histWeighted[i],count:hist[i]});
     }
   }
-  // Also check edges
   if(histWeighted[0]>histWeighted[1]&&histWeighted[0]>0)peaks.unshift({bin:0,weight:histWeighted[0],count:hist[0]});
 
-  // If no peaks, use top bins
   if(peaks.length===0){
     for(let i=0;i<binCount;i++){
       if(histWeighted[i]>0)peaks.push({bin:i,weight:histWeighted[i],count:hist[i]});
     }
   }
 
-  // Sort by weight descending
   peaks.sort((a,b)=>b.weight-a.weight);
 
-  // K-means-like clustering of intervals into 3 groups
   const zones=peaks.slice(0,3).map(p=>{
     const lo=p.bin*binSize;
     const hi=lo+binSize;
@@ -703,11 +931,9 @@ function analyze(spins,prob){
     return {lo,hi,count:p.count,confidence,weight:p.weight};
   });
 
-  // Ensure confidence is descending and reasonable
   zones.sort((a,b)=>b.confidence-a.confidence);
   if(zones.length>1&&zones[0].confidence===zones[1].confidence)zones[0].confidence+=3;
 
-  // Stats
   const avg=intervals.reduce((s,v)=>s+v,0)/intervals.length;
   const std=Math.sqrt(intervals.reduce((s,v)=>s+(v-avg)**2,0)/intervals.length);
 
@@ -715,7 +941,6 @@ function analyze(spins,prob){
 }
 
 function displayResults(r,prob){
-  // Histogram chart
   const labels=[];
   for(let i=0;i<r.binCount&&i<30;i++){
     labels.push(`${i*r.binSize}-${(i+1)*r.binSize}`);
@@ -783,18 +1008,137 @@ function renderMachines(filter=''){
   const grid=document.getElementById('machineGrid');
   const q=filter.toLowerCase();
   const filtered=MACHINES.filter(m=>m.name.toLowerCase().includes(q)||m.tag.includes(q));
-  grid.innerHTML=filtered.map(m=>`
-    <div class="machine-card">
-      <div class="machine-name">${m.name}<span class="machine-tag">${m.tag}</span></div>
+  const perfMap=new Set(PERFORMANCES.map(p=>p.machine));
+  grid.innerHTML=filtered.map((m,idx)=>{
+    const origIdx=MACHINES.indexOf(m);
+    const hasPerf=perfMap.has(m.name);
+    return `
+    <div class="machine-card" onclick="openMachineModal(${origIdx})">
+      <div class="machine-name">${m.icon||MACHINE_EMOJI[m.tag]||'🎰'} ${m.name}<span class="machine-tag">${m.tag}</span></div>
       <div class="machine-specs">
         <div class="spec"><div class="spec-label">大当たり確率</div><div class="spec-value">${m.prob}</div></div>
         <div class="spec"><div class="spec-label">確変/RUSH突入率</div><div class="spec-value">${m.rushRate}</div></div>
         <div class="spec"><div class="spec-label">時短回数</div><div class="spec-value">${m.tsujoCount}回</div></div>
         <div class="spec"><div class="spec-label">最大払出</div><div class="spec-value">${m.maxPayout}</div></div>
       </div>
-    </div>`).join('');
+      <div class="machine-perf-hint">${hasPerf?'📊 演出信頼度データあり - タップで詳細':'📋 タップでスペック詳細'}</div>
+    </div>`;
+  }).join('');
 }
 function filterMachines(){renderMachines(document.getElementById('machineSearch').value)}
+
+/* ========= MACHINE MODAL ========= */
+function openMachineModal(idx){
+  const m=MACHINES[idx];
+  const perf=PERFORMANCES.find(p=>p.machine===m.name);
+  const body=document.getElementById('machineModalBody');
+
+  // Generate strategy based on machine specs
+  const probNum=parseInt(m.prob.replace(/[^0-9]/g,''));
+  let strategy='';
+  if(probNum>=300){
+    strategy=`
+      <li>ミドル以上のスペックのため、投資額に余裕を持って挑みましょう（目安：3〜5万円）</li>
+      <li>大当り確率${m.prob}は約${probNum}回転に1回の計算。${Math.round(probNum*2.5)}回転以上ハマったら撤退も検討</li>
+      <li>RUSH突入率${m.rushRate}を考慮し、初当りからの期待値を計算して立ち回りましょう</li>
+      <li>時短${m.tsujoCount}回の間に引き戻せるかが収支のカギです</li>`;
+  } else if(probNum>=150){
+    strategy=`
+      <li>ライトミドルスペックで比較的遊びやすい設計です（投資目安：2〜3万円）</li>
+      <li>大当り確率${m.prob}で初当りは比較的軽め。粘りやすいスペック</li>
+      <li>RUSH突入率${m.rushRate}のため、初当りを重ねてRUSH突入を狙いましょう</li>
+      <li>回転率が良い台（千円あたり20回転以上）を選ぶのが重要</li>`;
+  } else {
+    strategy=`
+      <li>甘デジ・ライトスペックで初心者にもおすすめ（投資目安：1〜2万円）</li>
+      <li>大当り確率${m.prob}で当たりやすい分、出玉は控えめです</li>
+      <li>長時間遊べるスペックなので、演出をじっくり楽しみましょう</li>
+      <li>千円あたりの回転数を重視して台選びをしましょう</li>`;
+  }
+
+  let perfHTML='';
+  if(perf&&perf.items.length>0){
+    perfHTML=`
+      <div class="modal-divider"></div>
+      <div class="modal-section-title">演出信頼度ガイド</div>
+      ${perf.items.map(it=>{
+        const pct=parseFloat(it.trust);
+        const levelClass=it.level==='atsui'?'atsui':it.level==='chui'?'chui':'low';
+        return `
+        <div class="trust-item">
+          <div class="trust-item-header">
+            <span class="trust-item-name">${it.name}</span>
+            <span class="trust-item-pct ${levelClass}">${it.trust}</span>
+          </div>
+          ${it.description?`<div class="trust-item-desc">${it.description}</div>`:''}
+          <div class="trust-bar">
+            <div class="trust-bar-fill ${levelClass}" style="width:${Math.min(pct,100)}%"></div>
+          </div>
+        </div>`;
+      }).join('')}
+    `;
+  } else {
+    perfHTML=`
+      <div class="modal-divider"></div>
+      <div class="no-perf">この機種の詳細な演出信頼度データは準備中です</div>
+    `;
+  }
+
+  body.innerHTML=`
+    <div class="modal-icon">${m.icon||MACHINE_EMOJI[m.tag]||'🎰'}</div>
+    <div class="modal-title">${m.name}</div>
+    <div class="modal-tag">${m.tag}</div>
+    <div class="modal-specs">
+      <div class="modal-spec">
+        <div class="modal-spec-label">大当たり確率</div>
+        <div class="modal-spec-value">${m.prob}</div>
+      </div>
+      <div class="modal-spec">
+        <div class="modal-spec-label">確変/RUSH突入率</div>
+        <div class="modal-spec-value">${m.rushRate}</div>
+      </div>
+      <div class="modal-spec">
+        <div class="modal-spec-label">時短回数</div>
+        <div class="modal-spec-value">${m.tsujoCount}回</div>
+      </div>
+      <div class="modal-spec">
+        <div class="modal-spec-label">最大払出</div>
+        <div class="modal-spec-value">${m.maxPayout}</div>
+      </div>
+    </div>
+    ${perfHTML}
+    <div class="strategy-box">
+      <h4>推奨プレイ戦略</h4>
+      <ul>${strategy}</ul>
+    </div>
+  `;
+
+  const overlay=document.getElementById('machineModal');
+  overlay.classList.add('active');
+  document.body.style.overflow='hidden';
+
+  // Animate trust bars after a short delay
+  setTimeout(()=>{
+    document.querySelectorAll('.trust-bar-fill').forEach(bar=>{
+      const w=bar.style.width;
+      bar.style.width='0%';
+      requestAnimationFrame(()=>{
+        requestAnimationFrame(()=>{bar.style.width=w;});
+      });
+    });
+  },50);
+}
+
+function closeModal(){
+  document.getElementById('machineModal').classList.remove('active');
+  document.body.style.overflow='';
+}
+function closeModalBackdrop(e){
+  if(e.target===document.getElementById('machineModal'))closeModal();
+}
+
+// Close modal on Escape key
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();});
 
 /* ========= PERFORMANCE GUIDE ========= */
 function renderPerformances(){
