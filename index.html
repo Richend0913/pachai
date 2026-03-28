@@ -1456,8 +1456,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
 /* Stats counter animation */
 function animateStats(){
-  animateNum('statUsers',12480,2000);
-  animateNum('statPred',34750,2000);
+  // PVベースカウント: 初期値5000 + localStorage累積PV
+  const BASE_USERS=5000;
+  let pvCount=parseInt(localStorage.getItem('pachai_pv')||'0');
+  pvCount++;
+  localStorage.setItem('pachai_pv',pvCount);
+  animateNum('statUsers',BASE_USERS+pvCount,2000);
+  // 予測回数もlocalStorageで実カウント
+  const predCount=parseInt(localStorage.getItem('pachai_pred')||'0');
+  animateNum('statPred',predCount,2000);
   animateNum('statMachines',MACHINES.length,1200);
 }
 function animateNum(id,target,dur){
@@ -1566,6 +1573,10 @@ function runPrediction(){
     const prob=parseInt(document.getElementById('machineType').value);
     const result=analyze(nums,prob);
     displayResults(result,prob);
+    // 予測実行カウント加算
+    const pc=parseInt(localStorage.getItem('pachai_pred')||'0')+1;
+    localStorage.setItem('pachai_pred',pc);
+    document.getElementById('statPred').textContent=pc.toLocaleString();
     btn.classList.remove('loading');
     btn.textContent='予測する';
     document.getElementById('results').classList.add('show');
