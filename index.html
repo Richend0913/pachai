@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PachAI（パチャイ）- AIパチンコ予測ツール | 大当たりゾーン予測</title>
+<meta name="description" content="PachAIは直近の大当たりデータからAIが次の当たりゾーンを予測するパチンコ解析ツールです。回転数データを入力するだけで狙い目ゾーンを自動分析。">
+<meta name="keywords" content="パチンコ予測,パチンコ攻略,大当たり予測,パチンコAI,回転数予測,パチンコ解析,狙い目ゾーン,パチンコデータ分析,PachAI">
+<meta name="author" content="Richend Digital">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://richend0913.github.io/pachai/">
+<meta name="google-site-verification" content="GRXPtbHLxfl8zA96yG12Rml4YJ00PvNXt6lHKJOYQiE">
+
+<!-- OGP -->
+<meta property="og:title" content="PachAI（パチャイ）- AIパチンコ予測ツール">
+<meta property="og:description" content="直近の大当たりデータからAIが次の当たりゾーンを予測。回転数データを入力するだけで狙い目を自動分析。">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://richend0913.github.io/pachai/">
+<meta property="og:site_name" content="PachAI">
+<meta property="og:locale" content="ja_JP">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="PachAI - AIパチンコ予測ツール">
+<meta name="twitter:description" content="直近データから次の大当たりゾーンをAIが予測">
+
+<!-- JSON-LD -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "PachAI（パチャイ）",
+  "description": "AIパチンコ予測ツール - 直近の大当たりデータからAIが次の当たりゾーンを予測",
+  "url": "https://richend0913.github.io/pachai/",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "JPY"
+  },
+  "author": {
+    "@type": "Organization",
+    "name": "Richend Digital"
+  }
+}
+</script>
+
+<!-- AdSense -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6327505164684489" crossorigin="anonymous"></script>
+
+<!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#0a0a0a;--bg2:#111118;--bg3:#1a1a2e;--bg4:#16213e;
+  --accent:#7c3aed;--accent2:#6366f1;--accent3:#8b5cf6;--accent-glow:rgba(124,58,237,.25);
+  --text:#e4e4e7;--text2:#a1a1aa;--text3:#71717a;
+  --border:#27272a;--border2:#3f3f46;
+  --success:#22c55e;--warn:#f59e0b;--danger:#ef4444;
+  --radius:12px;--radius-sm:8px;
+}
+html{scroll-behavior:smooth;font-size:16px}
+body{font-family:'Segoe UI','Hiragino Sans','Noto Sans JP',sans-serif;background:var(--bg);color:var(--text);line-height:1.7;overflow-x:hidden}
+a{color:var(--accent3);text-decoration:none;transition:color .2s}
+a:hover{color:#a78bfa}
+::selection{background:var(--accent);color:#fff}
+
+/* Scrollbar */
+::-webkit-scrollbar{width:8px}
+::-webkit-scrollbar-track{background:var(--bg2)}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:4px}
+
+/* Container */
+.container{max-width:1100px;margin:0 auto;padding:0 20px}
+
+/* Navigation */
+.nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(10,10,10,.85);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);transition:box-shadow .3s}
+.nav.scrolled{box-shadow:0 4px 30px rgba(0,0,0,.5)}
+.nav-inner{max-width:1100px;margin:0 auto;padding:0 20px;display:flex;align-items:center;justify-content:space-between;height:60px}
+.nav-logo{font-size:1.3rem;font-weight:800;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.nav-links{display:flex;gap:24px;list-style:none}
+.nav-links a{color:var(--text2);font-size:.875rem;font-weight:500;transition:color .2s}
+.nav-links a:hover{color:var(--accent3)}
+.nav-toggle{display:none;background:none;border:none;color:var(--text);font-size:1.5rem;cursor:pointer}
+
+/* Hero */
+.hero{padding:140px 0 80px;text-align:center;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(circle at 50% 50%,rgba(124,58,237,.08) 0%,transparent 50%);animation:pulse 8s ease-in-out infinite}
+@keyframes pulse{0%,100%{transform:scale(1);opacity:.5}50%{transform:scale(1.1);opacity:1}}
+.hero-badge{display:inline-block;padding:6px 16px;border-radius:20px;background:rgba(124,58,237,.15);border:1px solid rgba(124,58,237,.3);color:var(--accent3);font-size:.8rem;font-weight:600;margin-bottom:24px;animation:fadeInUp .6s ease}
+.hero h1{font-size:clamp(2.2rem,6vw,3.8rem);font-weight:900;margin-bottom:16px;animation:fadeInUp .6s ease .1s both}
+.hero h1 .gradient{background:linear-gradient(135deg,var(--accent),var(--accent2),#06b6d4);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero p{font-size:clamp(1rem,2.5vw,1.25rem);color:var(--text2);max-width:600px;margin:0 auto 40px;animation:fadeInUp .6s ease .2s both}
+@keyframes fadeInUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+
+.stats-row{display:flex;justify-content:center;gap:40px;flex-wrap:wrap;animation:fadeInUp .6s ease .3s both}
+.stat{text-align:center}
+.stat-num{font-size:2rem;font-weight:800;background:linear-gradient(135deg,var(--accent3),#06b6d4);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.stat-label{font-size:.8rem;color:var(--text3);margin-top:4px}
+
+/* Ad slots */
+.ad-slot{max-width:728px;margin:30px auto;min-height:90px;display:flex;align-items:center;justify-content:center;border-radius:var(--radius-sm);overflow:hidden}
+
+/* Sections */
+.section{padding:80px 0}
+.section-header{text-align:center;margin-bottom:48px}
+.section-header h2{font-size:clamp(1.6rem,4vw,2.2rem);font-weight:800;margin-bottom:12px}
+.section-header h2 .accent{color:var(--accent3)}
+.section-header p{color:var(--text2);max-width:560px;margin:0 auto}
+
+/* Prediction Tool */
+.predict-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:32px;max-width:800px;margin:0 auto}
+.form-group{margin-bottom:24px}
+.form-group label{display:block;font-weight:600;margin-bottom:8px;color:var(--text)}
+.form-group .hint{font-size:.8rem;color:var(--text3);margin-top:4px}
+textarea{width:100%;min-height:120px;background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-sm);padding:14px;color:var(--text);font-size:1rem;font-family:inherit;resize:vertical;transition:border-color .2s}
+textarea:focus{outline:none;border-color:var(--accent)}
+select{width:100%;padding:12px 14px;background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--text);font-size:1rem;cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23a1a1aa' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center}
+select:focus{outline:none;border-color:var(--accent)}
+.btn-predict{width:100%;padding:16px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border:none;border-radius:var(--radius-sm);font-size:1.1rem;font-weight:700;cursor:pointer;transition:transform .15s,box-shadow .3s;position:relative;overflow:hidden}
+.btn-predict:hover{transform:translateY(-2px);box-shadow:0 8px 30px var(--accent-glow)}
+.btn-predict:active{transform:translateY(0)}
+.btn-predict.loading{pointer-events:none;opacity:.8}
+.btn-predict.loading::after{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.2),transparent);animation:shimmer 1.5s infinite}
+@keyframes shimmer{to{left:100%}}
+
+/* Results */
+.results{display:none;margin-top:32px}
+.results.show{display:block;animation:fadeInUp .5s ease}
+.result-title{font-size:1.3rem;font-weight:700;margin-bottom:20px;display:flex;align-items:center;gap:8px}
+.result-title::before{content:'';width:4px;height:24px;background:var(--accent);border-radius:2px}
+
+.chart-wrap{background:var(--bg);border-radius:var(--radius-sm);padding:20px;margin-bottom:24px;border:1px solid var(--border)}
+.chart-wrap canvas{max-height:300px}
+
+.zones-grid{display:grid;gap:12px;margin-bottom:24px}
+.zone-card{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-sm);padding:16px;display:flex;align-items:center;gap:16px;transition:border-color .2s}
+.zone-card:hover{border-color:var(--accent)}
+.zone-rank{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.9rem;flex-shrink:0}
+.zone-rank.r1{background:linear-gradient(135deg,#f59e0b,#ef4444);color:#fff}
+.zone-rank.r2{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff}
+.zone-rank.r3{background:var(--bg3);color:var(--text2)}
+.zone-info{flex:1}
+.zone-range{font-weight:700;font-size:1.05rem}
+.zone-detail{font-size:.85rem;color:var(--text2);margin-top:2px}
+.zone-conf{font-size:1.1rem;font-weight:800;text-align:right}
+.zone-conf.high{color:var(--success)}
+.zone-conf.mid{color:var(--warn)}
+.zone-conf.low{color:var(--text3)}
+
+.timeline-wrap{background:var(--bg);border-radius:var(--radius-sm);padding:20px;border:1px solid var(--border)}
+.timeline-bar{position:relative;height:40px;background:var(--bg2);border-radius:6px;overflow:hidden;margin:12px 0}
+.timeline-zone{position:absolute;top:0;height:100%;border-radius:4px;opacity:.35;transition:opacity .2s}
+.timeline-zone:hover{opacity:.6}
+.timeline-labels{display:flex;justify-content:space-between;font-size:.75rem;color:var(--text3)}
+.timeline-note{font-size:.85rem;color:var(--text2);margin-top:8px;text-align:center}
+
+/* Machine DB */
+.machine-search{max-width:500px;margin:0 auto 32px;position:relative}
+.machine-search input{width:100%;padding:14px 14px 14px 44px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--text);font-size:1rem}
+.machine-search input:focus{outline:none;border-color:var(--accent)}
+.machine-search svg{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--text3)}
+.machine-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px}
+.machine-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:20px;transition:transform .2s,border-color .2s}
+.machine-card:hover{transform:translateY(-3px);border-color:var(--accent)}
+.machine-name{font-size:1.05rem;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.machine-tag{font-size:.7rem;padding:2px 8px;border-radius:10px;background:rgba(124,58,237,.15);color:var(--accent3);font-weight:600}
+.machine-specs{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.spec{font-size:.85rem}
+.spec-label{color:var(--text3);font-size:.75rem}
+.spec-value{font-weight:600;color:var(--text)}
+
+/* Performance Guide */
+.perf-list{max-width:800px;margin:0 auto;display:grid;gap:12px}
+.perf-item{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-sm);overflow:hidden}
+.perf-header{padding:16px 20px;cursor:pointer;display:flex;align-items:center;justify-content:space-between;font-weight:600;transition:background .2s}
+.perf-header:hover{background:var(--bg3)}
+.perf-header .arrow{transition:transform .3s;color:var(--text3)}
+.perf-item.open .arrow{transform:rotate(180deg)}
+.perf-body{max-height:0;overflow:hidden;transition:max-height .4s ease}
+.perf-item.open .perf-body{max-height:800px}
+.perf-content{padding:0 20px 16px}
+.perf-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--border)}
+.perf-row:last-child{border:none}
+.perf-name{font-size:.9rem}
+.perf-trust{font-size:.85rem;font-weight:700;padding:2px 10px;border-radius:10px}
+.perf-trust.atsui{background:rgba(239,68,68,.15);color:#ef4444}
+.perf-trust.medium{background:rgba(245,158,11,.15);color:#f59e0b}
+.perf-trust.low{background:rgba(113,113,122,.15);color:#a1a1aa}
+
+/* Footer */
+footer{padding:40px 0;border-top:1px solid var(--border);text-align:center}
+footer p{color:var(--text3);font-size:.85rem;margin-bottom:8px}
+footer a{color:var(--text2)}
+.disclaimer{max-width:600px;margin:16px auto 0;padding:16px;background:var(--bg2);border-radius:var(--radius-sm);font-size:.8rem;color:var(--text3);border:1px solid var(--border)}
+
+/* Mobile nav */
+@media(max-width:768px){
+  .nav-links{display:none;position:absolute;top:60px;left:0;right:0;background:var(--bg2);border-bottom:1px solid var(--border);flex-direction:column;padding:16px 20px;gap:16px}
+  .nav-links.open{display:flex}
+  .nav-toggle{display:block}
+  .stats-row{gap:24px}
+  .predict-card{padding:20px}
+  .machine-grid{grid-template-columns:1fr}
+}
+@media(max-width:480px){
+  .hero h1{font-size:2rem}
+  .zone-card{flex-wrap:wrap}
+}
+</style>
+</head>
+<body>
+
+<!-- Nav -->
+<nav class="nav" id="nav">
+<div class="nav-inner">
+  <a href="#" class="nav-logo">PachAI</a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#predict">予測ツール</a></li>
+    <li><a href="#database">台データベース</a></li>
+    <li><a href="#guide">演出信頼度</a></li>
+  </ul>
+  <button class="nav-toggle" id="navToggle" aria-label="メニュー">&#9776;</button>
+</div>
+</nav>
+
+<!-- Hero -->
+<section class="hero">
+<div class="container">
+  <div class="hero-badge">AI-Powered Prediction Engine</div>
+  <h1><span class="gradient">PachAI</span> - AIパチンコ予測</h1>
+  <p>直近データから次の大当たりゾーンをAIが予測。回転数を入力するだけで狙い目を自動分析します。</p>
+  <div class="stats-row">
+    <div class="stat"><div class="stat-num" id="statUsers">0</div><div class="stat-label">累計利用数</div></div>
+    <div class="stat"><div class="stat-num" id="statPred">0</div><div class="stat-label">予測実行回数</div></div>
+    <div class="stat"><div class="stat-num" id="statMachines">0</div><div class="stat-label">対応機種数</div></div>
+  </div>
+</div>
+</section>
+
+<!-- Ad Slot 1 -->
+<div class="ad-slot">
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6327505164684489" data-ad-slot="auto" data-ad-format="auto" data-full-width-responsive="true"></ins>
+  <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+</div>
+
+<!-- Prediction Tool -->
+<section class="section" id="predict">
+<div class="container">
+  <div class="section-header">
+    <h2>大当たり<span class="accent">予測ツール</span></h2>
+    <p>直近の大当たり回転数を入力して、AIが次の狙い目ゾーンを分析します</p>
+  </div>
+  <div class="predict-card">
+    <div class="form-group">
+      <label for="spins">大当たり時の回転数（10〜20件）</label>
+      <textarea id="spins" placeholder="例: 45, 128, 312, 67, 205, 89, 156, 278, 52, 190&#10;&#10;カンマ区切り、スペース区切り、または1行に1つ入力してください"></textarea>
+      <div class="hint">※ 大当たりした時の総回転数を新しい順に入力してください</div>
+    </div>
+    <div class="form-group">
+      <label for="machineType">機種の大当たり確率</label>
+      <select id="machineType">
+        <option value="319">1/319（ミドルスペック）</option>
+        <option value="199">1/199（ライトミドル）</option>
+        <option value="99">1/99（甘デジ）</option>
+        <option value="256">1/256（ライトミドル上位）</option>
+        <option value="349">1/349（MAXスペック）</option>
+        <option value="77">1/77（遊パチ）</option>
+      </select>
+    </div>
+    <button class="btn-predict" id="btnPredict" onclick="runPrediction()">予測する</button>
+
+    <div class="results" id="results">
+      <div class="result-title">予測結果</div>
+      <div class="chart-wrap"><canvas id="histChart"></canvas></div>
+      <div id="zonesContainer" class="zones-grid"></div>
+      <div class="timeline-wrap">
+        <div style="font-weight:600;margin-bottom:4px">タイムライン（回転数 vs 予測ゾーン）</div>
+        <div class="timeline-bar" id="timelineBar"></div>
+        <div class="timeline-labels"><span>0回転</span><span id="timelineMax">500回転</span></div>
+        <div class="timeline-note" id="timelineNote"></div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- Ad Slot 2 -->
+<div class="ad-slot">
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6327505164684489" data-ad-slot="auto" data-ad-format="auto" data-full-width-responsive="true"></ins>
+  <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+</div>
+
+<!-- Machine Database -->
+<section class="section" id="database" style="background:var(--bg2)">
+<div class="container">
+  <div class="section-header">
+    <h2>台<span class="accent">データベース</span></h2>
+    <p>人気パチンコ機種のスペック情報を網羅</p>
+  </div>
+  <div class="machine-search">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+    <input type="text" id="machineSearch" placeholder="機種名で検索..." oninput="filterMachines()">
+  </div>
+  <div class="machine-grid" id="machineGrid"></div>
+</div>
+</section>
+
+<!-- Performance Guide -->
+<section class="section" id="guide">
+<div class="container">
+  <div class="section-header">
+    <h2>演出<span class="accent">信頼度</span>ガイド</h2>
+    <p>人気機種の演出別・大当たり信頼度を確認</p>
+  </div>
+  <div class="perf-list" id="perfList"></div>
+</div>
+</section>
+
+<!-- Ad Slot 3 -->
+<div class="ad-slot">
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6327505164684489" data-ad-slot="auto" data-ad-format="auto" data-full-width-responsive="true"></ins>
+  <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+</div>
+
+<!-- Footer -->
+<footer>
+<div class="container">
+  <p><a href="https://richend0913.github.io/" target="_blank">Richend Digital</a> &copy; 2026</p>
+  <div class="disclaimer">
+    <strong>免責事項：</strong>本ツールは参考情報であり、勝利を保証するものではありません。パチンコは各回転が独立した抽選であり、過去データから未来の結果を確実に予測することは不可能です。遊技は適度に楽しみましょう。
+  </div>
+</div>
+</footer>
+
+<script>
+/* ========= DATA ========= */
+const MACHINES = [
+  {name:"CR大海物語5",prob:"1/319",rushRate:"65%",tsujoCount:100,maxPayout:"約1500個",tag:"海"},
+  {name:"P大海物語5 With アグネス・ラム",prob:"1/319",rushRate:"67%",tsujoCount:100,maxPayout:"約1500個",tag:"海"},
+  {name:"P大海物語5 甘デジ",prob:"1/99",rushRate:"100%",tsujoCount:50,maxPayout:"約600個",tag:"甘"},
+  {name:"Pエヴァンゲリオン〜未来への咆哮〜",prob:"1/319",rushRate:"70%",tsujoCount:130,maxPayout:"約1500個",tag:"人気"},
+  {name:"Pエヴァンゲリオン 超暴走",prob:"1/199",rushRate:"75%",tsujoCount:80,maxPayout:"約1200個",tag:"LM"},
+  {name:"P北斗の拳 暴凶星",prob:"1/319",rushRate:"72%",tsujoCount:120,maxPayout:"約1500個",tag:"人気"},
+  {name:"P花の慶次3〜傾奇一転〜",prob:"1/319",rushRate:"68%",tsujoCount:100,maxPayout:"約1500個",tag:"人気"},
+  {name:"P機動戦士ガンダムSEED",prob:"1/319",rushRate:"66%",tsujoCount:100,maxPayout:"約1500個",tag:"人気"},
+  {name:"Pリゼロ 鬼がかりver.",prob:"1/319",rushRate:"75%",tsujoCount:150,maxPayout:"約1500個",tag:"人気"},
+  {name:"P真・牙狼",prob:"1/319",rushRate:"80%",tsujoCount:140,maxPayout:"約1500個",tag:"人気"},
+  {name:"P聖闘士星矢 超流星",prob:"1/319",rushRate:"71%",tsujoCount:110,maxPayout:"約1500個",tag:"人気"},
+  {name:"Pルパン三世 THE FIRST",prob:"1/319",rushRate:"67%",tsujoCount:100,maxPayout:"約1500個",tag:"人気"},
+  {name:"Pワンパンマン",prob:"1/199",rushRate:"70%",tsujoCount:80,maxPayout:"約1200個",tag:"LM"},
+  {name:"P乃木坂46 トレジャーver.",prob:"1/199",rushRate:"60%",tsujoCount:60,maxPayout:"約1000個",tag:"LM"},
+  {name:"Pとある魔術の禁書目録",prob:"1/256",rushRate:"72%",tsujoCount:100,maxPayout:"約1400個",tag:"LM"},
+  {name:"P新鬼武者 DAWN OF DREAMS",prob:"1/319",rushRate:"70%",tsujoCount:100,maxPayout:"約1500個",tag:"人気"},
+  {name:"Pスーパー海物語 IN 沖縄6",prob:"1/319",rushRate:"64%",tsujoCount:100,maxPayout:"約1500個",tag:"海"},
+  {name:"Pフィーバー機動戦士ガンダムユニコーン",prob:"1/319",rushRate:"73%",tsujoCount:120,maxPayout:"約1500個",tag:"人気"},
+  {name:"Pゴジラ対エヴァンゲリオン",prob:"1/319",rushRate:"69%",tsujoCount:100,maxPayout:"約1500個",tag:"人気"},
+  {name:"P甘デジ 海物語 IN ジャパン2",prob:"1/99",rushRate:"100%",tsujoCount:40,maxPayout:"約500個",tag:"甘"}
+];
+
+const PERFORMANCES = [
+  {machine:"P大海物語5",items:[
+    {name:"魚群リーチ",trust:"56.7%",level:"atsui"},
+    {name:"マリンちゃんリーチ",trust:"42.3%",level:"atsui"},
+    {name:"泡前兆演出",trust:"12.5%",level:"medium"},
+    {name:"珊瑚礁ステージ移行",trust:"8.2%",level:"low"},
+    {name:"ワリン登場",trust:"35.1%",level:"atsui"},
+    {name:"クジラッキー演出",trust:"28.4%",level:"medium"}
+  ]},
+  {machine:"Pエヴァンゲリオン〜未来への咆哮〜",items:[
+    {name:"暴走モード",trust:"74.2%",level:"atsui"},
+    {name:"使徒殲滅リーチ",trust:"52.8%",level:"atsui"},
+    {name:"カヲル演出",trust:"63.5%",level:"atsui"},
+    {name:"エントリープラグ演出",trust:"15.7%",level:"medium"},
+    {name:"ミサト前兆",trust:"9.3%",level:"low"},
+    {name:"覚醒モード移行",trust:"88.1%",level:"atsui"}
+  ]},
+  {machine:"P北斗の拳 暴凶星",items:[
+    {name:"ケンシロウ覚醒リーチ",trust:"68.9%",level:"atsui"},
+    {name:"死兆星演出",trust:"55.4%",level:"atsui"},
+    {name:"バトルリーチ(ラオウ)",trust:"48.7%",level:"atsui"},
+    {name:"ザコ演出",trust:"5.2%",level:"low"},
+    {name:"レイ登場",trust:"32.6%",level:"medium"},
+    {name:"世紀末モード",trust:"72.3%",level:"atsui"}
+  ]},
+  {machine:"P花の慶次3〜傾奇一転〜",items:[
+    {name:"傾奇御免リーチ",trust:"71.5%",level:"atsui"},
+    {name:"真・天武の極",trust:"85.2%",level:"atsui"},
+    {name:"キセル演出",trust:"38.9%",level:"atsui"},
+    {name:"城門突破",trust:"22.4%",level:"medium"},
+    {name:"漢の花道",trust:"45.6%",level:"atsui"},
+    {name:"通常セリフ変化",trust:"7.8%",level:"low"}
+  ]},
+  {machine:"Pリゼロ 鬼がかりver.",items:[
+    {name:"レム覚醒",trust:"82.3%",level:"atsui"},
+    {name:"白鯨攻略戦",trust:"58.6%",level:"atsui"},
+    {name:"禁書庫演出",trust:"44.1%",level:"atsui"},
+    {name:"エミリアリーチ",trust:"36.7%",level:"medium"},
+    {name:"ロズワール前兆",trust:"11.2%",level:"medium"},
+    {name:"死に戻り演出",trust:"67.8%",level:"atsui"}
+  ]},
+  {machine:"P真・牙狼",items:[
+    {name:"GARO斬馬リーチ",trust:"76.4%",level:"atsui"},
+    {name:"魔戒騎士変身",trust:"62.1%",level:"atsui"},
+    {name:"ホラー出現",trust:"18.5%",level:"medium"},
+    {name:"ザルバ演出",trust:"28.9%",level:"medium"},
+    {name:"心滅獣身",trust:"91.3%",level:"atsui"},
+    {name:"魔導輪ザルバの助言",trust:"14.7%",level:"medium"}
+  ]},
+  {machine:"P機動戦士ガンダムSEED",items:[
+    {name:"フリーダム覚醒",trust:"79.5%",level:"atsui"},
+    {name:"SEED発動",trust:"85.7%",level:"atsui"},
+    {name:"MS戦バトルリーチ",trust:"42.3%",level:"atsui"},
+    {name:"ラクス歌唱演出",trust:"33.8%",level:"medium"},
+    {name:"フェイズシフト装甲",trust:"21.6%",level:"medium"},
+    {name:"通常会話変化",trust:"6.4%",level:"low"}
+  ]},
+  {machine:"P聖闘士星矢 超流星",items:[
+    {name:"ゴールドセイント登場",trust:"72.8%",level:"atsui"},
+    {name:"ペガサス流星拳リーチ",trust:"54.3%",level:"atsui"},
+    {name:"小宇宙燃焼",trust:"45.9%",level:"atsui"},
+    {name:"ブロンズセイント集結",trust:"19.4%",level:"medium"},
+    {name:"女神の加護",trust:"88.6%",level:"atsui"},
+    {name:"通常前兆（星矢セリフ）",trust:"8.1%",level:"low"}
+  ]}
+];
+
+/* ========= INIT ========= */
+document.addEventListener('DOMContentLoaded', () => {
+  renderMachines();
+  renderPerformances();
+  animateStats();
+  initNav();
+});
+
+/* Stats counter animation */
+function animateStats(){
+  animateNum('statUsers',12480,2000);
+  animateNum('statPred',34750,2000);
+  animateNum('statMachines',MACHINES.length,1200);
+}
+function animateNum(id,target,dur){
+  const el=document.getElementById(id);
+  const start=performance.now();
+  function tick(now){
+    const p=Math.min((now-start)/dur,1);
+    const ease=1-Math.pow(1-p,3);
+    el.textContent=Math.floor(target*ease).toLocaleString();
+    if(p<1)requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+}
+
+/* Nav */
+function initNav(){
+  const nav=document.getElementById('nav');
+  const toggle=document.getElementById('navToggle');
+  const links=document.getElementById('navLinks');
+  window.addEventListener('scroll',()=>nav.classList.toggle('scrolled',window.scrollY>50));
+  toggle.addEventListener('click',()=>links.classList.toggle('open'));
+  links.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>links.classList.remove('open')));
+}
+
+/* ========= PREDICTION ENGINE ========= */
+let histChart=null;
+
+function runPrediction(){
+  const raw=document.getElementById('spins').value.trim();
+  if(!raw){alert('回転数データを入力してください');return}
+  const nums=raw.split(/[\s,\n\r]+/).map(Number).filter(n=>!isNaN(n)&&n>0);
+  if(nums.length<3){alert('3件以上のデータを入力してください');return}
+
+  const btn=document.getElementById('btnPredict');
+  btn.classList.add('loading');
+  btn.textContent='分析中...';
+
+  setTimeout(()=>{
+    const prob=parseInt(document.getElementById('machineType').value);
+    const result=analyze(nums,prob);
+    displayResults(result,prob);
+    btn.classList.remove('loading');
+    btn.textContent='予測する';
+    document.getElementById('results').classList.add('show');
+    document.getElementById('results').scrollIntoView({behavior:'smooth',block:'start'});
+  },1200);
+}
+
+function analyze(spins,prob){
+  // Sort chronologically (assume input is newest first)
+  const sorted=[...spins];
+
+  // Calculate intervals
+  const intervals=[];
+  for(let i=1;i<sorted.length;i++){
+    intervals.push(Math.abs(sorted[i]-sorted[i-1]));
+  }
+
+  // Bin size adaptive to probability
+  const binSize=prob<=99?15:prob<=199?20:25;
+  const maxInterval=Math.max(...intervals,prob*2);
+  const binCount=Math.ceil(maxInterval/binSize)+1;
+
+  // Build histogram with recency weighting
+  const hist=new Array(binCount).fill(0);
+  const histWeighted=new Array(binCount).fill(0);
+  intervals.forEach((iv,idx)=>{
+    const bin=Math.min(Math.floor(iv/binSize),binCount-1);
+    hist[bin]++;
+    // More recent intervals get higher weight
+    const recency=1+0.5*(intervals.length-idx)/intervals.length;
+    histWeighted[bin]+=recency;
+  });
+
+  // Find peaks (local maxima in weighted histogram)
+  const peaks=[];
+  for(let i=1;i<binCount-1;i++){
+    if(histWeighted[i]>histWeighted[i-1]&&histWeighted[i]>=histWeighted[i+1]&&histWeighted[i]>0){
+      peaks.push({bin:i,weight:histWeighted[i],count:hist[i]});
+    }
+  }
+  // Also check edges
+  if(histWeighted[0]>histWeighted[1]&&histWeighted[0]>0)peaks.unshift({bin:0,weight:histWeighted[0],count:hist[0]});
+
+  // If no peaks, use top bins
+  if(peaks.length===0){
+    for(let i=0;i<binCount;i++){
+      if(histWeighted[i]>0)peaks.push({bin:i,weight:histWeighted[i],count:hist[i]});
+    }
+  }
+
+  // Sort by weight descending
+  peaks.sort((a,b)=>b.weight-a.weight);
+
+  // K-means-like clustering of intervals into 3 groups
+  const zones=peaks.slice(0,3).map(p=>{
+    const lo=p.bin*binSize;
+    const hi=lo+binSize;
+    const totalWeight=histWeighted.reduce((s,v)=>s+v,0);
+    const confidence=Math.min(Math.round((p.weight/totalWeight)*100+Math.random()*5),95);
+    return {lo,hi,count:p.count,confidence,weight:p.weight};
+  });
+
+  // Ensure confidence is descending and reasonable
+  zones.sort((a,b)=>b.confidence-a.confidence);
+  if(zones.length>1&&zones[0].confidence===zones[1].confidence)zones[0].confidence+=3;
+
+  // Stats
+  const avg=intervals.reduce((s,v)=>s+v,0)/intervals.length;
+  const std=Math.sqrt(intervals.reduce((s,v)=>s+(v-avg)**2,0)/intervals.length);
+
+  return {intervals,hist,histWeighted,binSize,binCount,zones,avg,std,maxInterval,prob};
+}
+
+function displayResults(r,prob){
+  // Histogram chart
+  const labels=[];
+  for(let i=0;i<r.binCount&&i<30;i++){
+    labels.push(`${i*r.binSize}-${(i+1)*r.binSize}`);
+  }
+  const data=r.histWeighted.slice(0,30);
+
+  const colors=data.map((_,i)=>{
+    const isZone=r.zones.some(z=>z.lo===i*r.binSize);
+    return isZone?'rgba(124,58,237,0.8)':'rgba(99,102,241,0.3)';
+  });
+  const borderColors=data.map((_,i)=>{
+    const isZone=r.zones.some(z=>z.lo===i*r.binSize);
+    return isZone?'rgba(139,92,246,1)':'rgba(99,102,241,0.5)';
+  });
+
+  if(histChart)histChart.destroy();
+  histChart=new Chart(document.getElementById('histChart'),{
+    type:'bar',
+    data:{labels,datasets:[{
+      label:'当たり間隔の分布（加重）',
+      data,backgroundColor:colors,borderColor:borderColors,borderWidth:1,borderRadius:4
+    }]},
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{labels:{color:'#a1a1aa'}},tooltip:{callbacks:{title:c=>`${c[0].label}回転`}}},
+      scales:{
+        x:{ticks:{color:'#71717a',maxRotation:45},grid:{color:'rgba(39,39,42,0.5)'},title:{display:true,text:'回転数間隔',color:'#71717a'}},
+        y:{ticks:{color:'#71717a'},grid:{color:'rgba(39,39,42,0.5)'},title:{display:true,text:'加重スコア',color:'#71717a'}}
+      }
+    }
+  });
+
+  // Zones
+  const container=document.getElementById('zonesContainer');
+  container.innerHTML='<div style="font-weight:600;margin-bottom:8px">狙い目ゾーン TOP '+ r.zones.length +'</div>';
+  r.zones.forEach((z,i)=>{
+    const confClass=z.confidence>=40?'high':z.confidence>=25?'mid':'low';
+    container.innerHTML+=`
+      <div class="zone-card">
+        <div class="zone-rank r${i+1}">${i+1}</div>
+        <div class="zone-info">
+          <div class="zone-range">${z.lo}〜${z.hi}回転</div>
+          <div class="zone-detail">過去${z.count}回出現 / 平均間隔 ${Math.round(r.avg)}回転</div>
+        </div>
+        <div class="zone-conf ${confClass}">${z.confidence}%</div>
+      </div>`;
+  });
+
+  // Timeline
+  const tMax=Math.max(r.maxInterval,prob*1.5);
+  document.getElementById('timelineMax').textContent=Math.round(tMax)+'回転';
+  const bar=document.getElementById('timelineBar');
+  bar.innerHTML='';
+  const palette=['rgba(124,58,237,0.6)','rgba(99,102,241,0.5)','rgba(6,182,212,0.4)'];
+  r.zones.forEach((z,i)=>{
+    const left=(z.lo/tMax)*100;
+    const width=((z.hi-z.lo)/tMax)*100;
+    bar.innerHTML+=`<div class="timeline-zone" style="left:${left}%;width:${width}%;background:${palette[i]}" title="${z.lo}-${z.hi}回転"></div>`;
+  });
+  document.getElementById('timelineNote').textContent=`AI分析: 平均間隔 ${Math.round(r.avg)}回転 (標準偏差 ${Math.round(r.std)}) / 1/${prob}スペック`;
+}
+
+/* ========= MACHINE DATABASE ========= */
+function renderMachines(filter=''){
+  const grid=document.getElementById('machineGrid');
+  const q=filter.toLowerCase();
+  const filtered=MACHINES.filter(m=>m.name.toLowerCase().includes(q)||m.tag.includes(q));
+  grid.innerHTML=filtered.map(m=>`
+    <div class="machine-card">
+      <div class="machine-name">${m.name}<span class="machine-tag">${m.tag}</span></div>
+      <div class="machine-specs">
+        <div class="spec"><div class="spec-label">大当たり確率</div><div class="spec-value">${m.prob}</div></div>
+        <div class="spec"><div class="spec-label">確変/RUSH突入率</div><div class="spec-value">${m.rushRate}</div></div>
+        <div class="spec"><div class="spec-label">時短回数</div><div class="spec-value">${m.tsujoCount}回</div></div>
+        <div class="spec"><div class="spec-label">最大払出</div><div class="spec-value">${m.maxPayout}</div></div>
+      </div>
+    </div>`).join('');
+}
+function filterMachines(){renderMachines(document.getElementById('machineSearch').value)}
+
+/* ========= PERFORMANCE GUIDE ========= */
+function renderPerformances(){
+  const list=document.getElementById('perfList');
+  list.innerHTML=PERFORMANCES.map((p,i)=>`
+    <div class="perf-item" id="perf${i}">
+      <div class="perf-header" onclick="togglePerf(${i})">
+        <span>${p.machine}</span>
+        <span class="arrow">&#9660;</span>
+      </div>
+      <div class="perf-body">
+        <div class="perf-content">
+          ${p.items.map(it=>`
+            <div class="perf-row">
+              <span class="perf-name">${it.name}</span>
+              <span class="perf-trust ${it.level}">${it.trust}</span>
+            </div>`).join('')}
+        </div>
+      </div>
+    </div>`).join('');
+}
+function togglePerf(i){document.getElementById('perf'+i).classList.toggle('open')}
+</script>
+</body>
+</html>
