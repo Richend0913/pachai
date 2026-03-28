@@ -259,7 +259,13 @@ footer a{color:var(--text2)}
       <div class="hint">※ 大当たりした時の総回転数を新しい順に入力してください</div>
     </div>
     <div class="form-group">
-      <label for="machineType">機種の大当たり確率</label>
+      <label for="machineSelect">台を選択</label>
+      <select id="machineSelect" onchange="onMachineSelect()">
+        <option value="">-- 台を選んでください --</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="machineType">大当たり確率（台を選ぶと自動設定）</label>
       <select id="machineType">
         <option value="319">1/319（ミドルスペック）</option>
         <option value="199">1/199（ライトミドル）</option>
@@ -464,6 +470,33 @@ function initNav(){
 
 /* ========= PREDICTION ENGINE ========= */
 let histChart=null;
+
+// Populate machine select dropdown
+function initMachineSelect(){
+  const sel=document.getElementById('machineSelect');
+  MACHINES.forEach((m,i)=>{
+    const opt=document.createElement('option');
+    opt.value=i;
+    opt.textContent=m.name+' ('+m.prob+')';
+    sel.appendChild(opt);
+  });
+}
+function onMachineSelect(){
+  const sel=document.getElementById('machineSelect');
+  if(sel.value==='')return;
+  const m=MACHINES[parseInt(sel.value)];
+  const probNum=parseInt(m.prob.replace(/[^0-9]/g,''));
+  const typesel=document.getElementById('machineType');
+  // Find closest match
+  let best='319';
+  let bestDiff=9999;
+  for(const opt of typesel.options){
+    const diff=Math.abs(parseInt(opt.value)-probNum);
+    if(diff<bestDiff){bestDiff=diff;best=opt.value;}
+  }
+  typesel.value=best;
+}
+document.addEventListener('DOMContentLoaded',initMachineSelect);
 
 function runPrediction(){
   const raw=document.getElementById('spins').value.trim();
