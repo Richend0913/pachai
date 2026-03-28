@@ -179,23 +179,6 @@ select:focus{outline:none;border-color:var(--accent)}
 .machine-perf-hint{margin-top:12px;font-size:.75rem;color:var(--accent3);display:flex;align-items:center;gap:4px;opacity:0;transition:opacity .3s}
 .machine-card:hover .machine-perf-hint{opacity:1}
 
-/* Performance Guide */
-.perf-list{max-width:800px;margin:0 auto;display:grid;gap:12px}
-.perf-item{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-sm);overflow:hidden}
-.perf-header{padding:16px 20px;cursor:pointer;display:flex;align-items:center;justify-content:space-between;font-weight:600;transition:background .2s}
-.perf-header:hover{background:var(--bg3)}
-.perf-header .arrow{transition:transform .3s;color:var(--text3)}
-.perf-item.open .arrow{transform:rotate(180deg)}
-.perf-body{max-height:0;overflow:hidden;transition:max-height .4s ease}
-.perf-item.open .perf-body{max-height:2000px}
-.perf-content{padding:0 20px 16px}
-.perf-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--border)}
-.perf-row:last-child{border:none}
-.perf-name{font-size:.9rem}
-.perf-trust{font-size:.85rem;font-weight:700;padding:2px 10px;border-radius:10px}
-.perf-trust.atsui{background:rgba(239,68,68,.15);color:#ef4444}
-.perf-trust.medium{background:rgba(245,158,11,.15);color:#f59e0b}
-.perf-trust.low{background:rgba(113,113,122,.15);color:#a1a1aa}
 
 /* ========= MODAL ========= */
 .modal-overlay{position:fixed;top:0;left:0;right:0;bottom:0;z-index:200;background:rgba(0,0,0,.35);backdrop-filter:blur(8px);display:none;align-items:center;justify-content:center;padding:20px;opacity:0;transition:opacity .3s}
@@ -324,7 +307,6 @@ footer a{color:var(--text2)}
   <ul class="nav-links" id="navLinks">
     <li><a href="#predict">予測ツール</a></li>
     <li><a href="#database">台データベース</a></li>
-    <li><a href="#guide">演出信頼度</a></li>
   </ul>
   <button class="nav-toggle" id="navToggle" aria-label="メニュー">&#9776;</button>
 </div>
@@ -432,16 +414,6 @@ footer a{color:var(--text2)}
 </div>
 </section>
 
-<!-- Performance Guide -->
-<section class="section" id="guide">
-<div class="container">
-  <div class="section-header">
-    <h2>演出<span class="accent">信頼度</span>ガイド</h2>
-    <p>人気機種の演出別・大当たり信頼度を確認</p>
-  </div>
-  <div class="perf-list" id="perfList"></div>
-</div>
-</section>
 
 <!-- Ad Slot 3 -->
 <div class="ad-slot">
@@ -1477,7 +1449,7 @@ const MACHINE_EMOJI = {
 /* ========= INIT ========= */
 document.addEventListener('DOMContentLoaded', () => {
   renderMachines();
-  renderPerformances();
+
   animateStats();
   initNav();
 });
@@ -1887,27 +1859,6 @@ function closeModalBackdrop(e){
 // Close modal on Escape key
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();});
 
-/* ========= PERFORMANCE GUIDE ========= */
-function renderPerformances(){
-  const list=document.getElementById('perfList');
-  list.innerHTML=PERFORMANCES.map((p,i)=>`
-    <div class="perf-item" id="perf${i}">
-      <div class="perf-header" onclick="togglePerf(${i})">
-        <span>${p.machine}</span>
-        <span class="arrow">&#9660;</span>
-      </div>
-      <div class="perf-body">
-        <div class="perf-content">
-          ${p.items.map(it=>`
-            <div class="perf-row">
-              <span class="perf-name">${it.name}</span>
-              <span class="perf-trust ${it.level}">${it.trust}</span>
-            </div>`).join('')}
-        </div>
-      </div>
-    </div>`).join('');
-}
-function togglePerf(i){document.getElementById('perf'+i).classList.toggle('open')}
 </script>
 </body>
 </html>
