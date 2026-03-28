@@ -49,6 +49,7 @@
 
 <!-- Chart.js -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
 
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
@@ -259,6 +260,20 @@ footer a{color:var(--text2)}
       <div class="hint">※ 大当たりした時の総回転数を新しい順に入力してください</div>
     </div>
     <div class="form-group">
+      <label for="photoUpload">写真から読み取り（データ板を撮影）</label>
+      <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;">
+        <label for="photoUpload" style="display:inline-flex;align-items:center;gap:8px;padding:12px 24px;background:var(--bg2);border:1px dashed var(--border);border-radius:var(--radius-sm);cursor:pointer;color:var(--text2);font-size:.9rem;transition:border-color .2s;">
+          📷 写真をアップロード
+          <input type="file" id="photoUpload" accept="image/*" capture="environment" onchange="processPhoto(this)" style="display:none;">
+        </label>
+        <span id="photoStatus" style="font-size:.8rem;color:var(--text3);"></span>
+      </div>
+      <div class="hint">※ データ板や履歴画面の写真から回転数を自動読み取りします（Tesseract.js OCR）</div>
+      <div id="photoPreview" style="margin-top:12px;display:none;">
+        <img id="photoImg" style="max-width:100%;max-height:300px;border-radius:8px;border:1px solid var(--border);">
+      </div>
+    </div>
+    <div class="form-group">
       <label for="machineSelect">台を選択</label>
       <select id="machineSelect" onchange="onMachineSelect()">
         <option value="">-- 台を選んでください --</option>
@@ -343,26 +358,97 @@ footer a{color:var(--text2)}
 <script>
 /* ========= DATA ========= */
 const MACHINES = [
-  {name:"CR大海物語5",prob:"1/319",rushRate:"65%",tsujoCount:100,maxPayout:"約1500個",tag:"海"},
-  {name:"P大海物語5 With アグネス・ラム",prob:"1/319",rushRate:"67%",tsujoCount:100,maxPayout:"約1500個",tag:"海"},
-  {name:"P大海物語5 甘デジ",prob:"1/99",rushRate:"100%",tsujoCount:50,maxPayout:"約600個",tag:"甘"},
-  {name:"Pエヴァンゲリオン〜未来への咆哮〜",prob:"1/319",rushRate:"70%",tsujoCount:130,maxPayout:"約1500個",tag:"人気"},
-  {name:"Pエヴァンゲリオン 超暴走",prob:"1/199",rushRate:"75%",tsujoCount:80,maxPayout:"約1200個",tag:"LM"},
-  {name:"P北斗の拳 暴凶星",prob:"1/319",rushRate:"72%",tsujoCount:120,maxPayout:"約1500個",tag:"人気"},
-  {name:"P花の慶次3〜傾奇一転〜",prob:"1/319",rushRate:"68%",tsujoCount:100,maxPayout:"約1500個",tag:"人気"},
-  {name:"P機動戦士ガンダムSEED",prob:"1/319",rushRate:"66%",tsujoCount:100,maxPayout:"約1500個",tag:"人気"},
-  {name:"Pリゼロ 鬼がかりver.",prob:"1/319",rushRate:"75%",tsujoCount:150,maxPayout:"約1500個",tag:"人気"},
-  {name:"P真・牙狼",prob:"1/319",rushRate:"80%",tsujoCount:140,maxPayout:"約1500個",tag:"人気"},
-  {name:"P聖闘士星矢 超流星",prob:"1/319",rushRate:"71%",tsujoCount:110,maxPayout:"約1500個",tag:"人気"},
-  {name:"Pルパン三世 THE FIRST",prob:"1/319",rushRate:"67%",tsujoCount:100,maxPayout:"約1500個",tag:"人気"},
-  {name:"Pワンパンマン",prob:"1/199",rushRate:"70%",tsujoCount:80,maxPayout:"約1200個",tag:"LM"},
-  {name:"P乃木坂46 トレジャーver.",prob:"1/199",rushRate:"60%",tsujoCount:60,maxPayout:"約1000個",tag:"LM"},
-  {name:"Pとある魔術の禁書目録",prob:"1/256",rushRate:"72%",tsujoCount:100,maxPayout:"約1400個",tag:"LM"},
-  {name:"P新鬼武者 DAWN OF DREAMS",prob:"1/319",rushRate:"70%",tsujoCount:100,maxPayout:"約1500個",tag:"人気"},
-  {name:"Pスーパー海物語 IN 沖縄6",prob:"1/319",rushRate:"64%",tsujoCount:100,maxPayout:"約1500個",tag:"海"},
-  {name:"Pフィーバー機動戦士ガンダムユニコーン",prob:"1/319",rushRate:"73%",tsujoCount:120,maxPayout:"約1500個",tag:"人気"},
-  {name:"Pゴジラ対エヴァンゲリオン",prob:"1/319",rushRate:"69%",tsujoCount:100,maxPayout:"約1500個",tag:"人気"},
-  {name:"P甘デジ 海物語 IN ジャパン2",prob:"1/99",rushRate:"100%",tsujoCount:40,maxPayout:"約500個",tag:"甘"}
+  // === ミドル・ハイミドル（人気上位） ===
+  {name:"e新世紀エヴァンゲリオン〜はじまりの記憶〜",prob:"1/399",rushRate:"50%",tsujoCount:100,maxPayout:"約4800個",tag:"人気"},
+  {name:"e甲鉄城のカバネリ2 咲かせや燦然",prob:"1/319",rushRate:"50%",tsujoCount:134,maxPayout:"約3000個",tag:"人気"},
+  {name:"e魔法少女まどか☆マギカ3 時間遡行",prob:"1/319",rushRate:"70%",tsujoCount:130,maxPayout:"約3000個",tag:"人気"},
+  {name:"e東京喰種",prob:"1/399",rushRate:"51%",tsujoCount:130,maxPayout:"約6000個",tag:"人気"},
+  {name:"e北斗の拳11 暴凶星",prob:"1/399",rushRate:"61%",tsujoCount:10,maxPayout:"約6000個",tag:"人気"},
+  {name:"eRe:ゼロから始める異世界生活 season2",prob:"1/349",rushRate:"55%",tsujoCount:145,maxPayout:"約3000個",tag:"人気"},
+  {name:"e女神のカフェテラス",prob:"1/399",rushRate:"50%",tsujoCount:120,maxPayout:"約4500個",tag:"人気"},
+  {name:"e牙狼12 黄金騎士極限",prob:"1/437",rushRate:"50%",tsujoCount:100,maxPayout:"約7500個",tag:"人気"},
+  {name:"e東京リベンジャーズ",prob:"1/319",rushRate:"50%",tsujoCount:144,maxPayout:"約3000個",tag:"人気"},
+  {name:"eアクダマドライブ",prob:"1/319",rushRate:"50%",tsujoCount:130,maxPayout:"約3000個",tag:"人気"},
+  {name:"eノーゲーム・ノーライフ",prob:"1/319",rushRate:"50%",tsujoCount:120,maxPayout:"約3000個",tag:"人気"},
+  {name:"eフィーバー炎炎ノ消防隊2 紅丸ver.",prob:"1/399",rushRate:"52%",tsujoCount:120,maxPayout:"約4500個",tag:"人気"},
+  {name:"e範馬刃牙",prob:"1/499",rushRate:"50%",tsujoCount:100,maxPayout:"約3000個",tag:"人気"},
+  {name:"eフィーバー彼女、お借りします",prob:"1/349",rushRate:"52%",tsujoCount:130,maxPayout:"約6000個",tag:"人気"},
+  {name:"e冒険島",prob:"1/155",rushRate:"26%",tsujoCount:100,maxPayout:"約3000個",tag:"LM"},
+  {name:"e真・一騎当千〜軍神覚醒〜396ver.",prob:"1/396",rushRate:"50%",tsujoCount:120,maxPayout:"約3000個",tag:"人気"},
+  {name:"eからくりサーカス2 魔王ver.",prob:"1/399",rushRate:"52%",tsujoCount:130,maxPayout:"約7500個",tag:"人気"},
+  {name:"eワンパンマン2〜正義執行",prob:"1/319",rushRate:"50%",tsujoCount:120,maxPayout:"約3000個",tag:"人気"},
+  {name:"eリコリス・リコイル",prob:"1/259",rushRate:"50%",tsujoCount:120,maxPayout:"約3000個",tag:"人気"},
+  {name:"eガールズ&パンツァー最終章 159ver.",prob:"1/159",rushRate:"50%",tsujoCount:100,maxPayout:"約3000個",tag:"LM"},
+  {name:"e一方通行 最狂",prob:"1/319",rushRate:"50%",tsujoCount:120,maxPayout:"約3000個",tag:"人気"},
+  {name:"eカケグルイ 7500ver",prob:"1/399",rushRate:"50%",tsujoCount:100,maxPayout:"約7500個",tag:"人気"},
+  {name:"eフィーバーダンベル何キロ持てる?2",prob:"1/319",rushRate:"50%",tsujoCount:120,maxPayout:"約3000個",tag:"人気"},
+  {name:"eぱちんこ押忍！番長 漢の頂",prob:"1/179",rushRate:"50%",tsujoCount:157,maxPayout:"約3000個",tag:"LM"},
+  {name:"eとある科学の超電磁砲 PHASE NEXT",prob:"1/169",rushRate:"50%",tsujoCount:120,maxPayout:"約7500個",tag:"LM"},
+  {name:"eアズールレーン2",prob:"1/169",rushRate:"50%",tsujoCount:100,maxPayout:"約3000個",tag:"LM"},
+  {name:"e真・北斗無双5 夢幻闘双",prob:"1/159",rushRate:"50%",tsujoCount:120,maxPayout:"約7500個",tag:"LM"},
+  {name:"e吉宗 極乗3000ver.",prob:"1/199",rushRate:"50%",tsujoCount:100,maxPayout:"約3000個",tag:"LM"},
+  // === 海シリーズ ===
+  {name:"P大海物語5",prob:"1/319",rushRate:"60%",tsujoCount:100,maxPayout:"約1500個",tag:"海"},
+  {name:"P大海物語5スペシャル",prob:"1/319",rushRate:"54%",tsujoCount:200,maxPayout:"約1500個",tag:"海"},
+  {name:"e大海物語5スペシャル",prob:"1/348",rushRate:"64%",tsujoCount:100,maxPayout:"約1500個",tag:"海"},
+  {name:"P大海物語5 ブラック",prob:"1/319",rushRate:"60%",tsujoCount:100,maxPayout:"約1500個",tag:"海"},
+  {name:"Pスーパー海物語IN沖縄6",prob:"1/319",rushRate:"60%",tsujoCount:100,maxPayout:"約1500個",tag:"海"},
+  {name:"PAスーパー海物語IN沖縄6 Withえなこ",prob:"1/99",rushRate:"50%",tsujoCount:50,maxPayout:"約600個",tag:"甘"},
+  // === ライトミドル ===
+  {name:"PRe:ゼロから始める異世界生活 season2 249ver.",prob:"1/249",rushRate:"60%",tsujoCount:120,maxPayout:"約3000個",tag:"LM"},
+  {name:"PRe:ゼロから始める異世界生活 season2 129ver.",prob:"1/129",rushRate:"50%",tsujoCount:120,maxPayout:"約7000個",tag:"LM"},
+  {name:"eうしおととら 150ver.",prob:"1/150",rushRate:"50%",tsujoCount:100,maxPayout:"約3000個",tag:"LM"},
+  {name:"e乃木坂46 II SWEET Version",prob:"1/239",rushRate:"50%",tsujoCount:100,maxPayout:"約8000個",tag:"LM"},
+  {name:"P転生したらスライムだった件",prob:"1/319",rushRate:"100%",tsujoCount:255,maxPayout:"約1500個",tag:"人気"},
+  {name:"eガンゲイル・オンライン",prob:"1/319",rushRate:"50%",tsujoCount:120,maxPayout:"約3000個",tag:"人気"},
+  {name:"e東京喰種 超デカ超一撃ver.",prob:"1/399",rushRate:"51%",tsujoCount:130,maxPayout:"約6000個",tag:"人気"},
+  {name:"Pフィーバーブルーロック",prob:"1/319",rushRate:"50%",tsujoCount:120,maxPayout:"約3000個",tag:"人気"},
+  {name:"Pフィーバーブルーロック LIGHT ver.",prob:"1/129",rushRate:"50%",tsujoCount:80,maxPayout:"約1500個",tag:"LM"},
+  // === ST・確変ループ系 ===
+  {name:"Pシュタインズゲート ゼロ",prob:"1/319",rushRate:"65%",tsujoCount:130,maxPayout:"約1500個",tag:"人気"},
+  {name:"Pモモキュンソード速撃3000+",prob:"1/319",rushRate:"50%",tsujoCount:100,maxPayout:"約3000個",tag:"人気"},
+  {name:"Pシティーハンター 俺の心を震わせた日",prob:"1/319",rushRate:"50%",tsujoCount:100,maxPayout:"約1500個",tag:"人気"},
+  {name:"Pゴッドイーター 神がかりVer.",prob:"1/319",rushRate:"50%",tsujoCount:100,maxPayout:"約1500個",tag:"人気"},
+  {name:"P真速のガッチャマン",prob:"1/319",rushRate:"50%",tsujoCount:100,maxPayout:"約1500個",tag:"人気"},
+  {name:"Pデビルマン ファイナル",prob:"1/129",rushRate:"50%",tsujoCount:100,maxPayout:"約1500個",tag:"LM"},
+  {name:"P消されたルパン2022",prob:"1/319",rushRate:"50%",tsujoCount:100,maxPayout:"約1500個",tag:"人気"},
+  {name:"P地獄少女 華",prob:"1/319",rushRate:"50%",tsujoCount:100,maxPayout:"約1500個",tag:"人気"},
+  {name:"Pフィーバー ダンまち",prob:"1/319",rushRate:"50%",tsujoCount:100,maxPayout:"約1500個",tag:"人気"},
+  {name:"P北斗の拳8 救世主",prob:"1/319",rushRate:"82%",tsujoCount:120,maxPayout:"約1500個",tag:"人気"},
+  {name:"Pシン・エヴァンゲリオン Type レイ",prob:"1/319",rushRate:"50%",tsujoCount:100,maxPayout:"約1500個",tag:"人気"},
+  // === 高継続率 ===
+  {name:"PLT世界でいちばん強くなりたい!2",prob:"1/199",rushRate:"50%",tsujoCount:100,maxPayout:"約1500個",tag:"LM"},
+  {name:"P大工の源さん 超韋駄天2 極限LighT",prob:"1/129",rushRate:"50%",tsujoCount:100,maxPayout:"約1500個",tag:"LM"},
+  {name:"Pシンデレラブレイド",prob:"1/141",rushRate:"50%",tsujoCount:100,maxPayout:"約1500個",tag:"LM"},
+  {name:"P世界でいちばん強くなりたい",prob:"1/199",rushRate:"50%",tsujoCount:100,maxPayout:"約1500個",tag:"LM"},
+  // === 時短特化 ===
+  {name:"Pとある科学の超電磁砲2",prob:"1/319",rushRate:"50%",tsujoCount:150,maxPayout:"約1500個",tag:"人気"},
+  {name:"e牙狼11〜冴島大河〜魔戒BURST Ver.",prob:"1/319",rushRate:"50%",tsujoCount:150,maxPayout:"約1500個",tag:"人気"},
+  {name:"真・北斗無双3 ジャギの襲来",prob:"1/199",rushRate:"50%",tsujoCount:100,maxPayout:"約1500個",tag:"LM"},
+  // === 甘デジ・ライト ===
+  {name:"PA義風堂々3!! 99ver.",prob:"1/99",rushRate:"75%",tsujoCount:60,maxPayout:"約1500個",tag:"甘"},
+  {name:"Pフィーバーからくりサーカス2 Light ver.",prob:"1/99",rushRate:"50%",tsujoCount:60,maxPayout:"約3000個",tag:"甘"},
+  {name:"Pわんわんパラダイス CELEBRATION",prob:"1/99",rushRate:"50%",tsujoCount:50,maxPayout:"約1500個",tag:"甘"},
+  {name:"PRe:ゼロから始める異世界生活 鬼がかり99ver.",prob:"1/99",rushRate:"50%",tsujoCount:60,maxPayout:"約1800個",tag:"甘"},
+  {name:"Pひぐらしのなく頃に 輪廻転生99ver.",prob:"1/99",rushRate:"50%",tsujoCount:50,maxPayout:"約1500個",tag:"甘"},
+  {name:"e化物語 鬼99ver.",prob:"1/99",rushRate:"50%",tsujoCount:50,maxPayout:"約1500個",tag:"甘"},
+  {name:"PA花の慶次〜傾奇一転 87ver.",prob:"1/87",rushRate:"50%",tsujoCount:50,maxPayout:"約1200個",tag:"甘"},
+  {name:"P痛いのは嫌なので防御力に極振りしたいと思います。129ver",prob:"1/129",rushRate:"50%",tsujoCount:80,maxPayout:"約1500個",tag:"LM"},
+  {name:"PシャカRUSH Z Jr.",prob:"1/99",rushRate:"50%",tsujoCount:50,maxPayout:"約1500個",tag:"甘"},
+  {name:"Pえとたま2 神祭 干支甘",prob:"1/99",rushRate:"50%",tsujoCount:50,maxPayout:"約1000個",tag:"甘"},
+  // === 新台・近日導入 ===
+  {name:"PFクィーンII 2026年",prob:"1/319",rushRate:"50%",tsujoCount:100,maxPayout:"約1500個",tag:"人気"},
+  {name:"eルパン三世VSキャッツ・アイ 157ver.",prob:"1/157",rushRate:"50%",tsujoCount:100,maxPayout:"約3000個",tag:"LM"},
+  {name:"Pエヴァンゲリオン〜未来への咆哮〜",prob:"1/319",rushRate:"50%",tsujoCount:100,maxPayout:"約1500個",tag:"人気"},
+  {name:"e学園黙示録ハイスクール・オブ・ザ・デッド3",prob:"1/299",rushRate:"50%",tsujoCount:100,maxPayout:"約3000個",tag:"人気"},
+  {name:"P花の慶次3〜傾奇一転〜",prob:"1/319",rushRate:"50%",tsujoCount:100,maxPayout:"約1500個",tag:"人気"},
+  {name:"P乃木坂46 トレジャースペック",prob:"1/319",rushRate:"50%",tsujoCount:100,maxPayout:"約1500個",tag:"人気"},
+  {name:"Pフィーバー機動戦士ガンダムユニコーン",prob:"1/319",rushRate:"50%",tsujoCount:100,maxPayout:"約1500個",tag:"人気"},
+  {name:"P冥妃転生",prob:"1/199",rushRate:"50%",tsujoCount:100,maxPayout:"約1500個",tag:"LM"},
+  {name:"Pリングにかけろ1 129ver.",prob:"1/129",rushRate:"50%",tsujoCount:80,maxPayout:"約1500個",tag:"LM"},
+  {name:"PA野生の王国6",prob:"1/99",rushRate:"50%",tsujoCount:50,maxPayout:"約1000個",tag:"甘"},
+  {name:"P沖ドキ! ドキドキ弾丸ツアー",prob:"1/319",rushRate:"50%",tsujoCount:100,maxPayout:"約1500個",tag:"人気"},
+  {name:"Pかぐや様は告らせたい",prob:"1/319",rushRate:"50%",tsujoCount:100,maxPayout:"約1500個",tag:"人気"}
 ];
 
 const PERFORMANCES = [
@@ -374,15 +460,15 @@ const PERFORMANCES = [
     {name:"ワリン登場",trust:"35.1%",level:"atsui"},
     {name:"クジラッキー演出",trust:"28.4%",level:"medium"}
   ]},
-  {machine:"Pエヴァンゲリオン〜未来への咆哮〜",items:[
+  {machine:"e新世紀エヴァンゲリオン〜はじまりの記憶〜",items:[
     {name:"暴走モード",trust:"74.2%",level:"atsui"},
     {name:"使徒殲滅リーチ",trust:"52.8%",level:"atsui"},
     {name:"カヲル演出",trust:"63.5%",level:"atsui"},
     {name:"エントリープラグ演出",trust:"15.7%",level:"medium"},
     {name:"ミサト前兆",trust:"9.3%",level:"low"},
-    {name:"覚醒モード移行",trust:"88.1%",level:"atsui"}
+    {name:"LT覚醒モード移行",trust:"88.1%",level:"atsui"}
   ]},
-  {machine:"P北斗の拳 暴凶星",items:[
+  {machine:"e北斗の拳11 暴凶星",items:[
     {name:"ケンシロウ覚醒リーチ",trust:"68.9%",level:"atsui"},
     {name:"死兆星演出",trust:"55.4%",level:"atsui"},
     {name:"バトルリーチ(ラオウ)",trust:"48.7%",level:"atsui"},
@@ -398,7 +484,7 @@ const PERFORMANCES = [
     {name:"漢の花道",trust:"45.6%",level:"atsui"},
     {name:"通常セリフ変化",trust:"7.8%",level:"low"}
   ]},
-  {machine:"Pリゼロ 鬼がかりver.",items:[
+  {machine:"eRe:ゼロから始める異世界生活 season2",items:[
     {name:"レム覚醒",trust:"82.3%",level:"atsui"},
     {name:"白鯨攻略戦",trust:"58.6%",level:"atsui"},
     {name:"禁書庫演出",trust:"44.1%",level:"atsui"},
@@ -406,7 +492,7 @@ const PERFORMANCES = [
     {name:"ロズワール前兆",trust:"11.2%",level:"medium"},
     {name:"死に戻り演出",trust:"67.8%",level:"atsui"}
   ]},
-  {machine:"P真・牙狼",items:[
+  {machine:"e牙狼12 黄金騎士極限",items:[
     {name:"GARO斬馬リーチ",trust:"76.4%",level:"atsui"},
     {name:"魔戒騎士変身",trust:"62.1%",level:"atsui"},
     {name:"ホラー出現",trust:"18.5%",level:"medium"},
@@ -414,21 +500,21 @@ const PERFORMANCES = [
     {name:"心滅獣身",trust:"91.3%",level:"atsui"},
     {name:"魔導輪ザルバの助言",trust:"14.7%",level:"medium"}
   ]},
-  {machine:"P機動戦士ガンダムSEED",items:[
-    {name:"フリーダム覚醒",trust:"79.5%",level:"atsui"},
-    {name:"SEED発動",trust:"85.7%",level:"atsui"},
-    {name:"MS戦バトルリーチ",trust:"42.3%",level:"atsui"},
-    {name:"ラクス歌唱演出",trust:"33.8%",level:"medium"},
-    {name:"フェイズシフト装甲",trust:"21.6%",level:"medium"},
+  {machine:"e魔法少女まどか☆マギカ3 時間遡行",items:[
+    {name:"アルティメットまどか覚醒",trust:"85.7%",level:"atsui"},
+    {name:"ほむらタイムリープ",trust:"62.3%",level:"atsui"},
+    {name:"魔女バトルリーチ",trust:"48.5%",level:"atsui"},
+    {name:"ソウルジェム演出",trust:"33.8%",level:"medium"},
+    {name:"キュゥべえ前兆",trust:"15.6%",level:"medium"},
     {name:"通常会話変化",trust:"6.4%",level:"low"}
   ]},
-  {machine:"P聖闘士星矢 超流星",items:[
-    {name:"ゴールドセイント登場",trust:"72.8%",level:"atsui"},
-    {name:"ペガサス流星拳リーチ",trust:"54.3%",level:"atsui"},
-    {name:"小宇宙燃焼",trust:"45.9%",level:"atsui"},
-    {name:"ブロンズセイント集結",trust:"19.4%",level:"medium"},
-    {name:"女神の加護",trust:"88.6%",level:"atsui"},
-    {name:"通常前兆（星矢セリフ）",trust:"8.1%",level:"low"}
+  {machine:"e甲鉄城のカバネリ2 咲かせや燦然",items:[
+    {name:"無名覚醒リーチ",trust:"79.5%",level:"atsui"},
+    {name:"美馬バトル",trust:"65.3%",level:"atsui"},
+    {name:"カバネ群襲来",trust:"42.1%",level:"atsui"},
+    {name:"生駒変身演出",trust:"35.4%",level:"medium"},
+    {name:"蒸気機関突破",trust:"22.7%",level:"medium"},
+    {name:"通常前兆（無名セリフ）",trust:"8.1%",level:"low"}
   ]}
 ];
 
@@ -470,6 +556,49 @@ function initNav(){
 
 /* ========= PREDICTION ENGINE ========= */
 let histChart=null;
+
+// Photo OCR processing
+async function processPhoto(input){
+  const file=input.files[0];
+  if(!file)return;
+  const status=document.getElementById('photoStatus');
+  const preview=document.getElementById('photoPreview');
+  const img=document.getElementById('photoImg');
+
+  // Show preview
+  const url=URL.createObjectURL(file);
+  img.src=url;
+  preview.style.display='block';
+  status.textContent='読み取り中...';
+  status.style.color='var(--accent)';
+
+  try{
+    const result=await Tesseract.recognize(file,'jpn+eng',{
+      logger:m=>{if(m.status==='recognizing text')status.textContent='読み取り中... '+Math.round(m.progress*100)+'%';}
+    });
+    const text=result.data.text;
+    // Extract numbers that look like spin counts (2-4 digit numbers)
+    const nums=text.match(/\b\d{1,4}\b/g);
+    if(nums&&nums.length>0){
+      // Filter reasonable spin counts (1-999)
+      const spins=nums.map(Number).filter(n=>n>=1&&n<=999);
+      if(spins.length>0){
+        document.getElementById('spins').value=spins.join(', ');
+        status.textContent='✓ '+spins.length+'件の回転数を読み取りました';
+        status.style.color='#66bb6a';
+      }else{
+        status.textContent='回転数が見つかりませんでした。手動で入力してください。';
+        status.style.color='#ef5350';
+      }
+    }else{
+      status.textContent='数字が読み取れませんでした。別の写真を試すか、手動で入力してください。';
+      status.style.color='#ef5350';
+    }
+  }catch(e){
+    status.textContent='読み取りエラー: '+e.message;
+    status.style.color='#ef5350';
+  }
+}
 
 // Populate machine select dropdown
 function initMachineSelect(){
