@@ -296,6 +296,120 @@ footer a{color:var(--text2)}
   .hit-grid{grid-template-columns:1fr}
   .border-line-box{flex-direction:column}
 }
+
+/* ========= EV CALCULATOR ========= */
+.ev-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:32px;max-width:800px;margin:0 auto}
+.ev-form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px}
+.ev-form-row .form-group{margin-bottom:0}
+.ev-input{width:100%;padding:12px 14px;background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--text);font-size:1rem;transition:border-color .2s}
+.ev-input:focus{outline:none;border-color:var(--accent)}
+.ev-results{display:none;margin-top:24px}
+.ev-results.show{display:block;animation:fadeInUp .4s ease}
+.ev-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;margin-bottom:20px}
+.ev-stat{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-sm);padding:16px;text-align:center}
+.ev-stat-label{font-size:.78rem;color:var(--text3);margin-bottom:4px}
+.ev-stat-value{font-size:1.3rem;font-weight:800}
+.ev-stat-value.profit{color:var(--success)}
+.ev-stat-value.loss{color:var(--danger)}
+.ev-stat-value.neutral{color:var(--accent3)}
+.ev-border-compare{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-sm);padding:16px;margin-top:12px}
+.ev-border-bar{height:24px;background:var(--bg3);border-radius:12px;overflow:hidden;position:relative;margin:8px 0}
+.ev-border-fill{height:100%;border-radius:12px;transition:width .6s ease}
+.ev-border-fill.over{background:linear-gradient(90deg,var(--success),#22c55e)}
+.ev-border-fill.under{background:linear-gradient(90deg,var(--danger),#f87171)}
+.ev-border-labels{display:flex;justify-content:space-between;font-size:.8rem;color:var(--text3)}
+
+/* ========= SIMULATOR ========= */
+.sim-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:32px;max-width:900px;margin:0 auto}
+.sim-form-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:20px}
+.sim-results{display:none;margin-top:24px}
+.sim-results.show{display:block;animation:fadeInUp .4s ease}
+.sim-stats{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px;margin-bottom:20px}
+.sim-stat{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-sm);padding:14px;text-align:center}
+.sim-stat-label{font-size:.75rem;color:var(--text3);margin-bottom:4px}
+.sim-stat-value{font-size:1.2rem;font-weight:800}
+.sim-chart-wrap{background:var(--bg);border-radius:var(--radius-sm);padding:20px;border:1px solid var(--border)}
+.sim-chart-wrap canvas{max-height:300px}
+
+/* ========= COMPARE ========= */
+.compare-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:32px;max-width:900px;margin:0 auto}
+.compare-selectors{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:24px}
+.compare-table{width:100%;border-collapse:collapse;margin-top:16px}
+.compare-table th{text-align:left;padding:10px 12px;background:var(--bg3);font-weight:600;font-size:.85rem;border-bottom:2px solid var(--border)}
+.compare-table td{padding:10px 12px;border-bottom:1px solid var(--border);font-size:.9rem}
+.compare-table tr:last-child td{border-bottom:none}
+.compare-winner{background:rgba(22,163,74,.08);font-weight:700;color:var(--success)}
+.compare-bar-wrap{margin-top:20px}
+.compare-bar-row{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.compare-bar-label{width:100px;font-size:.8rem;color:var(--text2);text-align:right;flex-shrink:0}
+.compare-bars{flex:1;display:flex;gap:4px}
+.compare-bar{height:24px;border-radius:4px;transition:width .6s ease;min-width:2px;display:flex;align-items:center;justify-content:flex-end;padding:0 6px;font-size:.7rem;font-weight:700;color:#fff}
+.compare-bar:nth-child(1){background:linear-gradient(90deg,var(--accent),var(--accent2))}
+.compare-bar:nth-child(2){background:linear-gradient(90deg,#06b6d4,#0891b2)}
+.compare-bar:nth-child(3){background:linear-gradient(90deg,#f59e0b,#d97706)}
+
+/* ========= DASHBOARD ========= */
+.dash-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:32px;max-width:1000px;margin:0 auto}
+.dash-form{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px;margin-bottom:24px;padding:20px;background:var(--bg);border-radius:var(--radius-sm);border:1px solid var(--border)}
+.dash-form label{font-size:.8rem;font-weight:600;color:var(--text2);display:block;margin-bottom:4px}
+.dash-form input,.dash-form select{width:100%;padding:10px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--text);font-size:.9rem}
+.dash-form input:focus,.dash-form select:focus{outline:none;border-color:var(--accent)}
+.dash-summary{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;margin-bottom:24px}
+.dash-summary-item{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-sm);padding:16px;text-align:center}
+.dash-summary-label{font-size:.75rem;color:var(--text3);margin-bottom:4px}
+.dash-summary-value{font-size:1.4rem;font-weight:800}
+.dash-chart-wrap{background:var(--bg);border-radius:var(--radius-sm);padding:20px;border:1px solid var(--border);margin-bottom:24px}
+.dash-chart-wrap canvas{max-height:300px}
+.dash-records{max-height:400px;overflow-y:auto}
+.dash-record{display:flex;align-items:center;gap:12px;padding:10px 14px;border-bottom:1px solid var(--border);font-size:.85rem}
+.dash-record:last-child{border-bottom:none}
+.dash-record-date{color:var(--text3);min-width:80px}
+.dash-record-machine{flex:1;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.dash-record-profit{font-weight:800;min-width:80px;text-align:right}
+.dash-record-profit.plus{color:var(--success)}
+.dash-record-profit.minus{color:var(--danger)}
+.dash-record-del{background:none;border:1px solid var(--border);border-radius:50%;width:28px;height:28px;cursor:pointer;color:var(--text3);display:flex;align-items:center;justify-content:center;transition:all .2s;font-size:.8rem;flex-shrink:0}
+.dash-record-del:hover{border-color:var(--danger);color:var(--danger);background:rgba(220,38,38,.05)}
+
+/* ========= SCORING ========= */
+.score-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:32px;max-width:1000px;margin:0 auto}
+.score-filters{display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap}
+.score-filter-btn{padding:8px 18px;border-radius:20px;border:1px solid var(--border);background:var(--bg);color:var(--text2);font-size:.85rem;font-weight:600;cursor:pointer;transition:all .2s}
+.score-filter-btn.active{background:var(--accent);border-color:var(--accent);color:#fff}
+.score-filter-btn:hover:not(.active){border-color:var(--accent);color:var(--accent3)}
+.score-radar-wrap{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:24px;align-items:start}
+.score-radar-chart{background:var(--bg);border-radius:var(--radius-sm);padding:20px;border:1px solid var(--border)}
+.score-radar-chart canvas{max-height:300px}
+.score-detail{background:var(--bg);border-radius:var(--radius-sm);padding:20px;border:1px solid var(--border)}
+.score-detail-name{font-size:1.1rem;font-weight:800;margin-bottom:12px}
+.score-detail-total{font-size:2.5rem;font-weight:900;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:16px}
+.score-detail-bars .score-bar-row{margin-bottom:10px}
+.score-bar-label{display:flex;justify-content:space-between;font-size:.82rem;margin-bottom:3px}
+.score-bar-label span:first-child{color:var(--text2)}
+.score-bar-label span:last-child{font-weight:700;color:var(--text)}
+.score-bar{height:8px;background:var(--bg3);border-radius:4px;overflow:hidden}
+.score-bar-fill{height:100%;border-radius:4px;transition:width .6s ease}
+.score-ranking{width:100%;border-collapse:collapse;margin-top:16px}
+.score-ranking th{text-align:left;padding:10px 12px;background:var(--bg3);font-weight:600;font-size:.82rem;border-bottom:2px solid var(--border);cursor:pointer;user-select:none}
+.score-ranking th:hover{color:var(--accent3)}
+.score-ranking td{padding:10px 12px;border-bottom:1px solid var(--border);font-size:.85rem}
+.score-ranking tr:hover td{background:rgba(109,40,217,.03)}
+.score-ranking .rank-num{font-weight:800;color:var(--accent3)}
+.score-ranking .total-score{font-weight:800;font-size:1rem}
+
+@media(max-width:768px){
+  .ev-form-row{grid-template-columns:1fr}
+  .sim-form-row{grid-template-columns:1fr}
+  .compare-selectors{grid-template-columns:1fr}
+  .score-radar-wrap{grid-template-columns:1fr}
+  .dash-form{grid-template-columns:1fr 1fr}
+  .dash-record-machine{max-width:120px}
+}
+@media(max-width:480px){
+  .dash-form{grid-template-columns:1fr}
+  .ev-grid{grid-template-columns:1fr}
+  .sim-stats{grid-template-columns:1fr 1fr}
+}
 </style>
 </head>
 <body>
@@ -307,6 +421,11 @@ footer a{color:var(--text2)}
   <ul class="nav-links" id="navLinks">
     <li><a href="#predict">予測ツール</a></li>
     <li><a href="#database">台データベース</a></li>
+    <li><a href="#ev-calc">期待値</a></li>
+    <li><a href="#simulator">シミュレーター</a></li>
+    <li><a href="#compare">比較</a></li>
+    <li><a href="#dashboard">収支管理</a></li>
+    <li><a href="#scoring">スコア</a></li>
   </ul>
   <button class="nav-toggle" id="navToggle" aria-label="メニュー">&#9776;</button>
 </div>
@@ -414,6 +533,174 @@ footer a{color:var(--text2)}
 </div>
 </section>
 
+
+<!-- EV Calculator -->
+<section class="section" id="ev-calc">
+<div class="container">
+  <div class="section-header">
+    <h2>期待値<span class="accent">計算機</span></h2>
+    <p>台と千円あたりの回転率を入力して、期待収支を自動計算します</p>
+  </div>
+  <div class="ev-card">
+    <div class="ev-form-row">
+      <div class="form-group">
+        <label for="evMachine">機種を選択</label>
+        <select id="evMachine" class="ev-input" onchange="updateEV()"></select>
+      </div>
+      <div class="form-group">
+        <label for="evKaiten">千円あたりの回転率</label>
+        <input type="number" id="evKaiten" class="ev-input" placeholder="例: 18" min="1" max="50" step="0.1" oninput="updateEV()">
+        <div class="hint">※ 実際にホールで計測した回転率を入力</div>
+      </div>
+    </div>
+    <button class="btn-predict" onclick="updateEV()" style="max-width:300px;margin:0 auto;display:block">計算する</button>
+    <div class="ev-results" id="evResults">
+      <div class="result-title">期待値計算結果</div>
+      <div class="ev-grid" id="evGrid"></div>
+      <div class="ev-border-compare" id="evBorderCompare"></div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- Simulator -->
+<section class="section" id="simulator" style="background:var(--bg2)">
+<div class="container">
+  <div class="section-header">
+    <h2>投資<span class="accent">シミュレーター</span></h2>
+    <p>モンテカルロシミュレーションで1000回の仮想実戦結果を確認</p>
+  </div>
+  <div class="sim-card">
+    <div class="sim-form-row">
+      <div class="form-group">
+        <label for="simMachine">機種を選択</label>
+        <select id="simMachine" class="ev-input"></select>
+      </div>
+      <div class="form-group">
+        <label for="simBudget">投資予算（万円）</label>
+        <input type="number" id="simBudget" class="ev-input" placeholder="例: 3" min="1" max="30" value="3">
+      </div>
+      <div class="form-group">
+        <label for="simExchange">交換率（円/個）</label>
+        <select id="simExchange" class="ev-input">
+          <option value="4">4円（等価交換）</option>
+          <option value="3.57">3.57円</option>
+          <option value="3.3">3.3円</option>
+          <option value="3">3円</option>
+        </select>
+      </div>
+    </div>
+    <button class="btn-predict" onclick="runSimulation()" style="max-width:300px;margin:0 auto;display:block">シミュレーション実行</button>
+    <div class="sim-results" id="simResults">
+      <div class="result-title">シミュレーション結果（1000回試行）</div>
+      <div class="sim-stats" id="simStats"></div>
+      <div class="sim-chart-wrap"><canvas id="simChart"></canvas></div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- Compare -->
+<section class="section" id="compare">
+<div class="container">
+  <div class="section-header">
+    <h2>機種<span class="accent">比較ツール</span></h2>
+    <p>最大3機種のスペックを並べて比較。どの台が自分に合うか一目瞭然</p>
+  </div>
+  <div class="compare-card">
+    <div class="compare-selectors">
+      <div class="form-group">
+        <label>機種A</label>
+        <select id="cmpA" class="ev-input" onchange="runCompare()"><option value="">-- 選択 --</option></select>
+      </div>
+      <div class="form-group">
+        <label>機種B</label>
+        <select id="cmpB" class="ev-input" onchange="runCompare()"><option value="">-- 選択 --</option></select>
+      </div>
+      <div class="form-group">
+        <label>機種C（任意）</label>
+        <select id="cmpC" class="ev-input" onchange="runCompare()"><option value="">-- 選択 --</option></select>
+      </div>
+    </div>
+    <div id="compareResult"></div>
+  </div>
+</div>
+</section>
+
+<!-- Dashboard -->
+<section class="section" id="dashboard" style="background:var(--bg2)">
+<div class="container">
+  <div class="section-header">
+    <h2>収支<span class="accent">ダッシュボード</span></h2>
+    <p>実戦結果を記録して累計収支・機種別勝率を可視化</p>
+  </div>
+  <div class="dash-card">
+    <div class="dash-form" id="dashForm">
+      <div>
+        <label for="dashDate">日付</label>
+        <input type="date" id="dashDate">
+      </div>
+      <div>
+        <label for="dashMachine">機種</label>
+        <select id="dashMachine"></select>
+      </div>
+      <div>
+        <label for="dashInvest">投資額（円）</label>
+        <input type="number" id="dashInvest" placeholder="10000" min="0" step="1000">
+      </div>
+      <div>
+        <label for="dashPayout">獲得出玉（個）</label>
+        <input type="number" id="dashPayout" placeholder="3000" min="0" step="100">
+      </div>
+      <div>
+        <label for="dashExchange">交換率（円/個）</label>
+        <select id="dashExchange">
+          <option value="4">4円</option>
+          <option value="3.57">3.57円</option>
+          <option value="3.3">3.3円</option>
+          <option value="3">3円</option>
+        </select>
+      </div>
+      <div style="display:flex;align-items:flex-end">
+        <button class="btn-predict" onclick="addDashRecord()" style="padding:10px 20px;font-size:.9rem;width:100%">記録する</button>
+      </div>
+    </div>
+    <div class="dash-summary" id="dashSummary"></div>
+    <div class="dash-chart-wrap"><canvas id="dashChart"></canvas></div>
+    <div class="result-title" style="margin-top:16px">記録一覧</div>
+    <div class="dash-records" id="dashRecords"></div>
+  </div>
+</div>
+</section>
+
+<!-- Scoring -->
+<section class="section" id="scoring">
+<div class="container">
+  <div class="section-header">
+    <h2>機種<span class="accent">スコアリング</span></h2>
+    <p>スペックを5つの指標で自動採点。プレイスタイル別のおすすめランキング</p>
+  </div>
+  <div class="score-card">
+    <div class="score-filters">
+      <button class="score-filter-btn active" data-style="all" onclick="setScoreFilter('all',this)">全機種</button>
+      <button class="score-filter-btn" data-style="stable" onclick="setScoreFilter('stable',this)">安定型</button>
+      <button class="score-filter-btn" data-style="balance" onclick="setScoreFilter('balance',this)">バランス型</button>
+      <button class="score-filter-btn" data-style="burst" onclick="setScoreFilter('burst',this)">一撃型</button>
+    </div>
+    <div class="score-radar-wrap">
+      <div class="score-radar-chart"><canvas id="scoreRadar"></canvas></div>
+      <div class="score-detail" id="scoreDetail">
+        <div class="score-detail-name" id="scoreDetailName">機種を選択してください</div>
+        <div class="score-detail-total" id="scoreDetailTotal">--</div>
+        <div class="score-detail-bars" id="scoreDetailBars"></div>
+      </div>
+    </div>
+    <div style="overflow-x:auto">
+      <table class="score-ranking" id="scoreRanking"></table>
+    </div>
+  </div>
+</div>
+</section>
 
 <!-- Ad Slot 3 -->
 <div class="ad-slot">
@@ -1869,6 +2156,630 @@ function closeModalBackdrop(e){
 
 // Close modal on Escape key
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();});
+
+/* ========= FEATURE SELECTS INIT ========= */
+document.addEventListener('DOMContentLoaded',()=>{
+  const selIds=['evMachine','simMachine','cmpA','cmpB','cmpC','dashMachine'];
+  selIds.forEach(id=>{
+    const sel=document.getElementById(id);
+    if(!sel)return;
+    if(id==='cmpA'||id==='cmpB'||id==='cmpC'){
+      // already has default option
+    } else {
+      sel.innerHTML='<option value="">-- 台を選択 --</option>';
+    }
+    MACHINES.forEach((m,i)=>{
+      const opt=document.createElement('option');
+      opt.value=i;
+      opt.textContent=m.icon+' '+m.name+' ('+m.prob+')';
+      sel.appendChild(opt);
+    });
+  });
+  // Set default date for dashboard
+  const dd=document.getElementById('dashDate');
+  if(dd) dd.value=new Date().toISOString().split('T')[0];
+  // Init dashboard
+  renderDashboard();
+  // Init scoring
+  renderScoring('all');
+});
+
+/* ========= EV CALCULATOR ========= */
+function calcEV(machineIdx, kaiten){
+  const m=MACHINES[machineIdx];
+  const d=MACHINE_DETAILS[m.name];
+  const probNum=parseInt(m.prob.split('/')[1]);
+  const rushRateNum=parseInt(m.rushRate)/100;
+
+  // Average investment to hit
+  const investPerHit=(probNum/kaiten)*1000;
+
+  // Expected payout per hit (weighted average from payoutDist)
+  let avgPayout=0;
+  if(d && d.payoutDist){
+    d.payoutDist.forEach(p=>{
+      const count=parseInt(p.count.replace(/[^0-9]/g,''));
+      const prob=parseInt(p.prob)/100;
+      avgPayout+=count*prob;
+    });
+  }
+
+  // RUSH expected multiplier (geometric series)
+  const rushCont=rushRateNum*0.8;
+  const rushMultiplier=1+rushRateNum*(1/(1-Math.min(rushCont,0.98))-1);
+  const totalExpectedPayout=avgPayout*rushMultiplier;
+
+  // EV in yen (at 4yen exchange)
+  const payoutYen=totalExpectedPayout*4;
+  const ev=payoutYen-investPerHit;
+
+  // Parse border line
+  let border4=0;
+  if(d && d.borderLine){
+    const match4=d.borderLine.match(/4円等価[:\s]*約?([\d.]+)/);
+    if(match4) border4=parseFloat(match4[1]);
+  }
+
+  return {investPerHit,avgPayout,totalExpectedPayout,payoutYen,ev,kaiten,probNum,border4,rushMultiplier};
+}
+
+function updateEV(){
+  const idx=document.getElementById('evMachine').value;
+  const kaiten=parseFloat(document.getElementById('evKaiten').value);
+  if(idx===''||!kaiten||kaiten<=0)return;
+
+  const r=calcEV(parseInt(idx),kaiten);
+  const container=document.getElementById('evResults');
+  container.classList.add('show');
+
+  const evClass=r.ev>=0?'profit':'loss';
+  document.getElementById('evGrid').innerHTML=`
+    <div class="ev-stat">
+      <div class="ev-stat-label">大当たりまでの平均投資額</div>
+      <div class="ev-stat-value neutral">&yen;${Math.round(r.investPerHit).toLocaleString()}</div>
+    </div>
+    <div class="ev-stat">
+      <div class="ev-stat-label">1回の平均出玉</div>
+      <div class="ev-stat-value neutral">${Math.round(r.avgPayout).toLocaleString()}個</div>
+    </div>
+    <div class="ev-stat">
+      <div class="ev-stat-label">RUSH込み期待出玉</div>
+      <div class="ev-stat-value neutral">${Math.round(r.totalExpectedPayout).toLocaleString()}個</div>
+    </div>
+    <div class="ev-stat">
+      <div class="ev-stat-label">出玉の期待金額（4円交換）</div>
+      <div class="ev-stat-value neutral">&yen;${Math.round(r.payoutYen).toLocaleString()}</div>
+    </div>
+    <div class="ev-stat">
+      <div class="ev-stat-label">RUSH倍率</div>
+      <div class="ev-stat-value neutral">x${r.rushMultiplier.toFixed(2)}</div>
+    </div>
+    <div class="ev-stat">
+      <div class="ev-stat-label">1回あたり期待収支</div>
+      <div class="ev-stat-value ${evClass}">${r.ev>=0?'+':''}${Math.round(r.ev).toLocaleString()}円</div>
+    </div>
+  `;
+
+  // Border comparison
+  const bc=document.getElementById('evBorderCompare');
+  if(r.border4>0){
+    const ratio=Math.min(r.kaiten/r.border4,2);
+    const pct=Math.min(ratio*50,100);
+    const over=r.kaiten>=r.border4;
+    bc.innerHTML=`
+      <div style="font-weight:600;margin-bottom:8px">ボーダーライン対比</div>
+      <div class="ev-border-labels">
+        <span>入力: ${r.kaiten}回転/千円</span>
+        <span>ボーダー(4円等価): ${r.border4}回転/千円</span>
+      </div>
+      <div class="ev-border-bar">
+        <div class="ev-border-fill ${over?'over':'under'}" style="width:${pct}%"></div>
+      </div>
+      <div style="text-align:center;font-weight:700;font-size:.9rem;color:${over?'var(--success)':'var(--danger)'}">
+        ${over?'ボーダー以上で期待値プラス圏内':'ボーダー未満のため期待値マイナス圏'} （差: ${(r.kaiten-r.border4).toFixed(1)}回転）
+      </div>
+    `;
+  } else {
+    bc.innerHTML='<div style="color:var(--text3);font-size:.85rem;text-align:center">この機種のボーダーデータがありません</div>';
+  }
+}
+
+/* ========= SIMULATOR ========= */
+let simChartInstance=null;
+
+function getRandomPayout(detail){
+  if(!detail||!detail.payoutDist||detail.payoutDist.length===0) return 1000;
+  const r=Math.random()*100;
+  let cumulative=0;
+  for(const p of detail.payoutDist){
+    cumulative+=parseInt(p.prob);
+    if(r<=cumulative){
+      return parseInt(p.count.replace(/[^0-9]/g,''));
+    }
+  }
+  return parseInt(detail.payoutDist[0].count.replace(/[^0-9]/g,''));
+}
+
+function runSimulation(){
+  const idx=document.getElementById('simMachine').value;
+  if(idx===''){alert('機種を選択してください');return;}
+  const budget=parseFloat(document.getElementById('simBudget').value)||3;
+  const exchangeRate=parseFloat(document.getElementById('simExchange').value)||4;
+  const m=MACHINES[parseInt(idx)];
+  const d=MACHINE_DETAILS[m.name];
+  const probNum=parseInt(m.prob.split('/')[1]);
+  const rushRateNum=parseInt(m.rushRate)/100;
+
+  const trials=1000;
+  const results=[];
+  const budgetYen=budget*10000;
+  const costPerSpin=1000/18; // roughly 18 spins per 1000yen
+
+  for(let t=0;t<trials;t++){
+    let spent=0;
+    let earned=0;
+    const maxSpins=Math.floor(budgetYen/costPerSpin);
+    let spins=0;
+
+    while(spins<maxSpins){
+      const spinsToHit=Math.floor(-Math.log(1-Math.random())*probNum);
+      spins+=spinsToHit;
+      if(spins>=maxSpins) break;
+
+      // Hit!
+      let payout=getRandomPayout(d);
+      earned+=payout*exchangeRate;
+
+      // RUSH check
+      if(Math.random()<rushRateNum){
+        let rushing=true;
+        while(rushing){
+          payout=getRandomPayout(d);
+          earned+=payout*exchangeRate;
+          rushing=Math.random()<(rushRateNum*0.8);
+        }
+      }
+    }
+    results.push(earned-budgetYen);
+  }
+
+  // Stats
+  results.sort((a,b)=>a-b);
+  const wins=results.filter(r=>r>0).length;
+  const winRate=(wins/trials*100).toFixed(1);
+  const avg=Math.round(results.reduce((s,v)=>s+v,0)/trials);
+  const maxWin=Math.round(results[results.length-1]);
+  const maxLoss=Math.round(results[0]);
+  const median=Math.round(results[Math.floor(trials/2)]);
+
+  document.getElementById('simResults').classList.add('show');
+  document.getElementById('simStats').innerHTML=`
+    <div class="sim-stat">
+      <div class="sim-stat-label">勝率</div>
+      <div class="sim-stat-value" style="color:${wins/trials>=0.5?'var(--success)':'var(--danger)'}">${winRate}%</div>
+    </div>
+    <div class="sim-stat">
+      <div class="sim-stat-label">平均収支</div>
+      <div class="sim-stat-value" style="color:${avg>=0?'var(--success)':'var(--danger)'}">${avg>=0?'+':''}${avg.toLocaleString()}円</div>
+    </div>
+    <div class="sim-stat">
+      <div class="sim-stat-label">中央値</div>
+      <div class="sim-stat-value" style="color:${median>=0?'var(--success)':'var(--danger)'}">${median>=0?'+':''}${median.toLocaleString()}円</div>
+    </div>
+    <div class="sim-stat">
+      <div class="sim-stat-label">最大勝ち</div>
+      <div class="sim-stat-value" style="color:var(--success)">+${maxWin.toLocaleString()}円</div>
+    </div>
+    <div class="sim-stat">
+      <div class="sim-stat-label">最大負け</div>
+      <div class="sim-stat-value" style="color:var(--danger)">${maxLoss.toLocaleString()}円</div>
+    </div>
+  `;
+
+  // Histogram
+  const binSize=5000;
+  const minVal=Math.floor(maxLoss/binSize)*binSize;
+  const maxVal=Math.ceil(maxWin/binSize)*binSize;
+  const bins={};
+  for(let b=minVal;b<=maxVal;b+=binSize) bins[b]=0;
+  results.forEach(r=>{
+    const b=Math.floor(r/binSize)*binSize;
+    if(bins[b]!==undefined) bins[b]++;
+    else bins[b]=1;
+  });
+  const labels=Object.keys(bins).map(k=>{
+    const v=parseInt(k);
+    return v>=0?'+'+Math.round(v/1000)+'k':Math.round(v/1000)+'k';
+  });
+  const data=Object.values(bins);
+  const colors=Object.keys(bins).map(k=>parseInt(k)>=0?'rgba(22,163,74,.6)':'rgba(220,38,38,.6)');
+
+  if(simChartInstance) simChartInstance.destroy();
+  simChartInstance=new Chart(document.getElementById('simChart'),{
+    type:'bar',
+    data:{labels,datasets:[{label:'収支分布',data,backgroundColor:colors,borderRadius:3}]},
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false},tooltip:{callbacks:{title:c=>`${c[0].label}円帯`,label:c=>`${c.raw}回`}}},
+      scales:{
+        x:{ticks:{color:'#71717a'},grid:{display:false},title:{display:true,text:'収支（千円）',color:'#71717a'}},
+        y:{ticks:{color:'#71717a'},grid:{color:'rgba(39,39,42,.3)'},title:{display:true,text:'回数',color:'#71717a'}}
+      }
+    }
+  });
+  document.getElementById('simResults').scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+/* ========= COMPARE ========= */
+function runCompare(){
+  const idxA=document.getElementById('cmpA').value;
+  const idxB=document.getElementById('cmpB').value;
+  const idxC=document.getElementById('cmpC').value;
+  const indices=[idxA,idxB,idxC].filter(v=>v!=='').map(Number);
+  if(indices.length<2){
+    document.getElementById('compareResult').innerHTML='<div style="text-align:center;color:var(--text3);padding:20px">2機種以上を選択してください</div>';
+    return;
+  }
+
+  const machines=indices.map(i=>MACHINES[i]);
+  const details=indices.map(i=>MACHINE_DETAILS[MACHINES[i].name]);
+  const colorNames=['A','B','C'];
+
+  // Metrics
+  const metrics=[
+    {label:'大当たり確率',key:'prob',extract:m=>parseInt(m.prob.split('/')[1]),lower:true,format:v=>'1/'+v},
+    {label:'RUSH突入率',key:'rushRate',extract:m=>parseInt(m.rushRate),lower:false,format:v=>v+'%'},
+    {label:'時短回数',key:'tsujoCount',extract:m=>m.tsujoCount,lower:false,format:v=>v+'回'},
+    {label:'最大払出',key:'maxPayout',extract:m=>parseInt(m.maxPayout.replace(/[^0-9]/g,'')),lower:false,format:v=>'約'+v.toLocaleString()+'個'},
+    {label:'ボーダー(4円)',key:'border',extract:(m,i)=>{
+      const d=details[i];
+      if(!d||!d.borderLine) return 0;
+      const match=d.borderLine.match(/4円等価[:\s]*約?([\d.]+)/);
+      return match?parseFloat(match[1]):0;
+    },lower:true,format:v=>v>0?v+'回転/千円':'--'},
+  ];
+
+  // Table
+  let tableHTML=`<table class="compare-table"><thead><tr><th>項目</th>`;
+  machines.forEach((m,i)=>tableHTML+=`<th>${m.icon} ${m.name.length>15?m.name.substring(0,15)+'...':m.name}</th>`);
+  tableHTML+=`</tr></thead><tbody>`;
+
+  metrics.forEach(mt=>{
+    const vals=machines.map((m,i)=>mt.extract(m,i));
+    let winIdx=-1;
+    if(mt.lower){
+      const min=Math.min(...vals.filter(v=>v>0));
+      winIdx=vals.indexOf(min);
+    } else {
+      const max=Math.max(...vals);
+      winIdx=vals.indexOf(max);
+    }
+    tableHTML+=`<tr><td style="font-weight:600">${mt.label}</td>`;
+    vals.forEach((v,i)=>{
+      const cls=i===winIdx&&v>0?'compare-winner':'';
+      tableHTML+=`<td class="${cls}">${mt.format(v)}${i===winIdx&&v>0?' ★':''}</td>`;
+    });
+    tableHTML+=`</tr>`;
+  });
+  tableHTML+=`</tbody></table>`;
+
+  // Bar chart (CSS)
+  let barHTML='<div class="compare-bar-wrap">';
+  const barMetrics=[
+    {label:'当たりやすさ',extract:m=>{const p=parseInt(m.prob.split('/')[1]);return Math.max(0,Math.min(100,(1-p/500)*100));}},
+    {label:'RUSH率',extract:m=>parseInt(m.rushRate)},
+    {label:'出玉性能',extract:m=>Math.min(100,parseInt(m.maxPayout.replace(/[^0-9]/g,''))/75)},
+    {label:'時短回数',extract:m=>Math.min(100,m.tsujoCount/2.5)},
+  ];
+  barMetrics.forEach(bm=>{
+    barHTML+=`<div class="compare-bar-row"><div class="compare-bar-label">${bm.label}</div><div class="compare-bars">`;
+    machines.forEach(m=>{
+      const val=Math.round(bm.extract(m));
+      barHTML+=`<div class="compare-bar" style="width:${Math.max(val,5)}%">${val}</div>`;
+    });
+    barHTML+=`</div></div>`;
+  });
+  barHTML+=`</div>`;
+
+  // Legend
+  let legend='<div style="display:flex;gap:16px;margin-top:16px;flex-wrap:wrap">';
+  machines.forEach((m,i)=>{
+    const colors=['var(--accent)','#06b6d4','#f59e0b'];
+    legend+=`<div style="display:flex;align-items:center;gap:6px;font-size:.82rem"><div style="width:12px;height:12px;border-radius:3px;background:${colors[i]}"></div>${m.icon} ${m.name.length>20?m.name.substring(0,20)+'...':m.name}</div>`;
+  });
+  legend+='</div>';
+
+  document.getElementById('compareResult').innerHTML=tableHTML+barHTML+legend;
+}
+
+/* ========= DASHBOARD ========= */
+let dashChartInstance=null;
+
+function getDashRecords(){
+  try{return JSON.parse(localStorage.getItem('pachai_records')||'[]');}
+  catch(e){return [];}
+}
+function saveDashRecords(records){
+  localStorage.setItem('pachai_records',JSON.stringify(records));
+}
+
+function addDashRecord(){
+  const date=document.getElementById('dashDate').value;
+  const machineIdx=document.getElementById('dashMachine').value;
+  const invest=parseFloat(document.getElementById('dashInvest').value)||0;
+  const payout=parseFloat(document.getElementById('dashPayout').value)||0;
+  const exchange=parseFloat(document.getElementById('dashExchange').value)||4;
+
+  if(!date||machineIdx===''){alert('日付と機種を入力してください');return;}
+  if(invest<=0){alert('投資額を入力してください');return;}
+
+  const m=MACHINES[parseInt(machineIdx)];
+  const profit=Math.round(payout*exchange-invest);
+  const record={
+    id:Date.now(),
+    date,
+    machine:m.name,
+    machineIcon:m.icon,
+    invest,
+    payout,
+    exchange,
+    profit
+  };
+
+  const records=getDashRecords();
+  records.push(record);
+  saveDashRecords(records);
+
+  // Reset form
+  document.getElementById('dashInvest').value='';
+  document.getElementById('dashPayout').value='';
+
+  renderDashboard();
+}
+
+function deleteDashRecord(id){
+  const records=getDashRecords().filter(r=>r.id!==id);
+  saveDashRecords(records);
+  renderDashboard();
+}
+
+function renderDashboard(){
+  const records=getDashRecords();
+  const sorted=[...records].sort((a,b)=>a.date.localeCompare(b.date)||a.id-b.id);
+
+  // Summary
+  const totalProfit=records.reduce((s,r)=>s+r.profit,0);
+  const wins=records.filter(r=>r.profit>0).length;
+  const winRate=records.length>0?(wins/records.length*100).toFixed(1):'--';
+  const avgProfit=records.length>0?Math.round(totalProfit/records.length):0;
+
+  // This month
+  const now=new Date();
+  const thisMonth=now.getFullYear()+'-'+(''+(now.getMonth()+1)).padStart(2,'0');
+  const monthRecords=records.filter(r=>r.date.startsWith(thisMonth));
+  const monthProfit=monthRecords.reduce((s,r)=>s+r.profit,0);
+  const monthWins=monthRecords.filter(r=>r.profit>0).length;
+  const monthWinRate=monthRecords.length>0?(monthWins/monthRecords.length*100).toFixed(1):'--';
+
+  document.getElementById('dashSummary').innerHTML=`
+    <div class="dash-summary-item">
+      <div class="dash-summary-label">累計収支</div>
+      <div class="dash-summary-value" style="color:${totalProfit>=0?'var(--success)':'var(--danger)'}">${totalProfit>=0?'+':''}${totalProfit.toLocaleString()}円</div>
+    </div>
+    <div class="dash-summary-item">
+      <div class="dash-summary-label">通算勝率</div>
+      <div class="dash-summary-value" style="color:var(--accent3)">${winRate}%</div>
+    </div>
+    <div class="dash-summary-item">
+      <div class="dash-summary-label">平均収支</div>
+      <div class="dash-summary-value" style="color:${avgProfit>=0?'var(--success)':'var(--danger)'}">${avgProfit>=0?'+':''}${avgProfit.toLocaleString()}円</div>
+    </div>
+    <div class="dash-summary-item">
+      <div class="dash-summary-label">今月の勝率</div>
+      <div class="dash-summary-value" style="color:var(--accent3)">${monthWinRate}%</div>
+    </div>
+    <div class="dash-summary-item">
+      <div class="dash-summary-label">今月の収支</div>
+      <div class="dash-summary-value" style="color:${monthProfit>=0?'var(--success)':'var(--danger)'}">${monthProfit>=0?'+':''}${monthProfit.toLocaleString()}円</div>
+    </div>
+  `;
+
+  // Line chart (cumulative)
+  if(dashChartInstance) dashChartInstance.destroy();
+  if(sorted.length>0){
+    let cumulative=0;
+    const chartLabels=sorted.map(r=>r.date);
+    const chartData=sorted.map(r=>{cumulative+=r.profit;return cumulative;});
+
+    dashChartInstance=new Chart(document.getElementById('dashChart'),{
+      type:'line',
+      data:{labels:chartLabels,datasets:[{
+        label:'累計収支（円）',
+        data:chartData,
+        borderColor:'rgba(109,40,217,.8)',
+        backgroundColor:'rgba(109,40,217,.1)',
+        fill:true,
+        tension:.3,
+        pointRadius:4,
+        pointBackgroundColor:chartData.map(v=>v>=0?'#16a34a':'#dc2626')
+      }]},
+      options:{
+        responsive:true,maintainAspectRatio:false,
+        plugins:{legend:{labels:{color:'#a1a1aa'}}},
+        scales:{
+          x:{ticks:{color:'#71717a',maxRotation:45},grid:{display:false}},
+          y:{ticks:{color:'#71717a',callback:v=>(v>=0?'+':'')+Math.round(v/1000)+'k'},grid:{color:'rgba(39,39,42,.3)'}}
+        }
+      }
+    });
+  }
+
+  // Records list
+  const recentFirst=[...records].sort((a,b)=>b.id-a.id);
+  document.getElementById('dashRecords').innerHTML=recentFirst.length===0
+    ?'<div style="text-align:center;padding:20px;color:var(--text3)">まだ記録がありません</div>'
+    :recentFirst.map(r=>`
+      <div class="dash-record">
+        <div class="dash-record-date">${r.date}</div>
+        <div class="dash-record-machine">${r.machineIcon||'🎰'} ${r.machine}</div>
+        <div class="dash-record-profit ${r.profit>=0?'plus':'minus'}">${r.profit>=0?'+':''}${r.profit.toLocaleString()}円</div>
+        <button class="dash-record-del" onclick="deleteDashRecord(${r.id})" title="削除">&times;</button>
+      </div>
+    `).join('');
+}
+
+/* ========= SCORING ========= */
+let scoreRadarInstance=null;
+let currentScoreFilter='all';
+let currentScoreSortKey='total';
+let currentScoreSortAsc=false;
+
+function scoreMachine(idx){
+  const m=MACHINES[idx];
+  const probNum=parseInt(m.prob.split('/')[1]);
+  const rushRate=parseInt(m.rushRate);
+  const maxPay=parseInt(m.maxPayout.replace(/[^0-9]/g,''));
+
+  const hitScore=Math.max(0,Math.min(100,Math.round((1-probNum/500)*100)));
+  const rushScore=Math.min(100,rushRate);
+  const payoutScore=Math.min(100,Math.round(maxPay/75));
+  const continuationScore=Math.min(100,Math.round(m.tsujoCount/2.5));
+  const costPerf=Math.min(100,Math.round((maxPay*rushRate/100)/(probNum*0.15)));
+
+  const total=Math.round(hitScore*0.2+rushScore*0.25+payoutScore*0.2+continuationScore*0.15+costPerf*0.2);
+
+  return {hitScore,rushScore,payoutScore,continuationScore,costPerf,total};
+}
+
+function getPlayStyleScore(idx,style){
+  const s=scoreMachine(idx);
+  if(style==='stable') return Math.round(s.hitScore*0.35+s.rushScore*0.15+s.payoutScore*0.05+s.continuationScore*0.35+s.costPerf*0.1);
+  if(style==='burst') return Math.round(s.hitScore*0.05+s.rushScore*0.2+s.payoutScore*0.4+s.continuationScore*0.05+s.costPerf*0.3);
+  if(style==='balance') return s.total;
+  return s.total;
+}
+
+function setScoreFilter(style,btn){
+  document.querySelectorAll('.score-filter-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  currentScoreFilter=style;
+  renderScoring(style);
+}
+
+function renderScoring(style){
+  // Build ranking
+  const ranking=MACHINES.map((m,i)=>{
+    const s=scoreMachine(i);
+    const styleScore=style==='all'?s.total:getPlayStyleScore(i,style);
+    return {idx:i,machine:m,...s,styleScore};
+  });
+
+  // Sort
+  ranking.sort((a,b)=>{
+    const key=currentScoreSortKey==='total'?'styleScore':currentScoreSortKey;
+    return currentScoreSortAsc?(a[key]-b[key]):(b[key]-a[key]);
+  });
+
+  // Render table
+  const table=document.getElementById('scoreRanking');
+  table.innerHTML=`
+    <thead><tr>
+      <th onclick="sortScoring('rank')">#</th>
+      <th onclick="sortScoring('name')">機種</th>
+      <th onclick="sortScoring('hitScore')">当たりやすさ</th>
+      <th onclick="sortScoring('rushScore')">RUSH率</th>
+      <th onclick="sortScoring('payoutScore')">出玉性能</th>
+      <th onclick="sortScoring('continuationScore')">継続力</th>
+      <th onclick="sortScoring('costPerf')">コスパ</th>
+      <th onclick="sortScoring('total')">総合スコア</th>
+    </tr></thead>
+    <tbody>
+    ${ranking.slice(0,30).map((r,i)=>`
+      <tr onclick="showScoreDetail(${r.idx})" style="cursor:pointer">
+        <td class="rank-num">${i+1}</td>
+        <td>${r.machine.icon} ${r.machine.name.length>18?r.machine.name.substring(0,18)+'...':r.machine.name}</td>
+        <td>${r.hitScore}</td>
+        <td>${r.rushScore}</td>
+        <td>${r.payoutScore}</td>
+        <td>${r.continuationScore}</td>
+        <td>${r.costPerf}</td>
+        <td class="total-score">${r.styleScore}</td>
+      </tr>
+    `).join('')}
+    </tbody>
+  `;
+
+  // Show top machine detail by default
+  if(ranking.length>0) showScoreDetail(ranking[0].idx);
+}
+
+function sortScoring(key){
+  if(key==='rank'){currentScoreSortKey='total';currentScoreSortAsc=false;}
+  else if(key==='name'){currentScoreSortKey='name';currentScoreSortAsc=!currentScoreSortAsc;}
+  else {
+    if(currentScoreSortKey===key) currentScoreSortAsc=!currentScoreSortAsc;
+    else {currentScoreSortKey=key;currentScoreSortAsc=false;}
+  }
+  renderScoring(currentScoreFilter);
+}
+
+function showScoreDetail(idx){
+  const m=MACHINES[idx];
+  const s=scoreMachine(idx);
+
+  document.getElementById('scoreDetailName').textContent=m.icon+' '+m.name;
+  document.getElementById('scoreDetailTotal').textContent=s.total+' / 100';
+
+  const barColors=['#6d28d9','#4f46e5','#06b6d4','#16a34a','#f59e0b'];
+  const labels=['当たりやすさ','RUSH率','出玉性能','継続力','コスパ'];
+  const values=[s.hitScore,s.rushScore,s.payoutScore,s.continuationScore,s.costPerf];
+
+  document.getElementById('scoreDetailBars').innerHTML=labels.map((l,i)=>`
+    <div class="score-bar-row">
+      <div class="score-bar-label"><span>${l}</span><span>${values[i]}</span></div>
+      <div class="score-bar"><div class="score-bar-fill" style="width:${values[i]}%;background:${barColors[i]}"></div></div>
+    </div>
+  `).join('');
+
+  // Radar chart
+  if(scoreRadarInstance) scoreRadarInstance.destroy();
+  scoreRadarInstance=new Chart(document.getElementById('scoreRadar'),{
+    type:'radar',
+    data:{
+      labels:['当たりやすさ','RUSH率','出玉性能','継続力','コスパ'],
+      datasets:[{
+        label:m.name.length>15?m.name.substring(0,15)+'...':m.name,
+        data:values,
+        backgroundColor:'rgba(109,40,217,.2)',
+        borderColor:'rgba(109,40,217,.8)',
+        borderWidth:2,
+        pointBackgroundColor:'rgba(109,40,217,1)',
+        pointRadius:4
+      }]
+    },
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      scales:{
+        r:{
+          beginAtZero:true,max:100,
+          ticks:{stepSize:20,color:'#71717a',backdropColor:'transparent'},
+          grid:{color:'rgba(39,39,42,.3)'},
+          pointLabels:{color:'#a1a1aa',font:{size:12}}
+        }
+      },
+      plugins:{legend:{labels:{color:'#a1a1aa'}}}
+    }
+  });
+
+  // Animate bars
+  setTimeout(()=>{
+    document.querySelectorAll('#scoreDetailBars .score-bar-fill').forEach(bar=>{
+      const w=bar.style.width;
+      bar.style.width='0%';
+      requestAnimationFrame(()=>requestAnimationFrame(()=>{bar.style.width=w;}));
+    });
+  },50);
+}
 
 </script>
 </body>
