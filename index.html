@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>PachAI（パチャイ）- AIパチンコ予測ツール | 大当たりゾーン予測</title>
-<meta name="description" content="PachAIは直近の大当たりデータからAIが次の当たりゾーンを予測するパチンコ解析ツールです。回転数データを入力するだけで狙い目ゾーンを自動分析。">
+<meta name="description" content="PachAIはAIパチンコ分析プラットフォーム。大当たりゾーン予測、期待値計算、投資シミュレーション、機種比較、収支管理、スコアリングを搭載。83機種対応。">
 <meta name="keywords" content="パチンコ予測,パチンコ攻略,大当たり予測,パチンコAI,回転数予測,パチンコ解析,狙い目ゾーン,パチンコデータ分析,PachAI">
 <meta name="author" content="Richend Digital">
 <meta name="robots" content="index, follow">
@@ -13,14 +13,16 @@
 
 <!-- OGP -->
 <meta property="og:title" content="PachAI（パチャイ）- AIパチンコ予測ツール">
-<meta property="og:description" content="直近の大当たりデータからAIが次の当たりゾーンを予測。回転数データを入力するだけで狙い目を自動分析。">
+<meta property="og:description" content="PachAIはAIパチンコ分析プラットフォーム。大当たりゾーン予測、期待値計算、投資シミュレーション、機種比較、収支管理、スコアリングを搭載。83機種対応。">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://richend0913.github.io/pachai/">
 <meta property="og:site_name" content="PachAI">
 <meta property="og:locale" content="ja_JP">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="PachAI - AIパチンコ予測ツール">
-<meta name="twitter:description" content="直近データから次の大当たりゾーンをAIが予測">
+<meta name="twitter:description" content="PachAIはAIパチンコ分析プラットフォーム。大当たりゾーン予測、期待値計算、シミュレーション、機種比較、収支管理、スコアリングを搭載。83機種対応。">
+<meta property="og:image" content="https://richend0913.github.io/pachai/og-image.png">
+<meta name="twitter:image" content="https://richend0913.github.io/pachai/og-image.png">
 
 <!-- JSON-LD -->
 <script type="application/ld+json">
@@ -30,7 +32,7 @@
   "name": "PachAI（パチャイ）",
   "description": "AIパチンコ予測ツール - 直近の大当たりデータからAIが次の当たりゾーンを予測",
   "url": "https://richend0913.github.io/pachai/",
-  "applicationCategory": "UtilitiesApplication",
+  "applicationCategory": "GameApplication",
   "operatingSystem": "Any",
   "offers": {
     "@type": "Offer",
@@ -49,7 +51,6 @@
 
 <!-- Chart.js -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
 
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
@@ -77,7 +78,7 @@ a:hover{color:#a78bfa}
 
 /* Navigation */
 .nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(248,249,250,.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);transition:box-shadow .3s}
-.nav.scrolled{box-shadow:0 4px 30px rgba(0,0,0,.5)}
+.nav.scrolled{box-shadow:0 4px 30px rgba(0,0,0,.06)}
 .nav-inner{max-width:1100px;margin:0 auto;padding:0 20px;display:flex;align-items:center;justify-content:space-between;height:60px}
 .nav-logo{font-size:1.3rem;font-weight:800;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
 .nav-links{display:flex;gap:24px;list-style:none}
@@ -133,7 +134,7 @@ select:focus{outline:none;border-color:var(--accent)}
 .result-title::before{content:'';width:4px;height:24px;background:var(--accent);border-radius:2px}
 
 .chart-wrap{background:var(--bg);border-radius:var(--radius-sm);padding:20px;margin-bottom:24px;border:1px solid var(--border)}
-.chart-wrap canvas{max-height:300px}
+.chart-wrap canvas{max-height:300px;min-height:200px}
 
 .zones-grid{display:grid;gap:12px;margin-bottom:24px}
 .zone-card{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-sm);padding:16px;display:flex;align-items:center;gap:16px;transition:border-color .2s}
@@ -337,7 +338,7 @@ footer a{color:var(--text2)}
 
 /* ========= SIMULATOR ========= */
 .sim-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:32px;max-width:900px;margin:0 auto}
-.sim-form-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:20px}
+.sim-form-row{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:16px;margin-bottom:20px}
 .sim-results{display:none;margin-top:24px}
 .sim-results.show{display:block;animation:fadeInUp .4s ease}
 .sim-stats{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px;margin-bottom:20px}
@@ -345,7 +346,7 @@ footer a{color:var(--text2)}
 .sim-stat-label{font-size:.75rem;color:var(--text3);margin-bottom:4px}
 .sim-stat-value{font-size:1.2rem;font-weight:800}
 .sim-chart-wrap{background:var(--bg);border-radius:var(--radius-sm);padding:20px;border:1px solid var(--border)}
-.sim-chart-wrap canvas{max-height:300px}
+.sim-chart-wrap canvas{max-height:300px;min-height:200px}
 
 /* ========= COMPARE ========= */
 .compare-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:32px;max-width:900px;margin:0 auto}
@@ -375,7 +376,7 @@ footer a{color:var(--text2)}
 .dash-summary-label{font-size:.75rem;color:var(--text3);margin-bottom:4px}
 .dash-summary-value{font-size:1.4rem;font-weight:800}
 .dash-chart-wrap{background:var(--bg);border-radius:var(--radius-sm);padding:20px;border:1px solid var(--border);margin-bottom:24px}
-.dash-chart-wrap canvas{max-height:300px}
+.dash-chart-wrap canvas{max-height:300px;min-height:200px}
 .dash-records{max-height:400px;overflow-y:auto}
 .dash-record{display:flex;align-items:center;gap:12px;padding:10px 14px;border-bottom:1px solid var(--border);font-size:.85rem}
 .dash-record:last-child{border-bottom:none}
@@ -395,7 +396,7 @@ footer a{color:var(--text2)}
 .score-filter-btn:hover:not(.active){border-color:var(--accent);color:var(--accent3)}
 .score-radar-wrap{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:24px;align-items:start}
 .score-radar-chart{background:var(--bg);border-radius:var(--radius-sm);padding:20px;border:1px solid var(--border)}
-.score-radar-chart canvas{max-height:300px}
+.score-radar-chart canvas{max-height:300px;min-height:200px}
 .score-detail{background:var(--bg);border-radius:var(--radius-sm);padding:20px;border:1px solid var(--border)}
 .score-detail-name{font-size:1.1rem;font-weight:800;margin-bottom:12px}
 .score-detail-total{font-size:2.5rem;font-weight:900;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:16px}
@@ -425,6 +426,7 @@ footer a{color:var(--text2)}
   .dash-form{grid-template-columns:1fr}
   .ev-grid{grid-template-columns:1fr}
   .sim-stats{grid-template-columns:1fr 1fr}
+  .sim-form-row{grid-template-columns:1fr}
 }
 </style>
 </head>
@@ -612,6 +614,10 @@ footer a{color:var(--text2)}
           <option value="3.3">3.3円</option>
           <option value="3">3円</option>
         </select>
+      </div>
+      <div class="form-group">
+        <label for="simKaiten">回転率（千円あたり）</label>
+        <input type="number" id="simKaiten" class="ev-input" placeholder="例: 18" min="5" max="40" value="18">
       </div>
     </div>
     <button class="btn-predict" onclick="runSimulation()" style="max-width:300px;margin:0 auto;display:block">シミュレーション実行</button>
@@ -1803,8 +1809,12 @@ function switchTool(toolId, btn){
   const panel=document.getElementById('panel-'+toolId);
   if(panel) panel.classList.add('active');
   if(btn) btn.classList.add('active');
-  // Scroll to tools section
-  document.getElementById('tools').scrollIntoView({behavior:'smooth',block:'start'});
+  // Only scroll if not already visible
+  const toolsEl=document.getElementById('tools');
+  const rect=toolsEl.getBoundingClientRect();
+  if(rect.top<-100||rect.top>window.innerHeight*0.5){
+    toolsEl.scrollIntoView({behavior:'smooth',block:'start'});
+  }
 }
 
 /* ========= PREDICTION ENGINE ========= */
@@ -1822,6 +1832,20 @@ async function processPhoto(input){
   const url=URL.createObjectURL(file);
   img.src=url;
   preview.style.display='block';
+
+  // Lazy load Tesseract if needed
+  if(typeof Tesseract==='undefined'){
+    status.textContent='OCRエンジン読み込み中...';
+    status.style.color='var(--accent)';
+    await new Promise((resolve,reject)=>{
+      const s=document.createElement('script');
+      s.src='https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js';
+      s.onload=resolve;
+      s.onerror=reject;
+      document.head.appendChild(s);
+    });
+  }
+
   status.textContent='読み取り中...';
   status.style.color='var(--accent)';
 
@@ -1832,7 +1856,7 @@ async function processPhoto(input){
     const text=result.data.text;
     const nums=text.match(/\b\d{1,4}\b/g);
     if(nums&&nums.length>0){
-      const spins=nums.map(Number).filter(n=>n>=1&&n<=999);
+      const spins=nums.map(Number).filter(n=>n>=1&&n<=1500);
       if(spins.length>0){
         document.getElementById('spins').value=spins.join(', ');
         status.textContent='✓ '+spins.length+'件の回転数を読み取りました';
@@ -1851,15 +1875,34 @@ async function processPhoto(input){
   }
 }
 
+// Shared helper: populate machine select with optgroups
+function populateMachineSelect(selectId, includeEmpty){
+  const sel=document.getElementById(selectId);
+  if(includeEmpty) sel.innerHTML='<option value="">-- 選択 --</option>';
+  else sel.innerHTML='';
+  const groups={};
+  MACHINES.forEach((m,i)=>{
+    if(!groups[m.tag]) groups[m.tag]=[];
+    groups[m.tag].push({idx:i,name:m.name,prob:m.prob,icon:m.icon});
+  });
+  const order=['人気','LM','海','甘'];
+  order.forEach(tag=>{
+    if(!groups[tag]) return;
+    const og=document.createElement('optgroup');
+    og.label=tag==='人気'?'人気機種':tag==='LM'?'ライトミドル':tag==='海'?'海シリーズ':'甘デジ';
+    groups[tag].forEach(m=>{
+      const opt=document.createElement('option');
+      opt.value=m.idx;
+      opt.textContent=m.icon+' '+m.name+' ('+m.prob+')';
+      og.appendChild(opt);
+    });
+    sel.appendChild(og);
+  });
+}
+
 // Populate machine select dropdown
 function initMachineSelect(){
-  const sel=document.getElementById('machineSelect');
-  MACHINES.forEach((m,i)=>{
-    const opt=document.createElement('option');
-    opt.value=i;
-    opt.textContent=m.name+' ('+m.prob+')';
-    sel.appendChild(opt);
-  });
+  populateMachineSelect('machineSelect', true);
 }
 function onMachineSelect(){
   const sel=document.getElementById('machineSelect');
@@ -1942,7 +1985,7 @@ function analyze(spins,prob){
     const lo=p.bin*binSize;
     const hi=lo+binSize;
     const totalWeight=histWeighted.reduce((s,v)=>s+v,0);
-    const confidence=Math.min(Math.round((p.weight/totalWeight)*100+Math.random()*5),95);
+    const confidence=Math.min(Math.round((p.weight/totalWeight)*100),95);
     return {lo,hi,count:p.count,confidence,weight:p.weight};
   });
 
@@ -1980,10 +2023,10 @@ function displayResults(r,prob){
     }]},
     options:{
       responsive:true,maintainAspectRatio:false,
-      plugins:{legend:{labels:{color:'#a1a1aa'}},tooltip:{callbacks:{title:c=>`${c[0].label}回転`}}},
+      plugins:{legend:{labels:{color:'#6b7280'}},tooltip:{callbacks:{title:c=>`${c[0].label}回転`}}},
       scales:{
-        x:{ticks:{color:'#71717a',maxRotation:45},grid:{color:'rgba(39,39,42,0.5)'},title:{display:true,text:'回転数間隔',color:'#71717a'}},
-        y:{ticks:{color:'#71717a'},grid:{color:'rgba(39,39,42,0.5)'},title:{display:true,text:'加重スコア',color:'#71717a'}}
+        x:{ticks:{color:'#6b7280',maxRotation:45},grid:{color:'rgba(0,0,0,0.08)'},title:{display:true,text:'回転数間隔',color:'#6b7280'}},
+        y:{ticks:{color:'#6b7280'},grid:{color:'rgba(0,0,0,0.08)'},title:{display:true,text:'加重スコア',color:'#6b7280'}}
       }
     }
   });
@@ -2190,22 +2233,12 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();});
 
 /* ========= FEATURE SELECTS INIT ========= */
 document.addEventListener('DOMContentLoaded',()=>{
-  const selIds=['evMachine','simMachine','cmpA','cmpB','cmpC','dashMachine'];
-  selIds.forEach(id=>{
-    const sel=document.getElementById(id);
-    if(!sel)return;
-    if(id==='cmpA'||id==='cmpB'||id==='cmpC'){
-      // already has default option
-    } else {
-      sel.innerHTML='<option value="">-- 台を選択 --</option>';
-    }
-    MACHINES.forEach((m,i)=>{
-      const opt=document.createElement('option');
-      opt.value=i;
-      opt.textContent=m.icon+' '+m.name+' ('+m.prob+')';
-      sel.appendChild(opt);
-    });
-  });
+  populateMachineSelect('evMachine', true);
+  populateMachineSelect('simMachine', true);
+  populateMachineSelect('cmpA', true);
+  populateMachineSelect('cmpB', true);
+  populateMachineSelect('cmpC', true);
+  populateMachineSelect('dashMachine', false);
   // Set default date for dashboard
   const dd=document.getElementById('dashDate');
   if(dd) dd.value=new Date().toISOString().split('T')[0];
@@ -2233,6 +2266,10 @@ function calcEV(machineIdx, kaiten){
       const prob=parseInt(p.prob)/100;
       avgPayout+=count*prob;
     });
+  }
+  if(!d || !d.payoutDist){
+    // Estimate from maxPayout
+    avgPayout=parseInt(m.maxPayout.replace(/[^0-9]/g,''))*0.6;
   }
 
   // RUSH expected multiplier (geometric series)
@@ -2344,7 +2381,8 @@ function runSimulation(){
   const trials=1000;
   const results=[];
   const budgetYen=budget*10000;
-  const costPerSpin=1000/18; // roughly 18 spins per 1000yen
+  const kaiten=parseFloat(document.getElementById('simKaiten').value)||18;
+  const costPerSpin=1000/kaiten;
 
   for(let t=0;t<trials;t++){
     let spent=0;
@@ -2433,8 +2471,8 @@ function runSimulation(){
       responsive:true,maintainAspectRatio:false,
       plugins:{legend:{display:false},tooltip:{callbacks:{title:c=>`${c[0].label}円帯`,label:c=>`${c.raw}回`}}},
       scales:{
-        x:{ticks:{color:'#71717a'},grid:{display:false},title:{display:true,text:'収支（千円）',color:'#71717a'}},
-        y:{ticks:{color:'#71717a'},grid:{color:'rgba(39,39,42,.3)'},title:{display:true,text:'回数',color:'#71717a'}}
+        x:{ticks:{color:'#6b7280'},grid:{display:false},title:{display:true,text:'収支（千円）',color:'#6b7280'}},
+        y:{ticks:{color:'#6b7280'},grid:{color:'rgba(0,0,0,0.08)'},title:{display:true,text:'回数',color:'#6b7280'}}
       }
     }
   });
@@ -2636,10 +2674,10 @@ function renderDashboard(){
       }]},
       options:{
         responsive:true,maintainAspectRatio:false,
-        plugins:{legend:{labels:{color:'#a1a1aa'}}},
+        plugins:{legend:{labels:{color:'#6b7280'}}},
         scales:{
-          x:{ticks:{color:'#71717a',maxRotation:45},grid:{display:false}},
-          y:{ticks:{color:'#71717a',callback:v=>(v>=0?'+':'')+Math.round(v/1000)+'k'},grid:{color:'rgba(39,39,42,.3)'}}
+          x:{ticks:{color:'#6b7280',maxRotation:45},grid:{display:false}},
+          y:{ticks:{color:'#6b7280',callback:v=>(v>=0?'+':'')+Math.round(v/1000)+'k'},grid:{color:'rgba(0,0,0,0.08)'}}
         }
       }
     });
@@ -2708,6 +2746,7 @@ function renderScoring(style){
   // Sort
   ranking.sort((a,b)=>{
     const key=currentScoreSortKey==='total'?'styleScore':currentScoreSortKey;
+    if(key==='name') return currentScoreSortAsc?a.machine.name.localeCompare(b.machine.name):b.machine.name.localeCompare(a.machine.name);
     return currentScoreSortAsc?(a[key]-b[key]):(b[key]-a[key]);
   });
 
@@ -2725,7 +2764,7 @@ function renderScoring(style){
       <th onclick="sortScoring('total')">総合スコア</th>
     </tr></thead>
     <tbody>
-    ${ranking.slice(0,30).map((r,i)=>`
+    ${ranking.map((r,i)=>`
       <tr onclick="showScoreDetail(${r.idx})" style="cursor:pointer">
         <td class="rank-num">${i+1}</td>
         <td>${r.machine.icon} ${r.machine.name.length>18?r.machine.name.substring(0,18)+'...':r.machine.name}</td>
@@ -2739,6 +2778,15 @@ function renderScoring(style){
     `).join('')}
     </tbody>
   `;
+  // Add count note
+  let noteEl=table.parentNode.querySelector('.score-count-note');
+  if(!noteEl){
+    noteEl=document.createElement('div');
+    noteEl.className='score-count-note';
+    noteEl.style.cssText='text-align:center;font-size:.8rem;color:var(--text3);margin-top:8px';
+    table.parentNode.insertBefore(noteEl,table.nextSibling);
+  }
+  noteEl.textContent=ranking.length+'機種を表示中';
 
   // Show top machine detail by default
   if(ranking.length>0) showScoreDetail(ranking[0].idx);
@@ -2793,12 +2841,12 @@ function showScoreDetail(idx){
       scales:{
         r:{
           beginAtZero:true,max:100,
-          ticks:{stepSize:20,color:'#71717a',backdropColor:'transparent'},
-          grid:{color:'rgba(39,39,42,.3)'},
-          pointLabels:{color:'#a1a1aa',font:{size:12}}
+          ticks:{stepSize:20,color:'#6b7280',backdropColor:'transparent'},
+          grid:{color:'rgba(0,0,0,0.08)'},
+          pointLabels:{color:'#6b7280',font:{size:12}}
         }
       },
-      plugins:{legend:{labels:{color:'#a1a1aa'}}}
+      plugins:{legend:{labels:{color:'#6b7280'}}}
     }
   });
 
