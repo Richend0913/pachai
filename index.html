@@ -490,6 +490,50 @@ body.dark-mode .modal-close{background:linear-gradient(180deg,var(--bg2) 60%,tra
 .ad-container ins[data-ad-status="unfilled"],.ad-container ins:not([data-ad-status]){display:none!important}
 .ad-slot{max-width:728px;margin:20px auto;min-height:0;display:flex;align-items:center;justify-content:center;border-radius:var(--radius-sm);overflow:hidden;padding:0}
 .ad-slot ins[data-ad-status="unfilled"],.ad-slot ins:not([data-ad-status]){display:none!important}
+
+/* ========= NEW PREDICTION ENGINE STYLES ========= */
+.pred-section{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-sm);padding:20px;margin-bottom:16px}
+.pred-section-title{font-size:1rem;font-weight:700;margin-bottom:14px;color:var(--text);display:flex;align-items:center;gap:8px}
+.pred-section-title::before{content:'';width:4px;height:18px;background:linear-gradient(180deg,var(--accent),var(--accent2));border-radius:2px;flex-shrink:0}
+.condition-row{display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap}
+.condition-badge{display:flex;align-items:center;gap:8px;padding:12px 20px;border-radius:var(--radius-sm);flex-shrink:0;min-width:120px;justify-content:center}
+.condition-icon{font-size:1.6rem}
+.condition-label{font-size:1.1rem;font-weight:800}
+.condition-stats{flex:1;display:flex;flex-direction:column;gap:8px}
+.condition-stat-row{display:flex;align-items:center;gap:8px;font-size:.85rem;flex-wrap:wrap}
+.condition-stat-row span{color:var(--text2)}
+.condition-stat-row strong{color:var(--text);font-weight:700}
+.condition-diff{font-size:.8rem;padding:2px 8px;border-radius:10px;font-weight:700}
+.condition-diff.over{background:rgba(220,38,38,.12);color:var(--danger)}
+.condition-diff.under{background:rgba(22,163,74,.12);color:var(--success)}
+.condition-compare{color:var(--text3);font-size:.8rem}
+.cum-prob-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;margin-bottom:12px}
+.cum-prob-item{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:12px;text-align:center}
+.cum-prob-spins{font-size:.75rem;color:var(--text3);margin-bottom:4px}
+.cum-prob-value{font-size:1.3rem;font-weight:800;margin-bottom:6px}
+.cum-prob-bar{height:5px;background:var(--bg3);border-radius:3px;overflow:hidden}
+.cum-prob-bar-fill{height:100%;border-radius:3px;transition:width .6s ease}
+.cum-prob-expected{text-align:center;font-size:.9rem;color:var(--text2);margin-top:4px;padding:8px;background:var(--bg2);border-radius:var(--radius-sm);border:1px solid var(--border)}
+.cum-prob-expected strong{color:var(--accent3)}
+.yutime-box{background:linear-gradient(135deg,rgba(109,40,217,.04),rgba(79,70,229,.04));border:1px solid rgba(109,40,217,.2);border-radius:var(--radius-sm);padding:16px}
+.yutime-box.active{background:linear-gradient(135deg,rgba(239,68,68,.06),rgba(245,158,11,.06));border-color:rgba(239,68,68,.3)}
+.yutime-status{font-size:1.1rem;font-weight:800;color:var(--danger);margin-bottom:8px}
+.yutime-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px;margin-bottom:12px}
+.yutime-stat{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:10px;text-align:center}
+.yutime-stat-label{font-size:.72rem;color:var(--text3);margin-bottom:2px}
+.yutime-stat-value{font-size:1rem;font-weight:700;color:var(--text)}
+.yutime-stat-value.urgent{color:var(--accent3)}
+.yutime-detail{font-size:.85rem;color:var(--text2);margin-bottom:8px;line-height:1.6}
+.yutime-ev{font-size:.9rem;color:var(--text2)}
+.yutime-ev strong{color:var(--accent3)}
+.invest-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:10px;margin-bottom:12px}
+.invest-stat{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:12px;text-align:center}
+.invest-stat-label{font-size:.72rem;color:var(--text3);margin-bottom:4px}
+.invest-stat-value{font-size:1.1rem;font-weight:800;color:var(--text)}
+.invest-stat-value.warn{color:var(--warn)}
+.invest-note{font-size:.82rem;color:var(--text3);text-align:center;padding:8px;background:var(--bg2);border-radius:var(--radius-sm);border:1px dashed var(--border)}
+#resultTitle{font-size:1.2rem}
+@media(max-width:480px){.condition-row{flex-direction:column}.cum-prob-grid{grid-template-columns:1fr 1fr}.yutime-grid{grid-template-columns:1fr 1fr}.invest-grid{grid-template-columns:1fr 1fr}}
 </style>
 </head>
 <body>
@@ -573,19 +617,62 @@ body.dark-mode .modal-close{background:linear-gradient(180deg,var(--bg2) 60%,tra
         <option value="77">1/77（遊パチ）</option>
       </select>
     </div>
+    <div class="ev-form-row" style="margin-bottom:20px">
+      <div class="form-group" style="margin-bottom:0">
+        <label for="currentSpin">現在の回転数（遊タイム計算用・任意）</label>
+        <input type="number" class="ev-input" id="currentSpin" placeholder="例: 450" min="0" max="2000">
+      </div>
+      <div class="form-group" style="margin-bottom:0">
+        <label for="spinsPerK">千円あたりの回転数</label>
+        <input type="number" class="ev-input" id="spinsPerK" placeholder="例: 20" min="1" max="100" value="20">
+      </div>
+    </div>
     <button class="btn-predict" id="btnPredict" onclick="runPrediction()">予測する</button>
     <button type="button" onclick="loadDemoData()" style="width:100%;margin-top:10px;padding:12px;background:var(--bg);border:1px dashed var(--border2);border-radius:var(--radius-sm);color:var(--text2);font-size:.9rem;font-weight:600;cursor:pointer;transition:border-color .2s,color .2s;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent3)'" onmouseout="this.style.borderColor='var(--border2)';this.style.color='var(--text2)'">デモデータで試す</button>
 
     <div class="results" id="results">
-      <div class="result-title">予測結果</div>
-      <div class="chart-wrap"><canvas id="histChart"></canvas></div>
-      <div id="zonesContainer" class="zones-grid"></div>
+      <div class="result-title" id="resultTitle">予測結果</div>
+
+      <!-- 台の調子 -->
+      <div class="pred-section">
+        <div class="pred-section-title">台の調子</div>
+        <div id="conditionPanel"></div>
+      </div>
+
+      <!-- 次の大当たり予測 -->
+      <div class="pred-section">
+        <div class="pred-section-title">次の大当たり予測（累積当選確率）</div>
+        <div id="cumProbPanel"></div>
+        <div class="chart-wrap" style="margin-top:16px"><canvas id="cumProbChart" style="max-height:220px;min-height:160px"></canvas></div>
+      </div>
+
+      <!-- ゾーン分析 -->
+      <div class="pred-section">
+        <div class="pred-section-title">ゾーン分析（実際の分布 vs 理論分布）</div>
+        <div class="chart-wrap"><canvas id="histChart"></canvas></div>
+        <div id="zonesContainer" class="zones-grid" style="margin-top:12px"></div>
+      </div>
+
+      <!-- 遊タイム情報（対応機種のみ） -->
+      <div class="pred-section" id="yutimeSection" style="display:none">
+        <div class="pred-section-title">遊タイム情報</div>
+        <div id="yutimePanel"></div>
+      </div>
+
+      <!-- 投資目安 -->
+      <div class="pred-section">
+        <div class="pred-section-title">投資目安</div>
+        <div id="investPanel"></div>
+      </div>
+
+      <!-- タイムライン -->
       <div class="timeline-wrap">
         <div style="font-weight:600;margin-bottom:4px">タイムライン（回転数 vs 予測ゾーン）</div>
         <div class="timeline-bar" id="timelineBar"></div>
         <div class="timeline-labels"><span>0回転</span><span id="timelineMax">500回転</span></div>
         <div class="timeline-note" id="timelineNote"></div>
       </div>
+
       <div class="share-area" id="shareArea">
         <div class="share-title">予測結果をシェア</div>
         <div class="share-btns">
@@ -862,7 +949,7 @@ const MACHINES = [
   {name:"e魔法少女まどか☆マギカ3 時間遡行",prob:"1/319",rushRate:"70%",tsujoCount:130,maxPayout:"約3000個",tag:"人気",icon:"🔮"},
   {name:"e東京喰種",prob:"1/399",rushRate:"51%",tsujoCount:130,maxPayout:"約6000個",tag:"人気",icon:"👹"},
   {name:"e北斗の拳11 暴凶星",prob:"1/399",rushRate:"61%",tsujoCount:10,maxPayout:"約6000個",tag:"人気",icon:"💀"},
-  {name:"eRe:ゼロから始める異世界生活 season2",prob:"1/349",rushRate:"55%",tsujoCount:145,maxPayout:"約3000個",tag:"人気",icon:"🦋"},
+  {name:"eRe:ゼロから始める異世界生活 season2",prob:"1/349",rushRate:"55%",tsujoCount:145,maxPayout:"約3000個",tag:"人気",icon:"🦋",yutime_start:611,yutime_turns:300},
   {name:"e女神のカフェテラス",prob:"1/399",rushRate:"50%",tsujoCount:120,maxPayout:"約4500個",tag:"人気",icon:"☕"},
   {name:"e牙狼12 黄金騎士極限",prob:"1/437",rushRate:"50%",tsujoCount:100,maxPayout:"約7500個",tag:"人気",icon:"🐺"},
   {name:"e東京リベンジャーズ",prob:"1/319",rushRate:"50%",tsujoCount:144,maxPayout:"約3000個",tag:"人気",icon:"⚡"},
@@ -893,11 +980,11 @@ const MACHINES = [
   {name:"Pスーパー海物語IN沖縄6",prob:"1/319",rushRate:"60%",tsujoCount:100,maxPayout:"約1500個",tag:"海",icon:"🏖️"},
   {name:"PAスーパー海物語IN沖縄6 Withえなこ",prob:"1/99",rushRate:"50%",tsujoCount:50,maxPayout:"約600個",tag:"甘",icon:"🌺"},
   // === ライトミドル ===
-  {name:"PRe:ゼロから始める異世界生活 season2 249ver.",prob:"1/249",rushRate:"60%",tsujoCount:120,maxPayout:"約3000個",tag:"LM",icon:"🦋"},
-  {name:"PRe:ゼロから始める異世界生活 season2 129ver.",prob:"1/129",rushRate:"50%",tsujoCount:120,maxPayout:"約7000個",tag:"LM",icon:"🦋"},
+  {name:"PRe:ゼロから始める異世界生活 season2 249ver.",prob:"1/249",rushRate:"60%",tsujoCount:120,maxPayout:"約3000個",tag:"LM",icon:"🦋",yutime_start:430,yutime_turns:250},
+  {name:"PRe:ゼロから始める異世界生活 season2 129ver.",prob:"1/129",rushRate:"50%",tsujoCount:120,maxPayout:"約7000個",tag:"LM",icon:"🦋",yutime_start:228,yutime_turns:150},
   {name:"eうしおととら 150ver.",prob:"1/150",rushRate:"50%",tsujoCount:100,maxPayout:"約3000個",tag:"LM",icon:"🐯"},
   {name:"e乃木坂46 II SWEET Version",prob:"1/239",rushRate:"50%",tsujoCount:100,maxPayout:"約8000個",tag:"LM",icon:"🎤"},
-  {name:"P転生したらスライムだった件",prob:"1/319",rushRate:"100%",tsujoCount:255,maxPayout:"約1500個",tag:"人気",icon:"🫧"},
+  {name:"P転生したらスライムだった件",prob:"1/319",rushRate:"100%",tsujoCount:255,maxPayout:"約1500個",tag:"人気",icon:"🫧",yutime_start:550,yutime_turns:255},
   {name:"eガンゲイル・オンライン",prob:"1/319",rushRate:"50%",tsujoCount:120,maxPayout:"約3000個",tag:"人気",icon:"🔫"},
   {name:"e東京喰種 超デカ超一撃ver.",prob:"1/399",rushRate:"51%",tsujoCount:130,maxPayout:"約6000個",tag:"人気",icon:"👹"},
   {name:"Pフィーバーブルーロック",prob:"1/319",rushRate:"50%",tsujoCount:120,maxPayout:"約3000個",tag:"人気",icon:"⚽"},
@@ -924,13 +1011,13 @@ const MACHINES = [
   {name:"e牙狼11〜冴島大河〜魔戒BURST Ver.",prob:"1/319",rushRate:"50%",tsujoCount:150,maxPayout:"約1500個",tag:"人気",icon:"🐺"},
   {name:"真・北斗無双3 ジャギの襲来",prob:"1/199",rushRate:"50%",tsujoCount:100,maxPayout:"約1500個",tag:"LM",icon:"💫"},
   // === 甘デジ・ライト ===
-  {name:"PA義風堂々3!! 99ver.",prob:"1/99",rushRate:"75%",tsujoCount:60,maxPayout:"約1500個",tag:"甘",icon:"⚔️"},
+  {name:"PA義風堂々3!! 99ver.",prob:"1/99",rushRate:"75%",tsujoCount:60,maxPayout:"約1500個",tag:"甘",icon:"⚔️",yutime_start:183,yutime_turns:100},
   {name:"Pフィーバーからくりサーカス2 Light ver.",prob:"1/99",rushRate:"50%",tsujoCount:60,maxPayout:"約3000個",tag:"甘",icon:"🎪"},
   {name:"Pわんわんパラダイス CELEBRATION",prob:"1/99",rushRate:"50%",tsujoCount:50,maxPayout:"約1500個",tag:"甘",icon:"🐕"},
   {name:"PRe:ゼロから始める異世界生活 鬼がかり99ver.",prob:"1/99",rushRate:"50%",tsujoCount:60,maxPayout:"約1800個",tag:"甘",icon:"🦋"},
   {name:"Pひぐらしのなく頃に 輪廻転生99ver.",prob:"1/99",rushRate:"50%",tsujoCount:50,maxPayout:"約1500個",tag:"甘",icon:"🦗"},
   {name:"e化物語 鬼99ver.",prob:"1/99",rushRate:"50%",tsujoCount:50,maxPayout:"約1500個",tag:"甘",icon:"🦀"},
-  {name:"PA花の慶次〜傾奇一転 87ver.",prob:"1/87",rushRate:"50%",tsujoCount:50,maxPayout:"約1200個",tag:"甘",icon:"🌸"},
+  {name:"PA花の慶次〜傾奇一転 87ver.",prob:"1/87",rushRate:"50%",tsujoCount:50,maxPayout:"約1200個",tag:"甘",icon:"🌸",yutime_start:160,yutime_turns:80},
   {name:"P痛いのは嫌なので防御力に極振りしたいと思います。129ver",prob:"1/129",rushRate:"50%",tsujoCount:80,maxPayout:"約1500個",tag:"LM",icon:"🛡️"},
   {name:"PシャカRUSH Z Jr.",prob:"1/99",rushRate:"50%",tsujoCount:50,maxPayout:"約1500個",tag:"甘",icon:"🙏"},
   {name:"Pえとたま2 神祭 干支甘",prob:"1/99",rushRate:"50%",tsujoCount:50,maxPayout:"約1000個",tag:"甘",icon:"🐱"},
@@ -1919,7 +2006,7 @@ function switchTool(toolId, btn){
 }
 
 /* ========= PREDICTION ENGINE ========= */
-let histChart=null;
+let histChart=null,cumProbChart=null;
 function loadDemoData(){
   document.getElementById('spins').value='45, 128, 312, 67, 205, 89, 156, 278, 52, 190';
   document.getElementById('spins').focus();
@@ -2036,10 +2123,13 @@ function runPrediction(){
   btn.textContent='分析中...';
 
   setTimeout(()=>{
-    const prob=parseInt(document.getElementById('machineType').value);
-    const result=analyze(nums,prob);
-    displayResults(result,prob);
-    // 予測実行カウント加算
+    const machineEl=document.getElementById('machineSelect');
+    const machine=(machineEl&&machineEl.value!=='')?MACHINES[parseInt(machineEl.value)]:null;
+    const probFallback=parseInt(document.getElementById('machineType').value);
+    const effectiveMachine=machine||{prob:`1/${probFallback}`,rushRate:'50%',tsujoCount:100,maxPayout:'約1500個',name:'未選択'};
+    const result=analyze(nums,effectiveMachine);
+    displayResults(result);
+
     const pc=parseInt(localStorage.getItem('pachai_pred')||'0')+1;
     localStorage.setItem('pachai_pred',pc);
     document.getElementById('statPred').textContent=pc.toLocaleString();
@@ -2047,26 +2137,64 @@ function runPrediction(){
     btn.textContent='予測する';
     document.getElementById('results').classList.add('show');
     document.getElementById('results').scrollIntoView({behavior:'smooth',block:'start'});
-    // Share & history
+
+    const machineName=machine?machine.name:'未選択';
     const topZone=result.zones&&result.zones[0];
-    const summaryText=topZone?`PachAI予測: 狙い目ゾーン${topZone.lo}〜${topZone.hi}回転（信頼度${topZone.confidence}%）`:'PachAIで予測してみた！';
+    const summaryText=topZone
+      ?`PachAI予測: ${result.conditionIcon}${result.condition} / 狙い目${topZone.lo}〜${topZone.hi}回転 / 期待${result.expectedNext}回`
+      :'PachAIで予測してみた！';
     showShareButtons(summaryText);
-    const machineEl=document.getElementById('machineSelect');
-    const machineName=machineEl&&machineEl.value!==''?MACHINES[parseInt(machineEl.value)].name:'未選択';
-    saveHistory(`${machineName} / ${nums.length}件のデータ`,summaryText);
+    saveHistory(
+      `${machineName} / ${nums.length}件のデータ`,
+      summaryText,
+      {machine:machineName,condition:result.condition,conditionIcon:result.conditionIcon,expectedNext:result.expectedNext,avgSpin:Math.round(result.avg)}
+    );
   },1200);
 }
 
-function analyze(spins,prob){
-  const sorted=[...spins];
-  const intervals=[];
-  for(let i=1;i<sorted.length;i++){
-    intervals.push(Math.abs(sorted[i]-sorted[i-1]));
-  }
+function analyze(spins,machine){
+  const prob=machine?parseInt((machine.prob||'1/319').split('/')[1]):319;
+  const rushRatePct=machine?parseInt((machine.rushRate||'50%').replace('%','')):50;
+  const rushRate=rushRatePct/100;
+  const tsujoCount=machine?(machine.tsujoCount||100):100;
 
+  const intervals=[];
+  for(let i=1;i<spins.length;i++){
+    const d=Math.abs(spins[i]-spins[i-1]);
+    if(d>0)intervals.push(d);
+  }
+  if(intervals.length===0)return null;
+
+  const n=intervals.length;
+  const avg=intervals.reduce((s,v)=>s+v,0)/n;
+  const std=Math.sqrt(intervals.reduce((s,v)=>s+(v-avg)**2,0)/n);
+
+  // 台の調子判定
+  const ratio=avg/prob;
+  let condition,conditionIcon,conditionClass;
+  if(ratio<0.82){condition='好調';conditionIcon='⚡';conditionClass='good';}
+  else if(ratio>1.25){condition='不調';conditionIcon='💀';conditionClass='bad';}
+  else{condition='普通';conditionIcon='😐';conditionClass='normal';}
+
+  // 統計的有意性 (z検定: geometric distribution approx)
+  const se=prob/Math.sqrt(n);
+  const z=Math.abs(avg-prob)/se;
+  const significant=z>1.96;
+
+  const actualProb=Math.round(avg);
+  const probDiff=Math.round((avg-prob)/prob*100);
+
+  // 累積当選確率
+  const cumProbs={};
+  [50,100,200,300,400,500].forEach(k=>{
+    cumProbs[k]=parseFloat(((1-Math.pow(1-1/prob,k))*100).toFixed(1));
+  });
+  const expectedNext=prob;
+
+  // ゾーン分析ヒストグラム
   const binSize=prob<=99?15:prob<=199?20:25;
   const maxInterval=Math.max(...intervals,prob*2);
-  const binCount=Math.ceil(maxInterval/binSize)+1;
+  const binCount=Math.min(Math.ceil(maxInterval/binSize)+1,60);
 
   const hist=new Array(binCount).fill(0);
   const histWeighted=new Array(binCount).fill(0);
@@ -2077,6 +2205,17 @@ function analyze(spins,prob){
     histWeighted[bin]+=recency;
   });
 
+  // 理論分布（幾何分布）
+  const histTheory=new Array(binCount).fill(0);
+  for(let bin=0;bin<binCount;bin++){
+    const lo=bin*binSize;
+    const hi=lo+binSize;
+    const pLo=lo===0?1:Math.pow(1-1/prob,lo);
+    const pHi=Math.pow(1-1/prob,hi);
+    histTheory[bin]=parseFloat(((pLo-pHi)*n).toFixed(2));
+  }
+
+  // ピーク検出
   const peaks=[];
   for(let i=1;i<binCount-1;i++){
     if(histWeighted[i]>histWeighted[i-1]&&histWeighted[i]>=histWeighted[i+1]&&histWeighted[i]>0){
@@ -2084,68 +2223,123 @@ function analyze(spins,prob){
     }
   }
   if(histWeighted[0]>histWeighted[1]&&histWeighted[0]>0)peaks.unshift({bin:0,weight:histWeighted[0],count:hist[0]});
-
   if(peaks.length===0){
-    for(let i=0;i<binCount;i++){
-      if(histWeighted[i]>0)peaks.push({bin:i,weight:histWeighted[i],count:hist[i]});
-    }
+    for(let i=0;i<binCount;i++){if(histWeighted[i]>0)peaks.push({bin:i,weight:histWeighted[i],count:hist[i]});}
   }
-
   peaks.sort((a,b)=>b.weight-a.weight);
 
+  const totalWeight=histWeighted.reduce((s,v)=>s+v,0);
   const zones=peaks.slice(0,3).map(p=>{
     const lo=p.bin*binSize;
     const hi=lo+binSize;
-    const totalWeight=histWeighted.reduce((s,v)=>s+v,0);
     const confidence=Math.min(Math.round((p.weight/totalWeight)*100),95);
-    return {lo,hi,count:p.count,confidence,weight:p.weight};
+    return{lo,hi,count:p.count,confidence,weight:p.weight};
   });
-
   zones.sort((a,b)=>b.confidence-a.confidence);
   if(zones.length>1&&zones[0].confidence===zones[1].confidence)zones[0].confidence+=3;
+  const hotZone=zones.length>0?zones[0]:null;
 
-  const avg=intervals.reduce((s,v)=>s+v,0)/intervals.length;
-  const std=Math.sqrt(intervals.reduce((s,v)=>s+(v-avg)**2,0)/intervals.length);
-
-  return {intervals,hist,histWeighted,binSize,binCount,zones,avg,std,maxInterval,prob};
+  return{
+    intervals,hist,histWeighted,histTheory,binSize,binCount,zones,
+    avg,std,maxInterval,prob,machine,
+    condition,conditionIcon,conditionClass,significant,z,
+    actualProb,probDiff,rushRate,rushRatePct,tsujoCount,
+    cumProbs,expectedNext,hotZone,n
+  };
 }
 
-function displayResults(r,prob){
-  const labels=[];
-  for(let i=0;i<r.binCount&&i<30;i++){
-    labels.push(`${i*r.binSize}-${(i+1)*r.binSize}`);
+function displayResults(r){
+  if(!r)return;
+  const m=r.machine;
+  const machineName=m&&m.name&&m.name!=='未選択'?m.name:'未選択';
+
+  // タイトル
+  document.getElementById('resultTitle').textContent=machineName!=='未選択'?`【${machineName}】の予測結果`:'予測結果';
+
+  // ========= 台の調子 =========
+  const condColor=r.conditionClass==='good'?'var(--success)':r.conditionClass==='bad'?'var(--danger)':'var(--warn)';
+  document.getElementById('conditionPanel').innerHTML=`
+    <div class="condition-row">
+      <div class="condition-badge" style="background:${condColor}20;border:2px solid ${condColor};color:${condColor}">
+        <span class="condition-icon">${r.conditionIcon}</span>
+        <span class="condition-label">${r.condition}</span>
+      </div>
+      <div class="condition-stats">
+        <div class="condition-stat-row"><span>平均当選回転数</span><strong>${Math.round(r.avg)}回</strong><span class="condition-compare">（公称: 1/${r.prob}）</span></div>
+        <div class="condition-stat-row"><span>実質確率</span><strong>1/${r.actualProb}</strong><span class="condition-diff ${r.probDiff>0?'over':'under'}">${r.probDiff>0?'+':''}${r.probDiff}%</span></div>
+        <div class="condition-stat-row"><span>データ件数</span><strong>${r.n}件</strong><span class="condition-compare">（${r.significant?(r.avg>r.prob?'ハマり傾向・統計的有意':'好調傾向・統計的有意'):'誤差範囲内'}）</span></div>
+        <div class="condition-stat-row"><span>RUSH突入率</span><strong>${r.rushRatePct}%</strong><span class="condition-compare">（時短${r.tsujoCount}回）</span></div>
+      </div>
+    </div>`;
+
+  // ========= 次の大当たり予測 =========
+  const cumEntries=Object.entries(r.cumProbs);
+  document.getElementById('cumProbPanel').innerHTML=`
+    <div class="cum-prob-grid">
+      ${cumEntries.map(([k,v])=>`
+        <div class="cum-prob-item">
+          <div class="cum-prob-spins">${k}回転以内</div>
+          <div class="cum-prob-value" style="color:${v>=70?'var(--success)':v>=40?'var(--warn)':'var(--text)'}">${v}%</div>
+          <div class="cum-prob-bar"><div class="cum-prob-bar-fill" style="width:${Math.min(v,100)}%;background:${v>=70?'var(--success)':v>=40?'var(--warn)':'var(--accent)'}"></div></div>
+        </div>`).join('')}
+    </div>
+    <div class="cum-prob-expected">期待回転数: <strong>${r.expectedNext}回</strong>（公称確率ベース）</div>`;
+
+  // 累積確率カーブ
+  const step=r.prob<=99?10:r.prob<=199?20:30;
+  const maxK=r.prob*3;
+  const cumLabels=[],cumData=[];
+  for(let k=step;k<=maxK;k+=step){
+    cumLabels.push(String(k));
+    cumData.push(parseFloat(((1-Math.pow(1-1/r.prob,k))*100).toFixed(1)));
   }
-  const data=r.histWeighted.slice(0,30);
-
-  const colors=data.map((_,i)=>{
-    const isZone=r.zones.some(z=>z.lo===i*r.binSize);
-    return isZone?'rgba(124,58,237,0.8)':'rgba(99,102,241,0.3)';
-  });
-  const borderColors=data.map((_,i)=>{
-    const isZone=r.zones.some(z=>z.lo===i*r.binSize);
-    return isZone?'rgba(139,92,246,1)':'rgba(99,102,241,0.5)';
-  });
-
-  if(histChart)histChart.destroy();
-  histChart=new Chart(document.getElementById('histChart'),{
-    type:'bar',
-    data:{labels,datasets:[{
-      label:'当たり間隔の分布（加重）',
-      data,backgroundColor:colors,borderColor:borderColors,borderWidth:1,borderRadius:4
+  if(cumProbChart)cumProbChart.destroy();
+  cumProbChart=new Chart(document.getElementById('cumProbChart'),{
+    type:'line',
+    data:{labels:cumLabels,datasets:[{
+      label:'累積当選確率(%)',
+      data:cumData,
+      borderColor:'rgba(124,58,237,0.9)',
+      backgroundColor:'rgba(124,58,237,0.08)',
+      borderWidth:2,fill:true,tension:0.4,pointRadius:0
     }]},
     options:{
       responsive:true,maintainAspectRatio:false,
-      plugins:{legend:{labels:{color:'#6b7280'}},tooltip:{callbacks:{title:c=>`${c[0].label}回転`}}},
+      plugins:{legend:{labels:{color:'#6b7280'}},tooltip:{callbacks:{title:c=>`${c[0].label}回転`,label:c=>`当選確率: ${c.parsed.y}%`}}},
       scales:{
-        x:{ticks:{color:'#6b7280',maxRotation:45},grid:{color:'rgba(0,0,0,0.08)'},title:{display:true,text:'回転数間隔',color:'#6b7280'}},
-        y:{ticks:{color:'#6b7280'},grid:{color:'rgba(0,0,0,0.08)'},title:{display:true,text:'加重スコア',color:'#6b7280'}}
+        x:{ticks:{color:'#6b7280',maxTicksLimit:12},grid:{color:'rgba(0,0,0,0.06)'},title:{display:true,text:'回転数',color:'#6b7280'}},
+        y:{ticks:{color:'#6b7280',callback:v=>v+'%'},grid:{color:'rgba(0,0,0,0.06)'},title:{display:true,text:'当選確率',color:'#6b7280'},max:100,min:0}
       }
     }
   });
 
-  // Zones
+  // ========= ゾーン分析 =========
+  const showBins=Math.min(r.binCount,30);
+  const barLabels=[];
+  for(let i=0;i<showBins;i++)barLabels.push(`${i*r.binSize}-${(i+1)*r.binSize}`);
+  const actualData=r.histWeighted.slice(0,showBins);
+  const theoryData=r.histTheory.slice(0,showBins);
+  const barColors=actualData.map((_,i)=>r.zones.some(z=>z.lo===i*r.binSize)?'rgba(124,58,237,0.8)':'rgba(99,102,241,0.3)');
+
+  if(histChart)histChart.destroy();
+  histChart=new Chart(document.getElementById('histChart'),{
+    type:'bar',
+    data:{labels:barLabels,datasets:[
+      {label:'実際の分布（加重）',data:actualData,backgroundColor:barColors,borderColor:barColors.map(c=>c.replace('0.8','1').replace('0.3','0.6')),borderWidth:1,borderRadius:4},
+      {label:'理論分布（公称確率）',data:theoryData,type:'line',borderColor:'rgba(6,182,212,0.8)',backgroundColor:'transparent',borderWidth:2,pointRadius:0,tension:0.4}
+    ]},
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{labels:{color:'#6b7280'}},tooltip:{callbacks:{title:c=>`${c[0].label}回転`}}},
+      scales:{
+        x:{ticks:{color:'#6b7280',maxRotation:45},grid:{color:'rgba(0,0,0,0.06)'},title:{display:true,text:'回転数間隔',color:'#6b7280'}},
+        y:{ticks:{color:'#6b7280'},grid:{color:'rgba(0,0,0,0.06)'}}
+      }
+    }
+  });
+
   const container=document.getElementById('zonesContainer');
-  container.innerHTML='<div style="font-weight:600;margin-bottom:8px">狙い目ゾーン TOP '+ r.zones.length +'</div>';
+  container.innerHTML='<div style="font-weight:600;margin-bottom:8px">狙い目ゾーン TOP '+r.zones.length+'</div>';
   r.zones.forEach((z,i)=>{
     const confClass=z.confidence>=40?'high':z.confidence>=25?'mid':'low';
     container.innerHTML+=`
@@ -2159,8 +2353,69 @@ function displayResults(r,prob){
       </div>`;
   });
 
-  // Timeline
-  const tMax=Math.max(r.maxInterval,prob*1.5);
+  // ========= 遊タイム情報 =========
+  const yutimeSec=document.getElementById('yutimeSection');
+  const yutimePanel=document.getElementById('yutimePanel');
+  const currentSpin=parseInt(document.getElementById('currentSpin').value)||0;
+  const spinsPerKv=parseInt(document.getElementById('spinsPerK').value)||20;
+
+  if(m&&m.yutime_start){
+    yutimeSec.style.display='block';
+    const payoutNum=m.maxPayout?parseInt(m.maxPayout.replace(/[^0-9]/g,'')):1500;
+    const yutimeEV=Math.round(payoutNum*(m.yutime_turns||100)/m.yutime_start*r.rushRatePct);
+
+    if(currentSpin>0){
+      const remaining=Math.max(0,m.yutime_start-currentSpin);
+      const costToYutime=remaining>0?Math.ceil(remaining/spinsPerKv)*1000:0;
+      if(remaining===0){
+        yutimePanel.innerHTML=`
+          <div class="yutime-box active">
+            <div class="yutime-status">🔥 遊タイム発動中！</div>
+            <div class="yutime-detail">この台は遊タイム中です（${m.yutime_turns||100}回の時短）。積極的に当りを狙えます。</div>
+            <div class="yutime-ev">遊タイム期待出玉: <strong>約${payoutNum.toLocaleString()}個</strong></div>
+          </div>`;
+      }else{
+        yutimePanel.innerHTML=`
+          <div class="yutime-box">
+            <div class="yutime-grid">
+              <div class="yutime-stat"><div class="yutime-stat-label">遊タイム開始</div><div class="yutime-stat-value">${m.yutime_start}回転〜</div></div>
+              <div class="yutime-stat"><div class="yutime-stat-label">現在の回転数</div><div class="yutime-stat-value">${currentSpin}回転</div></div>
+              <div class="yutime-stat"><div class="yutime-stat-label">残り回転数</div><div class="yutime-stat-value urgent">${remaining}回転</div></div>
+              <div class="yutime-stat"><div class="yutime-stat-label">遊タイムまでの費用目安</div><div class="yutime-stat-value">約${costToYutime.toLocaleString()}円</div></div>
+            </div>
+            <div class="yutime-detail">遊タイム突入後は${m.yutime_turns||100}回の時短。この間に大当りを狙えます。</div>
+            <div class="yutime-ev">遊タイム期待出玉: <strong>約${payoutNum.toLocaleString()}個</strong></div>
+          </div>`;
+      }
+    }else{
+      yutimePanel.innerHTML=`
+        <div class="yutime-box">
+          <div class="yutime-detail">この機種には遊タイムがあります（${m.yutime_start}回転〜、${m.yutime_turns||100}回時短）。<br>現在の回転数を入力すると残り回転数と費用目安が表示されます。</div>
+          <div class="yutime-ev">遊タイム期待出玉: <strong>約${payoutNum.toLocaleString()}個</strong></div>
+        </div>`;
+    }
+  }else{
+    yutimeSec.style.display='none';
+  }
+
+  // ========= 投資目安 =========
+  const expectedInvest=Math.ceil(r.expectedNext/spinsPerKv)*1000;
+  const hamariLimit=Math.round(r.prob*2.5);
+  const maxRecommend=Math.ceil(hamariLimit/spinsPerKv)*1000;
+  const payoutForInvest=m&&m.maxPayout?parseInt(m.maxPayout.replace(/[^0-9]/g,'')):1500;
+  const rushEV=Math.round(payoutForInvest*r.rushRate);
+
+  document.getElementById('investPanel').innerHTML=`
+    <div class="invest-grid">
+      <div class="invest-stat"><div class="invest-stat-label">千円あたりの回転数</div><div class="invest-stat-value">${spinsPerKv}回転</div></div>
+      <div class="invest-stat"><div class="invest-stat-label">期待投資額（1回当り）</div><div class="invest-stat-value">約${expectedInvest.toLocaleString()}円</div></div>
+      <div class="invest-stat"><div class="invest-stat-label">ハマり境界（${r.prob}×2.5回転）</div><div class="invest-stat-value warn">約${maxRecommend.toLocaleString()}円</div></div>
+      <div class="invest-stat"><div class="invest-stat-label">RUSH期待出玉（${r.rushRatePct}%）</div><div class="invest-stat-value">約${rushEV.toLocaleString()}個〜</div></div>
+    </div>
+    <div class="invest-note">※ ${hamariLimit}回転以上のハマりは撤退も検討。期待投資額の目安: 千円${spinsPerKv}回転換算</div>`;
+
+  // ========= タイムライン =========
+  const tMax=Math.max(r.maxInterval,r.prob*1.5);
   document.getElementById('timelineMax').textContent=Math.round(tMax)+'回転';
   const bar=document.getElementById('timelineBar');
   bar.innerHTML='';
@@ -2170,7 +2425,7 @@ function displayResults(r,prob){
     const width=((z.hi-z.lo)/tMax)*100;
     bar.innerHTML+=`<div class="timeline-zone" style="left:${left}%;width:${width}%;background:${palette[i]}" title="${z.lo}-${z.hi}回転"></div>`;
   });
-  document.getElementById('timelineNote').textContent=`AI分析: 平均間隔 ${Math.round(r.avg)}回転 (標準偏差 ${Math.round(r.std)}) / 1/${prob}スペック`;
+  document.getElementById('timelineNote').textContent=`AI分析: 平均間隔 ${Math.round(r.avg)}回転 (標準偏差 ${Math.round(r.std)}) / 1/${r.prob}スペック`;
 }
 
 /* ========= MACHINE DATABASE ========= */
@@ -2192,16 +2447,27 @@ function buildMachineCard(m,perfMap){
   const hasPerf=perfMap.has(m.name);
   const hasDetail=!!MACHINE_DETAILS[m.name];
   const tagInfo=getMachineTag(m);
+  const hasYutime=!!m.yutime_start;
   return `<div class="machine-card" onclick="openMachineModal(${origIdx})">
-    <div class="machine-name">${m.icon||MACHINE_EMOJI[m.tag]||'🎰'} ${m.name}<span class="machine-tag ${tagInfo.cls}">${tagInfo.label}</span></div>
+    <div class="machine-name">${m.icon||MACHINE_EMOJI[m.tag]||'🎰'} ${m.name}<span class="machine-tag ${tagInfo.cls}">${tagInfo.label}</span>${hasYutime?'<span class="machine-tag" style="background:rgba(6,182,212,.15);color:#0891b2">遊タイム</span>':''}</div>
     <div class="machine-specs">
       <div class="spec"><div class="spec-label">大当たり確率</div><div class="spec-value">${m.prob}</div></div>
       <div class="spec"><div class="spec-label">確変/RUSH突入率</div><div class="spec-value">${m.rushRate}</div></div>
       <div class="spec"><div class="spec-label">時短回数</div><div class="spec-value">${m.tsujoCount}回</div></div>
       <div class="spec"><div class="spec-label">最大払出</div><div class="spec-value">${m.maxPayout}</div></div>
     </div>
-    <div class="machine-perf-hint">${hasDetail?'📊 詳細スペック＆演出データあり':hasPerf?'📊 演出信頼度データあり':'📋 タップでスペック詳細'}</div>
+    <div style="margin-top:10px;display:flex;align-items:center;gap:8px">
+      <div class="machine-perf-hint" style="flex:1;opacity:1">${hasDetail?'📊 詳細スペック＆演出データあり':hasPerf?'📊 演出信頼度データあり':'📋 タップでスペック詳細'}</div>
+      <button onclick="event.stopPropagation();setMachineForPredict(${origIdx})" style="padding:5px 12px;border-radius:12px;border:1px solid var(--accent);background:rgba(124,58,237,0.08);color:var(--accent3);font-size:.72rem;font-weight:700;cursor:pointer;flex-shrink:0;transition:all .2s" onmouseover="this.style.background='var(--accent)';this.style.color='#fff'" onmouseout="this.style.background='rgba(124,58,237,0.08)';this.style.color='var(--accent3)'">この台で予測</button>
+    </div>
   </div>`;
+}
+function setMachineForPredict(idx){
+  const sel=document.getElementById('machineSelect');
+  if(!sel)return;
+  sel.value=idx;
+  onMachineSelect();
+  document.getElementById('predict').scrollIntoView({behavior:'smooth'});
 }
 function renderMachines(filter='',showAll=false){
   _machineFilter=filter;
@@ -3012,12 +3278,17 @@ function setDbFilter(filter,el){
 /* ========= PREDICTION HISTORY ========= */
 const HISTORY_KEY='pachai_history';
 const HISTORY_MAX=20;
-function saveHistory(inputSummary,resultSummary){
+function saveHistory(inputSummary,resultSummary,extra){
   let hist=JSON.parse(localStorage.getItem(HISTORY_KEY)||'[]');
   hist.unshift({
     ts:new Date().toLocaleString('ja-JP',{month:'numeric',day:'numeric',hour:'2-digit',minute:'2-digit'}),
     input:inputSummary,
-    result:resultSummary
+    result:resultSummary,
+    machine:extra?extra.machine:'',
+    condition:extra?extra.condition:'',
+    conditionIcon:extra?extra.conditionIcon:'',
+    expectedNext:extra?extra.expectedNext:0,
+    avgSpin:extra?extra.avgSpin:0
   });
   if(hist.length>HISTORY_MAX) hist=hist.slice(0,HISTORY_MAX);
   localStorage.setItem(HISTORY_KEY,JSON.stringify(hist));
@@ -3030,19 +3301,34 @@ function renderHistory(){
   if(!section||!list) return;
   if(hist.length===0){section.style.display='none';return;}
   section.style.display='block';
-  list.innerHTML=hist.map((h,i)=>`
+  list.innerHTML=hist.map((h,i)=>{
+    const condColor=h.condition==='好調'?'var(--success)':h.condition==='不調'?'var(--danger)':'var(--warn)';
+    const condBadge=h.condition?`<span style="color:${condColor};font-weight:700;font-size:.8rem">${h.conditionIcon}${h.condition}</span>`:'';
+    const avgBadge=h.avgSpin?`<span style="color:var(--text3);font-size:.75rem">平均${h.avgSpin}回</span>`:'';
+    return `
     <div class="history-item" onclick="showHistoryDetail(${i})">
       <div class="history-item-time">${h.ts}</div>
-      <div class="history-item-info">${h.input}</div>
-      <div class="history-item-result">${h.result}</div>
-    </div>
-  `).join('');
+      <div class="history-item-info" style="display:flex;flex-direction:column;gap:2px">
+        <span>${h.input}</span>
+        <span style="display:flex;gap:8px;align-items:center">${condBadge}${avgBadge}</span>
+      </div>
+      <div class="history-item-result">${h.result.replace(/PachAI予測: /,'')}</div>
+    </div>`;
+  }).join('');
 }
 function showHistoryDetail(idx){
   const hist=JSON.parse(localStorage.getItem(HISTORY_KEY)||'[]');
   const h=hist[idx];
   if(!h) return;
-  alert(h.ts+'\n入力: '+h.input+'\n結果: '+h.result);
+  const lines=[
+    h.ts,
+    `機種: ${h.machine||h.input}`,
+    h.condition?`台の調子: ${h.conditionIcon}${h.condition}`:'',
+    h.avgSpin?`平均当選回転数: ${h.avgSpin}回`:'',
+    h.expectedNext?`期待回転数: ${h.expectedNext}回`:'',
+    `結果: ${h.result}`
+  ].filter(Boolean);
+  alert(lines.join('\n'));
 }
 function clearHistory(){
   localStorage.removeItem(HISTORY_KEY);
