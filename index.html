@@ -486,7 +486,10 @@ body.dark-mode .modal-close{background:linear-gradient(180deg,var(--bg2) 60%,tra
 .history-empty{text-align:center;padding:20px;color:var(--text3);font-size:.875rem}
 
 /* ========= AD CONTAINER ========= */
-.ad-container{text-align:center;margin:20px auto;padding:10px;max-width:728px}
+.ad-container{text-align:center;margin:20px auto;padding:0;max-width:728px;min-height:0}
+.ad-container ins[data-ad-status="unfilled"],.ad-container ins:not([data-ad-status]){display:none!important}
+.ad-slot{max-width:728px;margin:20px auto;min-height:0;display:flex;align-items:center;justify-content:center;border-radius:var(--radius-sm);overflow:hidden;padding:0}
+.ad-slot ins[data-ad-status="unfilled"],.ad-slot ins:not([data-ad-status]){display:none!important}
 </style>
 </head>
 <body>
@@ -504,12 +507,6 @@ body.dark-mode .modal-close{background:linear-gradient(180deg,var(--bg2) 60%,tra
   <button class="nav-toggle" id="navToggle" aria-label="メニュー">&#9776;</button>
 </div>
 </nav>
-
-<!-- Ad Slot: ナビ直下 -->
-<div class="ad-container">
-  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6327505164684489" data-ad-slot="auto" data-ad-format="auto" data-full-width-responsive="true"></ins>
-  <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-</div>
 
 <!-- Hero -->
 <section class="hero">
