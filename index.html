@@ -85,13 +85,14 @@ a:hover{color:#a78bfa}
 .nav-toggle{display:none;background:none;border:none;color:var(--text);font-size:1.5rem;cursor:pointer}
 
 /* Hero */
-.hero{padding:140px 0 80px;text-align:center;position:relative;overflow:hidden}
-.hero::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(circle at 50% 50%,rgba(124,58,237,.08) 0%,transparent 50%);animation:pulse 8s ease-in-out infinite}
+.hero{padding:140px 0 80px;text-align:center;position:relative;overflow:hidden;background:linear-gradient(180deg,rgba(124,58,237,.07) 0%,transparent 60%)}
+.hero::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(circle at 50% 50%,rgba(124,58,237,.14) 0%,transparent 50%);animation:pulse 8s ease-in-out infinite}
+.hero::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 40% at 50% 0%,rgba(99,102,241,.12),transparent);pointer-events:none}
 @keyframes pulse{0%,100%{transform:scale(1);opacity:.5}50%{transform:scale(1.1);opacity:1}}
-.hero-badge{display:inline-block;padding:6px 16px;border-radius:20px;background:rgba(124,58,237,.15);border:1px solid rgba(124,58,237,.3);color:var(--accent3);font-size:.8rem;font-weight:600;margin-bottom:24px;animation:fadeInUp .6s ease}
-.hero h1{font-size:clamp(2.2rem,6vw,3.8rem);font-weight:900;margin-bottom:16px;animation:fadeInUp .6s ease .1s both}
-.hero h1 .gradient{background:linear-gradient(135deg,var(--accent),var(--accent2),#06b6d4);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-.hero p{font-size:clamp(1rem,2.5vw,1.25rem);color:var(--text2);max-width:600px;margin:0 auto 40px;animation:fadeInUp .6s ease .2s both}
+.hero-badge{display:inline-block;padding:6px 16px;border-radius:20px;background:rgba(124,58,237,.2);border:1px solid rgba(124,58,237,.45);color:#c4b5fd;font-size:.8rem;font-weight:600;margin-bottom:24px;animation:fadeInUp .6s ease;text-shadow:0 0 20px rgba(124,58,237,.5)}
+.hero h1{font-size:clamp(2.2rem,6vw,3.8rem);font-weight:900;margin-bottom:16px;animation:fadeInUp .6s ease .1s both;letter-spacing:-.02em}
+.hero h1 .gradient{background:linear-gradient(135deg,#a78bfa,var(--accent2),#22d3ee);-webkit-background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 30px rgba(124,58,237,.4))}
+.hero p{font-size:clamp(1rem,2.5vw,1.2rem);color:#d4d4d8;max-width:600px;margin:0 auto 32px;animation:fadeInUp .6s ease .2s both;line-height:1.8}
 @keyframes fadeInUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
 
 .stats-row{display:flex;justify-content:center;gap:40px;flex-wrap:wrap;animation:fadeInUp .6s ease .3s both}
@@ -195,6 +196,31 @@ footer p{color:var(--text3);font-size:.85rem;margin-bottom:8px}
 footer a{color:var(--text2)}
 .disclaimer{max-width:600px;margin:16px auto 0;padding:16px;background:var(--bg2);border-radius:var(--radius-sm);font-size:.8rem;color:var(--text3);border:1px solid var(--border)}
 
+/* Hero CTA */
+.hero-cta{display:flex;justify-content:center;gap:16px;margin-bottom:40px;flex-wrap:wrap;animation:fadeInUp .6s ease .25s both}
+.btn-primary{display:inline-block;padding:14px 32px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border:none;border-radius:var(--radius-sm);font-size:1.05rem;font-weight:700;cursor:pointer;transition:transform .15s,box-shadow .3s;text-decoration:none}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 30px var(--accent-glow);color:#fff}
+.btn-secondary{display:inline-block;padding:14px 32px;background:transparent;color:var(--accent3);border:2px solid rgba(124,58,237,.4);border-radius:var(--radius-sm);font-size:1.05rem;font-weight:600;cursor:pointer;transition:all .2s;text-decoration:none}
+.btn-secondary:hover{border-color:var(--accent3);background:rgba(124,58,237,.1);color:var(--accent3)}
+
+/* Demo button */
+.btn-demo{margin-bottom:12px;padding:10px 20px;background:transparent;color:var(--accent3);border:1px dashed rgba(124,58,237,.5);border-radius:var(--radius-sm);font-size:.9rem;font-weight:600;cursor:pointer;transition:all .2s;width:100%}
+.btn-demo:hover{background:rgba(124,58,237,.08);border-color:var(--accent3)}
+
+/* Machine badge colors */
+.machine-tag.tag-amadeji{background:rgba(34,197,94,.15);color:#22c55e}
+.machine-tag.tag-rush{background:rgba(239,68,68,.15);color:#ef4444}
+.machine-tag.tag-light{background:rgba(6,182,212,.15);color:#06b6d4}
+.machine-tag.tag-new{background:rgba(245,158,11,.15);color:#f59e0b}
+.machine-tag.tag-max{background:rgba(239,68,68,.1);color:#f87171}
+
+/* Load more */
+.btn-more{display:block;margin:24px auto 0;padding:12px 32px;background:var(--bg2);color:var(--text2);border:1px solid var(--border2);border-radius:var(--radius-sm);font-size:.95rem;font-weight:600;cursor:pointer;transition:all .2s}
+.btn-more:hover{border-color:var(--accent);color:var(--accent3)}
+
+/* Visually hidden */
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+
 /* Mobile nav */
 @media(max-width:768px){
   .nav-links{display:none;position:absolute;top:60px;left:0;right:0;background:var(--bg2);border-bottom:1px solid var(--border);flex-direction:column;padding:16px 20px;gap:16px}
@@ -203,6 +229,8 @@ footer a{color:var(--text2)}
   .stats-row{gap:24px}
   .predict-card{padding:20px}
   .machine-grid{grid-template-columns:1fr}
+  .hero-cta{flex-direction:column;align-items:center}
+  .btn-primary,.btn-secondary{width:100%;max-width:280px;text-align:center}
 }
 @media(max-width:480px){
   .hero h1{font-size:2rem}
@@ -228,9 +256,13 @@ footer a{color:var(--text2)}
 <!-- Hero -->
 <section class="hero">
 <div class="container">
-  <div class="hero-badge">AI-Powered Prediction Engine</div>
+  <div class="hero-badge">✦ AI-Powered Prediction Engine</div>
   <h1><span class="gradient">PachAI</span> - AIパチンコ予測</h1>
-  <p>直近データから次の大当たりゾーンをAIが予測。回転数を入力するだけで狙い目を自動分析します。</p>
+  <p>直近データから次の大当たりゾーンをAIが予測。<br>回転数を入力するだけで狙い目を自動分析します。</p>
+  <div class="hero-cta">
+    <a href="#predict" class="btn-primary">今すぐ予測する</a>
+    <a href="#database" class="btn-secondary">台データベース</a>
+  </div>
   <div class="stats-row">
     <div class="stat"><div class="stat-num" id="statUsers">0</div><div class="stat-label">累計利用数</div></div>
     <div class="stat"><div class="stat-num" id="statPred">0</div><div class="stat-label">予測実行回数</div></div>
@@ -254,12 +286,12 @@ footer a{color:var(--text2)}
   </div>
   <div class="predict-card">
     <div class="form-group">
-      <label for="spins">大当たり時の回転数（10〜20件）</label>
-      <textarea id="spins" placeholder="例: 45, 128, 312, 67, 205, 89, 156, 278, 52, 190&#10;&#10;カンマ区切り、スペース区切り、または1行に1つ入力してください"></textarea>
-      <div class="hint">※ 大当たりした時の総回転数を新しい順に入力してください</div>
+      <label for="spins">大当たり時の回転数（3〜20件）</label>
+      <textarea id="spins" placeholder="例: 45, 128, 312, 67, 205, 89, 156, 278, 52, 190&#10;&#10;カンマ区切り・スペース区切り・1行1件 どれでもOK"></textarea>
+      <div class="hint">※ 大当たりした時の総回転数を入力してください（件数が多いほど精度UP）</div>
     </div>
     <div class="form-group">
-      <label for="machineType">機種の大当たり確率</label>
+      <label for="machineType">機種の大当たり確率スペック</label>
       <select id="machineType">
         <option value="319">1/319（ミドルスペック）</option>
         <option value="199">1/199（ライトミドル）</option>
@@ -269,6 +301,7 @@ footer a{color:var(--text2)}
         <option value="77">1/77（遊パチ）</option>
       </select>
     </div>
+    <button class="btn-demo" onclick="loadDemo()" aria-label="サンプルデータを入力して予測デモを実行">▶ サンプルデータで試す（デモ）</button>
     <button class="btn-predict" id="btnPredict" onclick="runPrediction()">予測する</button>
 
     <div class="results" id="results">
@@ -300,10 +333,12 @@ footer a{color:var(--text2)}
     <p>人気パチンコ機種のスペック情報を網羅</p>
   </div>
   <div class="machine-search">
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-    <input type="text" id="machineSearch" placeholder="機種名で検索..." oninput="filterMachines()">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+    <label for="machineSearch" class="sr-only">機種名で検索</label>
+    <input type="text" id="machineSearch" placeholder="機種名で検索..." oninput="filterMachines()" aria-label="機種名で検索">
   </div>
   <div class="machine-grid" id="machineGrid"></div>
+  <div id="machineMore" style="text-align:center"></div>
 </div>
 </section>
 
@@ -337,26 +372,26 @@ footer a{color:var(--text2)}
 <script>
 /* ========= DATA ========= */
 const MACHINES = [
-  {name:"CR大海物語5",prob:"1/319",rushRate:"65%",tsujoCount:100,maxPayout:"約1500個",tag:"海"},
-  {name:"P大海物語5 With アグネス・ラム",prob:"1/319",rushRate:"67%",tsujoCount:100,maxPayout:"約1500個",tag:"海"},
-  {name:"P大海物語5 甘デジ",prob:"1/99",rushRate:"100%",tsujoCount:50,maxPayout:"約600個",tag:"甘"},
-  {name:"Pエヴァンゲリオン〜未来への咆哮〜",prob:"1/319",rushRate:"70%",tsujoCount:130,maxPayout:"約1500個",tag:"人気"},
-  {name:"Pエヴァンゲリオン 超暴走",prob:"1/199",rushRate:"75%",tsujoCount:80,maxPayout:"約1200個",tag:"LM"},
-  {name:"P北斗の拳 暴凶星",prob:"1/319",rushRate:"72%",tsujoCount:120,maxPayout:"約1500個",tag:"人気"},
-  {name:"P花の慶次3〜傾奇一転〜",prob:"1/319",rushRate:"68%",tsujoCount:100,maxPayout:"約1500個",tag:"人気"},
-  {name:"P機動戦士ガンダムSEED",prob:"1/319",rushRate:"66%",tsujoCount:100,maxPayout:"約1500個",tag:"人気"},
-  {name:"Pリゼロ 鬼がかりver.",prob:"1/319",rushRate:"75%",tsujoCount:150,maxPayout:"約1500個",tag:"人気"},
-  {name:"P真・牙狼",prob:"1/319",rushRate:"80%",tsujoCount:140,maxPayout:"約1500個",tag:"人気"},
-  {name:"P聖闘士星矢 超流星",prob:"1/319",rushRate:"71%",tsujoCount:110,maxPayout:"約1500個",tag:"人気"},
-  {name:"Pルパン三世 THE FIRST",prob:"1/319",rushRate:"67%",tsujoCount:100,maxPayout:"約1500個",tag:"人気"},
-  {name:"Pワンパンマン",prob:"1/199",rushRate:"70%",tsujoCount:80,maxPayout:"約1200個",tag:"LM"},
-  {name:"P乃木坂46 トレジャーver.",prob:"1/199",rushRate:"60%",tsujoCount:60,maxPayout:"約1000個",tag:"LM"},
-  {name:"Pとある魔術の禁書目録",prob:"1/256",rushRate:"72%",tsujoCount:100,maxPayout:"約1400個",tag:"LM"},
-  {name:"P新鬼武者 DAWN OF DREAMS",prob:"1/319",rushRate:"70%",tsujoCount:100,maxPayout:"約1500個",tag:"人気"},
-  {name:"Pスーパー海物語 IN 沖縄6",prob:"1/319",rushRate:"64%",tsujoCount:100,maxPayout:"約1500個",tag:"海"},
-  {name:"Pフィーバー機動戦士ガンダムユニコーン",prob:"1/319",rushRate:"73%",tsujoCount:120,maxPayout:"約1500個",tag:"人気"},
-  {name:"Pゴジラ対エヴァンゲリオン",prob:"1/319",rushRate:"69%",tsujoCount:100,maxPayout:"約1500個",tag:"人気"},
-  {name:"P甘デジ 海物語 IN ジャパン2",prob:"1/99",rushRate:"100%",tsujoCount:40,maxPayout:"約500個",tag:"甘"}
+  {name:"CR大海物語5",prob:"1/319",rushRate:"65%",tsujoCount:100,maxPayout:"約1500個",tag:"ミドル",tagClass:""},
+  {name:"P大海物語5 With アグネス・ラム",prob:"1/319",rushRate:"67%",tsujoCount:100,maxPayout:"約1500個",tag:"ミドル",tagClass:""},
+  {name:"P大海物語5 甘デジ",prob:"1/99",rushRate:"100%",tsujoCount:50,maxPayout:"約600個",tag:"甘デジ",tagClass:"tag-amadeji"},
+  {name:"Pエヴァンゲリオン〜未来への咆哮〜",prob:"1/319",rushRate:"70%",tsujoCount:130,maxPayout:"約1500個",tag:"ミドル",tagClass:""},
+  {name:"Pエヴァンゲリオン 超暴走",prob:"1/199",rushRate:"75%",tsujoCount:80,maxPayout:"約1200個",tag:"ライトM",tagClass:"tag-light"},
+  {name:"P北斗の拳 暴凶星",prob:"1/319",rushRate:"72%",tsujoCount:120,maxPayout:"約1500個",tag:"ミドル",tagClass:""},
+  {name:"P花の慶次3〜傾奇一転〜",prob:"1/319",rushRate:"68%",tsujoCount:100,maxPayout:"約1500個",tag:"ミドル",tagClass:""},
+  {name:"P機動戦士ガンダムSEED",prob:"1/319",rushRate:"66%",tsujoCount:100,maxPayout:"約1500個",tag:"ミドル",tagClass:""},
+  {name:"Pリゼロ 鬼がかりver.",prob:"1/319",rushRate:"75%",tsujoCount:150,maxPayout:"約1500個",tag:"高RUSH",tagClass:"tag-rush"},
+  {name:"P真・牙狼",prob:"1/319",rushRate:"80%",tsujoCount:140,maxPayout:"約1500個",tag:"高RUSH",tagClass:"tag-rush"},
+  {name:"P聖闘士星矢 超流星",prob:"1/319",rushRate:"71%",tsujoCount:110,maxPayout:"約1500個",tag:"ミドル",tagClass:""},
+  {name:"Pルパン三世 THE FIRST",prob:"1/319",rushRate:"67%",tsujoCount:100,maxPayout:"約1500個",tag:"ミドル",tagClass:""},
+  {name:"Pワンパンマン",prob:"1/199",rushRate:"70%",tsujoCount:80,maxPayout:"約1200個",tag:"ライトM",tagClass:"tag-light"},
+  {name:"P乃木坂46 トレジャーver.",prob:"1/199",rushRate:"60%",tsujoCount:60,maxPayout:"約1000個",tag:"ライトM",tagClass:"tag-light"},
+  {name:"Pとある魔術の禁書目録",prob:"1/256",rushRate:"72%",tsujoCount:100,maxPayout:"約1400個",tag:"ライトM",tagClass:"tag-light"},
+  {name:"P新鬼武者 DAWN OF DREAMS",prob:"1/319",rushRate:"70%",tsujoCount:100,maxPayout:"約1500個",tag:"新台",tagClass:"tag-new"},
+  {name:"Pスーパー海物語 IN 沖縄6",prob:"1/319",rushRate:"64%",tsujoCount:100,maxPayout:"約1500個",tag:"ミドル",tagClass:""},
+  {name:"Pフィーバー機動戦士ガンダムユニコーン",prob:"1/319",rushRate:"73%",tsujoCount:120,maxPayout:"約1500個",tag:"新台",tagClass:"tag-new"},
+  {name:"Pゴジラ対エヴァンゲリオン",prob:"1/319",rushRate:"69%",tsujoCount:100,maxPayout:"約1500個",tag:"ミドル",tagClass:""},
+  {name:"P甘デジ 海物語 IN ジャパン2",prob:"1/99",rushRate:"100%",tsujoCount:40,maxPayout:"約500個",tag:"甘デジ",tagClass:"tag-amadeji"}
 ];
 
 const PERFORMANCES = [
@@ -460,6 +495,13 @@ function initNav(){
   window.addEventListener('scroll',()=>nav.classList.toggle('scrolled',window.scrollY>50));
   toggle.addEventListener('click',()=>links.classList.toggle('open'));
   links.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>links.classList.remove('open')));
+}
+
+/* ========= DEMO ========= */
+function loadDemo(){
+  document.getElementById('spins').value='45, 128, 312, 67, 205, 89, 156, 278, 52, 190, 334, 73, 241, 108, 296';
+  document.getElementById('machineType').value='319';
+  runPrediction();
 }
 
 /* ========= PREDICTION ENGINE ========= */
@@ -617,13 +659,16 @@ function displayResults(r,prob){
 }
 
 /* ========= MACHINE DATABASE ========= */
+let machineLimit=10;
 function renderMachines(filter=''){
   const grid=document.getElementById('machineGrid');
+  const more=document.getElementById('machineMore');
   const q=filter.toLowerCase();
   const filtered=MACHINES.filter(m=>m.name.toLowerCase().includes(q)||m.tag.includes(q));
-  grid.innerHTML=filtered.map(m=>`
+  const visible=filtered.slice(0,machineLimit);
+  grid.innerHTML=visible.map(m=>`
     <div class="machine-card">
-      <div class="machine-name">${m.name}<span class="machine-tag">${m.tag}</span></div>
+      <div class="machine-name">${m.name}<span class="machine-tag ${m.tagClass||''}">${m.tag}</span></div>
       <div class="machine-specs">
         <div class="spec"><div class="spec-label">大当たり確率</div><div class="spec-value">${m.prob}</div></div>
         <div class="spec"><div class="spec-label">確変/RUSH突入率</div><div class="spec-value">${m.rushRate}</div></div>
@@ -631,8 +676,17 @@ function renderMachines(filter=''){
         <div class="spec"><div class="spec-label">最大払出</div><div class="spec-value">${m.maxPayout}</div></div>
       </div>
     </div>`).join('');
+  if(filtered.length>machineLimit){
+    more.innerHTML=`<button class="btn-more" onclick="showMoreMachines()">もっと見る（残り ${filtered.length-machineLimit} 件）</button>`;
+  }else{
+    more.innerHTML='';
+  }
 }
-function filterMachines(){renderMachines(document.getElementById('machineSearch').value)}
+function showMoreMachines(){
+  machineLimit+=10;
+  renderMachines(document.getElementById('machineSearch').value);
+}
+function filterMachines(){machineLimit=10;renderMachines(document.getElementById('machineSearch').value)}
 
 /* ========= PERFORMANCE GUIDE ========= */
 function renderPerformances(){
