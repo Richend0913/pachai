@@ -90,8 +90,10 @@ a:hover{color:#a78bfa}
 .hero{padding:140px 0 80px;text-align:center;position:relative;overflow:hidden}
 .hero::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(circle at 50% 50%,rgba(109,40,217,.06) 0%,transparent 50%);animation:pulse 8s ease-in-out infinite}
 @keyframes pulse{0%,100%{transform:scale(1);opacity:.5}50%{transform:scale(1.1);opacity:1}}
-.hero-badge{display:inline-block;padding:6px 16px;border-radius:20px;background:rgba(124,58,237,.15);border:1px solid rgba(124,58,237,.3);color:var(--accent3);font-size:.8rem;font-weight:600;margin-bottom:24px;animation:fadeInUp .6s ease}
-.hero h1{font-size:clamp(2.2rem,6vw,3.8rem);font-weight:900;margin-bottom:16px;animation:fadeInUp .6s ease .1s both}
+.hero-badge{display:inline-block;padding:6px 16px;border-radius:20px;background:rgba(124,58,237,.15);border:1px solid rgba(124,58,237,.3);color:#4c1d95;font-size:.8rem;font-weight:700;margin-bottom:24px;animation:fadeInUp .6s ease}
+.hero h1{font-size:clamp(2.8rem,7vw,4.8rem);font-weight:900;margin-bottom:16px;animation:fadeInUp .6s ease .1s both}
+.btn-cta{display:inline-block;margin-top:32px;padding:16px 40px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border:none;border-radius:30px;font-size:1.1rem;font-weight:700;cursor:pointer;text-decoration:none;transition:transform .15s,box-shadow .3s;animation:fadeInUp .6s ease .35s both}
+.btn-cta:hover{transform:translateY(-3px);box-shadow:0 12px 40px var(--accent-glow);color:#fff}
 .hero h1 .gradient{background:linear-gradient(135deg,var(--accent),var(--accent2),#06b6d4);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
 .hero p{font-size:clamp(1rem,2.5vw,1.25rem);color:var(--text2);max-width:600px;margin:0 auto 40px;animation:fadeInUp .6s ease .2s both}
 @keyframes fadeInUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
@@ -173,6 +175,10 @@ select:focus{outline:none;border-color:var(--accent)}
 .machine-card:active{transform:translateY(-1px)}
 .machine-name{font-size:1.05rem;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
 .machine-tag{font-size:.7rem;padding:2px 8px;border-radius:10px;background:rgba(124,58,237,.15);color:var(--accent3);font-weight:600}
+.machine-tag.tag-sweet{background:rgba(22,163,74,.15);color:#15803d}
+.machine-tag.tag-middle{background:rgba(37,99,235,.15);color:#1d4ed8}
+.machine-tag.tag-high{background:rgba(220,38,38,.15);color:#b91c1c}
+.machine-tag.tag-explosive{background:rgba(234,88,12,.15);color:#c2410c}
 .machine-specs{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .spec{font-size:.85rem}
 .spec-label{color:var(--text3);font-size:.75rem}
@@ -456,6 +462,7 @@ footer a{color:var(--text2)}
     <div class="stat"><div class="stat-num" id="statPred">0</div><div class="stat-label">予測実行回数</div></div>
     <div class="stat"><div class="stat-num" id="statMachines">0</div><div class="stat-label">対応機種数</div></div>
   </div>
+  <a href="#predict" class="btn-cta">予測を始める</a>
 </div>
 </section>
 
@@ -489,7 +496,7 @@ footer a{color:var(--text2)}
       </div>
       <div class="hint">※ データ板や履歴画面の写真から回転数を自動読み取りします（Tesseract.js OCR）</div>
       <div id="photoPreview" style="margin-top:12px;display:none;">
-        <img id="photoImg" style="max-width:100%;max-height:300px;border-radius:8px;border:1px solid var(--border);">
+        <img id="photoImg" alt="データ板プレビュー" style="max-width:100%;max-height:300px;border-radius:8px;border:1px solid var(--border);">
       </div>
     </div>
     <div class="form-group">
@@ -510,6 +517,7 @@ footer a{color:var(--text2)}
       </select>
     </div>
     <button class="btn-predict" id="btnPredict" onclick="runPrediction()">予測する</button>
+    <button type="button" onclick="loadDemoData()" style="width:100%;margin-top:10px;padding:12px;background:var(--bg);border:1px dashed var(--border2);border-radius:var(--radius-sm);color:var(--text2);font-size:.9rem;font-weight:600;cursor:pointer;transition:border-color .2s,color .2s;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent3)'" onmouseout="this.style.borderColor='var(--border2)';this.style.color='var(--text2)'">デモデータで試す</button>
 
     <div class="results" id="results">
       <div class="result-title">予測結果</div>
@@ -544,6 +552,9 @@ footer a{color:var(--text2)}
     <input type="text" id="machineSearch" placeholder="機種名で検索..." oninput="filterMachines()">
   </div>
   <div class="machine-grid" id="machineGrid"></div>
+  <div style="text-align:center;margin-top:28px" id="loadMoreWrap">
+    <button id="btnLoadMore" onclick="loadMoreMachines()" style="padding:12px 40px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border:none;border-radius:30px;font-size:1rem;font-weight:700;cursor:pointer;transition:transform .15s,box-shadow .3s;" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 8px 30px var(--accent-glow)'" onmouseout="this.style.transform='';this.style.boxShadow=''">もっと見る</button>
+  </div>
 </div>
 </section>
 
@@ -638,15 +649,15 @@ footer a{color:var(--text2)}
   <div class="compare-card">
     <div class="compare-selectors">
       <div class="form-group">
-        <label>機種A</label>
+        <label for="cmpA">機種A</label>
         <select id="cmpA" class="ev-input" onchange="runCompare()"><option value="">-- 選択 --</option></select>
       </div>
       <div class="form-group">
-        <label>機種B</label>
+        <label for="cmpB">機種B</label>
         <select id="cmpB" class="ev-input" onchange="runCompare()"><option value="">-- 選択 --</option></select>
       </div>
       <div class="form-group">
-        <label>機種C（任意）</label>
+        <label for="cmpC">機種C（任意）</label>
         <select id="cmpC" class="ev-input" onchange="runCompare()"><option value="">-- 選択 --</option></select>
       </div>
     </div>
@@ -1819,6 +1830,10 @@ function switchTool(toolId, btn){
 
 /* ========= PREDICTION ENGINE ========= */
 let histChart=null;
+function loadDemoData(){
+  document.getElementById('spins').value='45, 128, 312, 67, 205, 89, 156, 278, 52, 190';
+  document.getElementById('spins').focus();
+}
 
 // Photo OCR processing
 async function processPhoto(input){
@@ -2062,29 +2077,52 @@ function displayResults(r,prob){
 }
 
 /* ========= MACHINE DATABASE ========= */
-function renderMachines(filter=''){
+function getMachineTag(m){
+  const probNum=parseInt((m.prob||'').replace(/[^0-9]/g,'').split('').join('')||'999',10);
+  const actualProb=m.prob.includes('/')?parseInt(m.prob.split('/')[1]):probNum;
+  const rushNum=parseInt((m.rushRate||'0').replace('%',''));
+  const payoutNum=parseInt((m.maxPayout||'').replace(/[^0-9]/g,''));
+  if(payoutNum>=5000)return{label:'爆裂',cls:'tag-explosive'};
+  if(actualProb<=99)return{label:'甘デジ',cls:'tag-sweet'};
+  if(rushNum>=60)return{label:'高スペック',cls:'tag-high'};
+  if(actualProb>=300&&actualProb<=400)return{label:'ミドル',cls:'tag-middle'};
+  return{label:m.tag||'人気',cls:''};
+}
+let _machineShowCount=6;
+let _machineFilter='';
+function buildMachineCard(m,perfMap){
+  const origIdx=MACHINES.indexOf(m);
+  const hasPerf=perfMap.has(m.name);
+  const hasDetail=!!MACHINE_DETAILS[m.name];
+  const tagInfo=getMachineTag(m);
+  return `<div class="machine-card" onclick="openMachineModal(${origIdx})">
+    <div class="machine-name">${m.icon||MACHINE_EMOJI[m.tag]||'🎰'} ${m.name}<span class="machine-tag ${tagInfo.cls}">${tagInfo.label}</span></div>
+    <div class="machine-specs">
+      <div class="spec"><div class="spec-label">大当たり確率</div><div class="spec-value">${m.prob}</div></div>
+      <div class="spec"><div class="spec-label">確変/RUSH突入率</div><div class="spec-value">${m.rushRate}</div></div>
+      <div class="spec"><div class="spec-label">時短回数</div><div class="spec-value">${m.tsujoCount}回</div></div>
+      <div class="spec"><div class="spec-label">最大払出</div><div class="spec-value">${m.maxPayout}</div></div>
+    </div>
+    <div class="machine-perf-hint">${hasDetail?'📊 詳細スペック＆演出データあり':hasPerf?'📊 演出信頼度データあり':'📋 タップでスペック詳細'}</div>
+  </div>`;
+}
+function renderMachines(filter='',showAll=false){
+  _machineFilter=filter;
+  if(showAll)_machineShowCount=9999;
   const grid=document.getElementById('machineGrid');
   const q=filter.toLowerCase();
   const filtered=MACHINES.filter(m=>m.name.toLowerCase().includes(q)||m.tag.includes(q));
   const perfMap=new Set(PERFORMANCES.map(p=>p.machine));
-  grid.innerHTML=filtered.map((m,idx)=>{
-    const origIdx=MACHINES.indexOf(m);
-    const hasPerf=perfMap.has(m.name);
-    const hasDetail=!!MACHINE_DETAILS[m.name];
-    return `
-    <div class="machine-card" onclick="openMachineModal(${origIdx})">
-      <div class="machine-name">${m.icon||MACHINE_EMOJI[m.tag]||'🎰'} ${m.name}<span class="machine-tag">${m.tag}</span></div>
-      <div class="machine-specs">
-        <div class="spec"><div class="spec-label">大当たり確率</div><div class="spec-value">${m.prob}</div></div>
-        <div class="spec"><div class="spec-label">確変/RUSH突入率</div><div class="spec-value">${m.rushRate}</div></div>
-        <div class="spec"><div class="spec-label">時短回数</div><div class="spec-value">${m.tsujoCount}回</div></div>
-        <div class="spec"><div class="spec-label">最大払出</div><div class="spec-value">${m.maxPayout}</div></div>
-      </div>
-      <div class="machine-perf-hint">${hasDetail?'📊 詳細スペック＆演出データあり':hasPerf?'📊 演出信頼度データあり':'📋 タップでスペック詳細'}</div>
-    </div>`;
-  }).join('');
+  const visible=filtered.slice(0,_machineShowCount);
+  grid.innerHTML=visible.map(m=>buildMachineCard(m,perfMap)).join('');
+  const wrap=document.getElementById('loadMoreWrap');
+  if(wrap) wrap.style.display=(filtered.length>_machineShowCount&&!showAll)?'block':'none';
 }
-function filterMachines(){renderMachines(document.getElementById('machineSearch').value)}
+function loadMoreMachines(){
+  _machineShowCount=9999;
+  renderMachines(_machineFilter,false);
+}
+function filterMachines(){_machineShowCount=6;renderMachines(document.getElementById('machineSearch').value)}
 
 /* ========= MACHINE MODAL ========= */
 function openMachineModal(idx){
