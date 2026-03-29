@@ -55,8 +55,16 @@
   gtag('config', 'G-XXXXXXXXXX');
 </script>
 
-<!-- AdSense -->
+<!-- AdSense Auto Ads -->
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6327505164684489" crossorigin="anonymous"></script>
+<script>
+  // Auto Ads有効化 - Googleが最適な場所に自動配置
+  (function(){
+    var ads=document.createElement('script');
+    ads.innerHTML='(adsbygoogle=window.adsbygoogle||[]).push({google_ad_client:"ca-pub-6327505164684489",enable_page_level_ads:true});';
+    document.head.appendChild(ads);
+  })();
+</script>
 
 <!-- Chart.js -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
@@ -567,9 +575,9 @@ body.dark-mode .modal-close{background:linear-gradient(180deg,var(--bg2) 60%,tra
 </div>
 </section>
 
-<!-- Ad Slot 1 -->
+<!-- Ad: Hero下 -->
 <div class="ad-slot">
-  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6327505164684489" data-ad-slot="auto" data-ad-format="auto" data-full-width-responsive="true"></ins>
+  <ins class="adsbygoogle" style="display:block;text-align:center" data-ad-layout="in-article" data-ad-format="fluid" data-ad-client="ca-pub-6327505164684489" data-ad-slot=""></ins>
   <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
 </div>
 
@@ -699,9 +707,9 @@ body.dark-mode .modal-close{background:linear-gradient(180deg,var(--bg2) 60%,tra
 </div>
 </section>
 
-<!-- Ad Slot 2 -->
+<!-- Ad: 予測ツール下 -->
 <div class="ad-slot">
-  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6327505164684489" data-ad-slot="auto" data-ad-format="auto" data-full-width-responsive="true"></ins>
+  <ins class="adsbygoogle" style="display:block;text-align:center" data-ad-layout="in-article" data-ad-format="fluid" data-ad-client="ca-pub-6327505164684489" data-ad-slot=""></ins>
   <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
 </div>
 
@@ -730,9 +738,9 @@ body.dark-mode .modal-close{background:linear-gradient(180deg,var(--bg2) 60%,tra
 </div>
 </section>
 
-<!-- Ad Slot: DB〜ツール間 -->
-<div class="ad-container">
-  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6327505164684489" data-ad-slot="auto" data-ad-format="auto" data-full-width-responsive="true"></ins>
+<!-- Ad: DB〜ツール間 -->
+<div class="ad-slot">
+  <ins class="adsbygoogle" style="display:block;text-align:center" data-ad-layout="in-article" data-ad-format="fluid" data-ad-client="ca-pub-6327505164684489" data-ad-slot=""></ins>
   <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
 </div>
 
@@ -916,9 +924,15 @@ body.dark-mode .modal-close{background:linear-gradient(180deg,var(--bg2) 60%,tra
 </div><!-- /container -->
 </section><!-- /tools -->
 
-<!-- Ad Slot 3 -->
+<!-- Ad: ツール下 -->
 <div class="ad-slot">
-  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6327505164684489" data-ad-slot="auto" data-ad-format="auto" data-full-width-responsive="true"></ins>
+  <ins class="adsbygoogle" style="display:block;text-align:center" data-ad-layout="in-article" data-ad-format="fluid" data-ad-client="ca-pub-6327505164684489" data-ad-slot=""></ins>
+  <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+</div>
+
+<!-- Ad: フッター上 -->
+<div class="ad-slot">
+  <ins class="adsbygoogle" style="display:block" data-ad-format="autorelaxed" data-ad-client="ca-pub-6327505164684489" data-ad-slot=""></ins>
   <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
 </div>
 
